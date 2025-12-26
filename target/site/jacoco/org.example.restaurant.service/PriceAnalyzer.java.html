@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PriceAnalyzer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">final</a> &gt; <a href="index.source.html" class="el_package">org.example.restaurant.service</a> &gt; <span class="el_source">PriceAnalyzer.java</span></div><h1>PriceAnalyzer.java</h1><pre class="source lang-java linenums">package org.example.restaurant.service;
+
+import org.example.restaurant.model.MenuItem;
+import org.example.restaurant.model.Restaurant;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * Service for analyzing and filtering restaurants by price.
+ */
+<span class="fc" id="L14">public class PriceAnalyzer {</span>
+
+    public static final int PRICE_LEVEL_CHEAP = 1; // &lt; $200
+    public static final int PRICE_LEVEL_MODERATE = 2; // $200 - $500
+    public static final int PRICE_LEVEL_EXPENSIVE = 3; // $500 - $1000
+    public static final int PRICE_LEVEL_LUXURY = 4; // &gt; $1000
+
+    /**
+     * Filter restaurants by price range.
+     * v(G) = ~10
+     */
+    public List&lt;Restaurant&gt; filterByPriceRange(List&lt;Restaurant&gt; restaurants,
+            Double minPrice, Double maxPrice) {
+<span class="pc bpc" id="L27" title="1 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc" id="L28">            return new ArrayList&lt;&gt;();</span>
+        }
+
+        // Validate range
+<span class="pc bpc" id="L32" title="2 of 6 branches missed.">        if (minPrice != null &amp;&amp; maxPrice != null &amp;&amp; minPrice &gt; maxPrice) {</span>
+<span class="fc" id="L33">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L36">        List&lt;Restaurant&gt; result = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        for (Restaurant restaurant : restaurants) {</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">            if (restaurant == null) {</span>
+<span class="nc" id="L40">                continue;</span>
+            }
+
+<span class="fc" id="L43">            double avgPrice = calculateAveragePrice(restaurant);</span>
+
+            // Skip restaurants with no price data
+<span class="pc bpc" id="L46" title="3 of 4 branches missed.">            if (avgPrice &lt;= 0 &amp;&amp; restaurant.getAveragePrice() &lt;= 0) {</span>
+<span class="nc" id="L47">                continue;</span>
+            }
+
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">            double price = avgPrice &gt; 0 ? avgPrice : restaurant.getAveragePrice();</span>
+
+<span class="pc bpc" id="L52" title="2 of 4 branches missed.">            boolean meetsMin = (minPrice == null) || (price &gt;= minPrice);</span>
+<span class="pc bpc" id="L53" title="1 of 4 branches missed.">            boolean meetsMax = (maxPrice == null) || (price &lt;= maxPrice);</span>
+
+<span class="pc bpc" id="L55" title="1 of 4 branches missed.">            if (meetsMin &amp;&amp; meetsMax) {</span>
+<span class="fc" id="L56">                result.add(restaurant);</span>
+            }
+<span class="fc" id="L58">        }</span>
+
+<span class="fc" id="L60">        return result;</span>
+    }
+
+    /**
+     * Calculate average price from menu items.
+     * v(G) = ~8
+     */
+    public double calculateAveragePrice(Restaurant restaurant) {
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (restaurant == null) {</span>
+<span class="fc" id="L69">            return 0.0;</span>
+        }
+
+<span class="fc" id="L72">        List&lt;MenuItem&gt; menu = restaurant.getMenu();</span>
+<span class="pc bpc" id="L73" title="1 of 4 branches missed.">        if (menu == null || menu.isEmpty()) {</span>
+<span class="fc" id="L74">            return restaurant.getAveragePrice();</span>
+        }
+
+<span class="fc" id="L77">        double sum = 0;</span>
+<span class="fc" id="L78">        int count = 0;</span>
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        for (MenuItem item : menu) {</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">            if (item == null) {</span>
+<span class="nc" id="L82">                continue;</span>
+            }
+<span class="fc bfc" id="L84" title="All 2 branches covered.">            if (!item.isAvailable()) {</span>
+<span class="fc" id="L85">                continue;</span>
+            }
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">            if (item.getPrice() &lt;= 0) {</span>
+<span class="nc" id="L88">                continue;</span>
+            }
+<span class="fc" id="L90">            sum += item.getPrice();</span>
+<span class="fc" id="L91">            count++;</span>
+<span class="fc" id="L92">        }</span>
+
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (count == 0) {</span>
+<span class="nc" id="L95">            return restaurant.getAveragePrice();</span>
+        }
+
+<span class="fc" id="L98">        return Math.round((sum / count) * 100.0) / 100.0;</span>
+    }
+
+    /**
+     * Sort restaurants by price.
+     * v(G) = ~6
+     */
+    public List&lt;Restaurant&gt; sortByPrice(List&lt;Restaurant&gt; restaurants, boolean ascending) {
+<span class="pc bpc" id="L106" title="2 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="nc" id="L107">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L110">        Comparator&lt;Restaurant&gt; comparator = (r1, r2) -&gt; {</span>
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">            double price1 = r1 != null ? getEffectivePrice(r1) : 0;</span>
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">            double price2 = r2 != null ? getEffectivePrice(r2) : 0;</span>
+<span class="fc" id="L113">            return Double.compare(price1, price2);</span>
+        };
+
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        if (!ascending) {</span>
+<span class="fc" id="L117">            comparator = comparator.reversed();</span>
+        }
+
+<span class="fc" id="L120">        return restaurants.stream()</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">                .filter(r -&gt; r != null)</span>
+<span class="fc" id="L122">                .sorted(comparator)</span>
+<span class="fc" id="L123">                .collect(Collectors.toList());</span>
+    }
+
+    private double getEffectivePrice(Restaurant restaurant) {
+<span class="fc" id="L127">        double avgPrice = calculateAveragePrice(restaurant);</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">        return avgPrice &gt; 0 ? avgPrice : restaurant.getAveragePrice();</span>
+    }
+
+    /**
+     * Recommend restaurants within budget.
+     * v(G) = ~12
+     */
+    public List&lt;Restaurant&gt; recommendByBudget(List&lt;Restaurant&gt; restaurants, double budget) {
+<span class="pc bpc" id="L136" title="1 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc" id="L137">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        if (budget &lt;= 0) {</span>
+<span class="fc" id="L141">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L144">        List&lt;Restaurant&gt; eligible = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        for (Restaurant restaurant : restaurants) {</span>
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">            if (restaurant == null) {</span>
+<span class="nc" id="L148">                continue;</span>
+            }
+
+<span class="fc" id="L151">            double price = getEffectivePrice(restaurant);</span>
+
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">            if (price &lt;= 0) {</span>
+                // No price data, include with low priority
+<span class="nc" id="L155">                continue;</span>
+            }
+
+<span class="fc bfc" id="L158" title="All 2 branches covered.">            if (price &lt;= budget) {</span>
+<span class="fc" id="L159">                eligible.add(restaurant);</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">            } else if (price &lt;= budget * 1.1) {</span>
+                // Slightly over budget but still reasonable
+<span class="nc" id="L162">                eligible.add(restaurant);</span>
+            }
+<span class="fc" id="L164">        }</span>
+
+        // Sort by value (rating / price ratio)
+<span class="fc" id="L167">        RatingService ratingService = new RatingService();</span>
+
+<span class="fc" id="L169">        return eligible.stream()</span>
+<span class="fc" id="L170">                .sorted((r1, r2) -&gt; {</span>
+<span class="nc" id="L171">                    double value1 = calculateValueScore(r1, ratingService);</span>
+<span class="nc" id="L172">                    double value2 = calculateValueScore(r2, ratingService);</span>
+<span class="nc" id="L173">                    return Double.compare(value2, value1);</span>
+                })
+<span class="fc" id="L175">                .collect(Collectors.toList());</span>
+    }
+
+    private double calculateValueScore(Restaurant restaurant, RatingService ratingService) {
+<span class="nc" id="L179">        double price = getEffectivePrice(restaurant);</span>
+<span class="nc" id="L180">        double rating = ratingService.calculateAverageRating(restaurant);</span>
+
+<span class="nc bnc" id="L182" title="All 2 branches missed.">        if (price &lt;= 0) {</span>
+<span class="nc" id="L183">            return rating;</span>
+        }
+
+        // Value = rating / normalized price
+<span class="nc" id="L187">        return (rating * 100) / price;</span>
+    }
+
+    /**
+     * Categorize restaurant by price level.
+     * v(G) = ~8
+     */
+    public int categorizePriceLevel(Restaurant restaurant) {
+<span class="fc bfc" id="L195" title="All 2 branches covered.">        if (restaurant == null) {</span>
+<span class="fc" id="L196">            return 0;</span>
+        }
+
+        // If price level is already set, return it
+<span class="fc bfc" id="L200" title="All 2 branches covered.">        if (restaurant.getPriceLevel() &gt; 0) {</span>
+<span class="fc" id="L201">            return restaurant.getPriceLevel();</span>
+        }
+
+<span class="fc" id="L204">        double avgPrice = getEffectivePrice(restaurant);</span>
+
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">        if (avgPrice &lt;= 0) {</span>
+<span class="nc" id="L207">            return 0; // Unknown</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">        } else if (avgPrice &lt; 200) {</span>
+<span class="fc" id="L209">            return PRICE_LEVEL_CHEAP;</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">        } else if (avgPrice &lt; 500) {</span>
+<span class="fc" id="L211">            return PRICE_LEVEL_MODERATE;</span>
+<span class="fc bfc" id="L212" title="All 2 branches covered.">        } else if (avgPrice &lt; 1000) {</span>
+<span class="fc" id="L213">            return PRICE_LEVEL_EXPENSIVE;</span>
+        } else {
+<span class="fc" id="L215">            return PRICE_LEVEL_LUXURY;</span>
+        }
+    }
+
+    /**
+     * Filter restaurants by price level.
+     * v(G) = ~6
+     */
+    public List&lt;Restaurant&gt; filterByPriceLevel(List&lt;Restaurant&gt; restaurants, int priceLevel) {
+<span class="pc bpc" id="L224" title="2 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="nc" id="L225">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="pc bpc" id="L228" title="2 of 4 branches missed.">        if (priceLevel &lt; 1 || priceLevel &gt; 4) {</span>
+<span class="nc" id="L229">            return new ArrayList&lt;&gt;(restaurants);</span>
+        }
+
+<span class="fc" id="L232">        return restaurants.stream()</span>
+<span class="pc bpc" id="L233" title="1 of 2 branches missed.">                .filter(r -&gt; r != null)</span>
+<span class="fc bfc" id="L234" title="All 2 branches covered.">                .filter(r -&gt; categorizePriceLevel(r) == priceLevel)</span>
+<span class="fc" id="L235">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Get price range description.
+     * v(G) = ~5
+     */
+    public String getPriceRangeDescription(Restaurant restaurant) {
+<span class="fc bfc" id="L243" title="All 2 branches covered.">        if (restaurant == null) {</span>
+<span class="fc" id="L244">            return &quot;未知&quot;;</span>
+        }
+
+<span class="fc" id="L247">        int level = categorizePriceLevel(restaurant);</span>
+
+<span class="pc bpc" id="L249" title="4 of 5 branches missed.">        switch (level) {</span>
+            case PRICE_LEVEL_CHEAP:
+<span class="fc" id="L251">                return &quot;平價 (&lt; $200)&quot;;</span>
+            case PRICE_LEVEL_MODERATE:
+<span class="nc" id="L253">                return &quot;中等 ($200 - $500)&quot;;</span>
+            case PRICE_LEVEL_EXPENSIVE:
+<span class="nc" id="L255">                return &quot;高級 ($500 - $1000)&quot;;</span>
+            case PRICE_LEVEL_LUXURY:
+<span class="nc" id="L257">                return &quot;奢華 (&gt; $1000)&quot;;</span>
+            default:
+<span class="nc" id="L259">                return &quot;未知&quot;;</span>
+        }
+    }
+
+    /**
+     * Get price statistics for a list of restaurants.
+     * v(G) = ~6
+     */
+    public PriceStatistics calculatePriceStatistics(List&lt;Restaurant&gt; restaurants) {
+<span class="fc" id="L268">        PriceStatistics stats = new PriceStatistics();</span>
+
+<span class="pc bpc" id="L270" title="1 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc" id="L271">            return stats;</span>
+        }
+
+<span class="fc" id="L274">        List&lt;Double&gt; prices = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L276" title="All 2 branches covered.">        for (Restaurant r : restaurants) {</span>
+<span class="pc bpc" id="L277" title="1 of 2 branches missed.">            if (r != null) {</span>
+<span class="fc" id="L278">                double price = getEffectivePrice(r);</span>
+<span class="pc bpc" id="L279" title="1 of 2 branches missed.">                if (price &gt; 0) {</span>
+<span class="fc" id="L280">                    prices.add(price);</span>
+                }
+            }
+<span class="fc" id="L283">        }</span>
+
+<span class="pc bpc" id="L285" title="1 of 2 branches missed.">        if (prices.isEmpty()) {</span>
+<span class="nc" id="L286">            return stats;</span>
+        }
+
+        // Sort for median calculation
+<span class="fc" id="L290">        prices.sort(Double::compareTo);</span>
+
+<span class="fc" id="L292">        stats.count = prices.size();</span>
+<span class="fc" id="L293">        stats.min = prices.get(0);</span>
+<span class="fc" id="L294">        stats.max = prices.get(prices.size() - 1);</span>
+<span class="fc" id="L295">        stats.average = prices.stream().mapToDouble(d -&gt; d).average().orElse(0.0);</span>
+<span class="fc" id="L296">        stats.median = prices.get(prices.size() / 2);</span>
+
+<span class="fc" id="L298">        return stats;</span>
+    }
+
+    /**
+     * Check if restaurant is affordable (within average + 20%).
+     * v(G) = ~5
+     */
+    public boolean isAffordable(Restaurant restaurant, List&lt;Restaurant&gt; referenceSet) {
+<span class="fc bfc" id="L306" title="All 2 branches covered.">        if (restaurant == null) {</span>
+<span class="fc" id="L307">            return false;</span>
+        }
+
+<span class="fc" id="L310">        PriceStatistics stats = calculatePriceStatistics(referenceSet);</span>
+<span class="pc bpc" id="L311" title="1 of 2 branches missed.">        if (stats.count == 0) {</span>
+<span class="nc" id="L312">            return true; // No reference, assume affordable</span>
+        }
+
+<span class="fc" id="L315">        double price = getEffectivePrice(restaurant);</span>
+<span class="pc bpc" id="L316" title="1 of 2 branches missed.">        if (price &lt;= 0) {</span>
+<span class="nc" id="L317">            return true; // No price data</span>
+        }
+
+<span class="fc" id="L320">        double threshold = stats.average * 1.2;</span>
+<span class="pc bpc" id="L321" title="1 of 2 branches missed.">        return price &lt;= threshold;</span>
+    }
+
+    /**
+     * Price statistics container class.
+     */
+<span class="fc" id="L327">    public static class PriceStatistics {</span>
+<span class="fc" id="L328">        public int count = 0;</span>
+<span class="fc" id="L329">        public double min = 0;</span>
+<span class="fc" id="L330">        public double max = 0;</span>
+<span class="fc" id="L331">        public double average = 0;</span>
+<span class="fc" id="L332">        public double median = 0;</span>
+
+        @Override
+        public String toString() {
+<span class="nc" id="L336">            return String.format(&quot;PriceStats{count=%d, min=%.2f, max=%.2f, avg=%.2f, median=%.2f}&quot;,</span>
+<span class="nc" id="L337">                    count, min, max, average, median);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

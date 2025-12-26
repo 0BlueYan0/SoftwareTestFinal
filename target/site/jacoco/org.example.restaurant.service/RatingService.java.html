@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RatingService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">final</a> &gt; <a href="index.source.html" class="el_package">org.example.restaurant.service</a> &gt; <span class="el_source">RatingService.java</span></div><h1>RatingService.java</h1><pre class="source lang-java linenums">package org.example.restaurant.service;
+
+import org.example.restaurant.model.Location;
+import org.example.restaurant.model.Restaurant;
+import org.example.restaurant.model.Review;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * Service for rating-related operations.
+ * This class handles rating calculations with various algorithms.
+ */
+<span class="fc" id="L16">public class RatingService {</span>
+
+    private static final double DEFAULT_WEIGHT = 1.0;
+    private static final int MIN_REVIEWS_FOR_WEIGHTED = 5;
+
+    /**
+     * Calculate simple average rating for a restaurant.
+     * v(G) = ~6
+     */
+    public double calculateAverageRating(Restaurant restaurant) {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (restaurant == null) {</span>
+<span class="fc" id="L27">            return 0.0;</span>
+        }
+
+<span class="fc" id="L30">        List&lt;Review&gt; reviews = restaurant.getReviews();</span>
+<span class="pc bpc" id="L31" title="1 of 4 branches missed.">        if (reviews == null || reviews.isEmpty()) {</span>
+<span class="fc" id="L32">            return 0.0;</span>
+        }
+
+<span class="fc" id="L35">        double sum = 0;</span>
+<span class="fc" id="L36">        int validCount = 0;</span>
+
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        for (Review review : reviews) {</span>
+<span class="pc bpc" id="L39" title="2 of 6 branches missed.">            if (review != null &amp;&amp; review.getRating() &gt;= 1 &amp;&amp; review.getRating() &lt;= 5) {</span>
+<span class="fc" id="L40">                sum += review.getRating();</span>
+<span class="fc" id="L41">                validCount++;</span>
+            }
+<span class="fc" id="L43">        }</span>
+
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">        if (validCount == 0) {</span>
+<span class="nc" id="L46">            return 0.0;</span>
+        }
+
+<span class="fc" id="L49">        return Math.round((sum / validCount) * 10.0) / 10.0;</span>
+    }
+
+    /**
+     * Calculate weighted average rating based on reviewer level and verification.
+     * v(G) = ~10
+     */
+    public double calculateWeightedRating(Restaurant restaurant) {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (restaurant == null) {</span>
+<span class="fc" id="L58">            return 0.0;</span>
+        }
+
+<span class="fc" id="L61">        List&lt;Review&gt; reviews = restaurant.getReviews();</span>
+<span class="pc bpc" id="L62" title="2 of 4 branches missed.">        if (reviews == null || reviews.isEmpty()) {</span>
+<span class="nc" id="L63">            return 0.0;</span>
+        }
+
+        // Not enough reviews for weighted calculation
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (reviews.size() &lt; MIN_REVIEWS_FOR_WEIGHTED) {</span>
+<span class="fc" id="L68">            return calculateAverageRating(restaurant);</span>
+        }
+
+<span class="fc" id="L71">        double weightedSum = 0;</span>
+<span class="fc" id="L72">        double totalWeight = 0;</span>
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        for (Review review : reviews) {</span>
+<span class="pc bpc" id="L75" title="3 of 6 branches missed.">            if (review != null &amp;&amp; review.getRating() &gt;= 1 &amp;&amp; review.getRating() &lt;= 5) {</span>
+<span class="fc" id="L76">                double weight = calculateReviewWeight(review);</span>
+<span class="fc" id="L77">                weightedSum += review.getRating() * weight;</span>
+<span class="fc" id="L78">                totalWeight += weight;</span>
+            }
+<span class="fc" id="L80">        }</span>
+
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">        if (totalWeight == 0) {</span>
+<span class="nc" id="L83">            return 0.0;</span>
+        }
+
+<span class="fc" id="L86">        return Math.round((weightedSum / totalWeight) * 10.0) / 10.0;</span>
+    }
+
+    /**
+     * Calculate weight for a single review.
+     * v(G) = ~8
+     */
+    private double calculateReviewWeight(Review review) {
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (review == null) {</span>
+<span class="nc" id="L95">            return DEFAULT_WEIGHT;</span>
+        }
+
+<span class="fc" id="L98">        double weight = 1.0;</span>
+
+        // Factor 1: User level (1-5)
+<span class="fc" id="L101">        int userLevel = review.getUserLevel();</span>
+<span class="pc bpc" id="L102" title="2 of 4 branches missed.">        if (userLevel &gt;= 1 &amp;&amp; userLevel &lt;= 5) {</span>
+<span class="fc" id="L103">            weight *= (0.5 + userLevel * 0.2); // 0.7 to 1.5</span>
+        }
+
+        // Factor 2: Verification status
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">        if (review.isVerified()) {</span>
+<span class="nc" id="L108">            weight *= 1.3;</span>
+        }
+
+        // Factor 3: Helpful count
+<span class="fc" id="L112">        int helpfulCount = review.getHelpfulCount();</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (helpfulCount &gt; 20) {</span>
+<span class="nc" id="L114">            weight *= 1.4;</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">        } else if (helpfulCount &gt; 10) {</span>
+<span class="nc" id="L116">            weight *= 1.2;</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        } else if (helpfulCount &gt; 5) {</span>
+<span class="nc" id="L118">            weight *= 1.1;</span>
+        }
+
+        // Factor 4: Recency
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">        if (review.isRecent()) {</span>
+<span class="fc" id="L123">            weight *= 1.2;</span>
+        } else {
+<span class="nc" id="L125">            weight *= 0.9;</span>
+        }
+
+        // Cap the weight
+<span class="fc" id="L129">        return Math.min(weight, 3.0);</span>
+    }
+
+    /**
+     * Filter restaurants by rating range.
+     * v(G) = ~8
+     */
+    public List&lt;Restaurant&gt; filterByRatingRange(List&lt;Restaurant&gt; restaurants,
+            Double minRating, Double maxRating) {
+<span class="pc bpc" id="L138" title="1 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc" id="L139">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L142">        List&lt;Restaurant&gt; result = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        for (Restaurant restaurant : restaurants) {</span>
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">            if (restaurant == null) {</span>
+<span class="nc" id="L146">                continue;</span>
+            }
+
+<span class="fc" id="L149">            double rating = calculateAverageRating(restaurant);</span>
+
+<span class="fc bfc" id="L151" title="All 4 branches covered.">            boolean meetsMin = (minRating == null) || (rating &gt;= minRating);</span>
+<span class="pc bpc" id="L152" title="2 of 4 branches missed.">            boolean meetsMax = (maxRating == null) || (rating &lt;= maxRating);</span>
+
+<span class="pc bpc" id="L154" title="1 of 4 branches missed.">            if (meetsMin &amp;&amp; meetsMax) {</span>
+<span class="fc" id="L155">                result.add(restaurant);</span>
+            }
+<span class="fc" id="L157">        }</span>
+
+<span class="fc" id="L159">        return result;</span>
+    }
+
+    /**
+     * Get top rated restaurants.
+     * v(G) = ~6
+     */
+    public List&lt;Restaurant&gt; getTopRatedRestaurants(List&lt;Restaurant&gt; restaurants, int limit) {
+<span class="pc bpc" id="L167" title="1 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc" id="L168">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if (limit &lt;= 0) {</span>
+<span class="nc" id="L172">            limit = 10;</span>
+        }
+
+<span class="fc" id="L175">        return restaurants.stream()</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">                .filter(r -&gt; r != null)</span>
+<span class="pc bpc" id="L177" title="2 of 4 branches missed.">                .filter(r -&gt; r.getReviews() != null &amp;&amp; !r.getReviews().isEmpty())</span>
+<span class="fc" id="L178">                .sorted((r1, r2) -&gt; {</span>
+<span class="fc" id="L179">                    double rating1 = calculateWeightedRating(r1);</span>
+<span class="fc" id="L180">                    double rating2 = calculateWeightedRating(r2);</span>
+<span class="fc" id="L181">                    int ratingCompare = Double.compare(rating2, rating1);</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">                    if (ratingCompare != 0) {</span>
+<span class="fc" id="L183">                        return ratingCompare;</span>
+                    }
+                    // Secondary sort by review count
+<span class="nc" id="L186">                    return Integer.compare(r2.getReviewCount(), r1.getReviewCount());</span>
+                })
+<span class="fc" id="L188">                .limit(limit)</span>
+<span class="fc" id="L189">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Get restaurants with minimum review count.
+     * v(G) = ~4
+     */
+    public List&lt;Restaurant&gt; filterByMinReviewCount(List&lt;Restaurant&gt; restaurants, int minCount) {
+<span class="pc bpc" id="L197" title="2 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="nc" id="L198">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">        if (minCount &lt; 0) {</span>
+<span class="nc" id="L202">            minCount = 0;</span>
+        }
+
+<span class="fc" id="L205">        final int threshold = minCount;</span>
+<span class="fc" id="L206">        return restaurants.stream()</span>
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">                .filter(r -&gt; r != null)</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">                .filter(r -&gt; r.getReviewCount() &gt;= threshold)</span>
+<span class="fc" id="L209">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Get rating distribution for a restaurant (count of 1-5 star ratings).
+     * v(G) = ~6
+     */
+    public int[] getRatingDistribution(Restaurant restaurant) {
+<span class="fc" id="L217">        int[] distribution = new int[5]; // Index 0-4 for ratings 1-5</span>
+
+<span class="pc bpc" id="L219" title="1 of 4 branches missed.">        if (restaurant == null || restaurant.getReviews() == null) {</span>
+<span class="fc" id="L220">            return distribution;</span>
+        }
+
+<span class="fc bfc" id="L223" title="All 2 branches covered.">        for (Review review : restaurant.getReviews()) {</span>
+<span class="pc bpc" id="L224" title="1 of 2 branches missed.">            if (review != null) {</span>
+<span class="fc" id="L225">                int rating = review.getRating();</span>
+<span class="pc bpc" id="L226" title="2 of 4 branches missed.">                if (rating &gt;= 1 &amp;&amp; rating &lt;= 5) {</span>
+<span class="fc" id="L227">                    distribution[rating - 1]++;</span>
+                }
+            }
+<span class="fc" id="L230">        }</span>
+
+<span class="fc" id="L232">        return distribution;</span>
+    }
+
+    /**
+     * Calculate rating trend (improving, declining, stable).
+     * v(G) = ~10
+     */
+    public String calculateRatingTrend(Restaurant restaurant) {
+<span class="pc bpc" id="L240" title="2 of 4 branches missed.">        if (restaurant == null || restaurant.getReviews() == null) {</span>
+<span class="nc" id="L241">            return &quot;UNKNOWN&quot;;</span>
+        }
+
+<span class="fc" id="L244">        List&lt;Review&gt; reviews = restaurant.getReviews();</span>
+<span class="pc bpc" id="L245" title="1 of 2 branches missed.">        if (reviews.size() &lt; 10) {</span>
+<span class="fc" id="L246">            return &quot;INSUFFICIENT_DATA&quot;;</span>
+        }
+
+        // Sort by date
+<span class="nc" id="L250">        List&lt;Review&gt; sortedReviews = reviews.stream()</span>
+<span class="nc bnc" id="L251" title="All 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.getCreatedAt() != null)</span>
+<span class="nc" id="L252">                .sorted(Comparator.comparing(Review::getCreatedAt))</span>
+<span class="nc" id="L253">                .collect(Collectors.toList());</span>
+
+<span class="nc bnc" id="L255" title="All 2 branches missed.">        if (sortedReviews.size() &lt; 10) {</span>
+<span class="nc" id="L256">            return &quot;INSUFFICIENT_DATA&quot;;</span>
+        }
+
+        // Compare first half vs second half
+<span class="nc" id="L260">        int midPoint = sortedReviews.size() / 2;</span>
+
+<span class="nc" id="L262">        double firstHalfAvg = calculateAverage(sortedReviews.subList(0, midPoint));</span>
+<span class="nc" id="L263">        double secondHalfAvg = calculateAverage(sortedReviews.subList(midPoint, sortedReviews.size()));</span>
+
+<span class="nc" id="L265">        double difference = secondHalfAvg - firstHalfAvg;</span>
+
+<span class="nc bnc" id="L267" title="All 2 branches missed.">        if (difference &gt; 0.3) {</span>
+<span class="nc" id="L268">            return &quot;IMPROVING&quot;;</span>
+<span class="nc bnc" id="L269" title="All 2 branches missed.">        } else if (difference &lt; -0.3) {</span>
+<span class="nc" id="L270">            return &quot;DECLINING&quot;;</span>
+        } else {
+<span class="nc" id="L272">            return &quot;STABLE&quot;;</span>
+        }
+    }
+
+    private double calculateAverage(List&lt;Review&gt; reviews) {
+<span class="nc bnc" id="L277" title="All 4 branches missed.">        if (reviews == null || reviews.isEmpty()) {</span>
+<span class="nc" id="L278">            return 0.0;</span>
+        }
+<span class="nc" id="L280">        double sum = 0;</span>
+<span class="nc" id="L281">        int count = 0;</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">        for (Review r : reviews) {</span>
+<span class="nc bnc" id="L283" title="All 6 branches missed.">            if (r != null &amp;&amp; r.getRating() &gt;= 1 &amp;&amp; r.getRating() &lt;= 5) {</span>
+<span class="nc" id="L284">                sum += r.getRating();</span>
+<span class="nc" id="L285">                count++;</span>
+            }
+<span class="nc" id="L287">        }</span>
+<span class="nc bnc" id="L288" title="All 2 branches missed.">        return count &gt; 0 ? sum / count : 0.0;</span>
+    }
+
+    /**
+     * Sort restaurants by rating.
+     * v(G) = ~4
+     */
+    public List&lt;Restaurant&gt; sortByRating(List&lt;Restaurant&gt; restaurants, boolean ascending) {
+<span class="pc bpc" id="L296" title="2 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="nc" id="L297">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L300">        Comparator&lt;Restaurant&gt; comparator = (r1, r2) -&gt; {</span>
+<span class="pc bpc" id="L301" title="1 of 2 branches missed.">            double rating1 = r1 != null ? calculateAverageRating(r1) : 0;</span>
+<span class="pc bpc" id="L302" title="1 of 2 branches missed.">            double rating2 = r2 != null ? calculateAverageRating(r2) : 0;</span>
+<span class="fc" id="L303">            return Double.compare(rating1, rating2);</span>
+        };
+
+<span class="fc bfc" id="L306" title="All 2 branches covered.">        if (!ascending) {</span>
+<span class="fc" id="L307">            comparator = comparator.reversed();</span>
+        }
+
+<span class="fc" id="L310">        return restaurants.stream()</span>
+<span class="fc" id="L311">                .sorted(comparator)</span>
+<span class="fc" id="L312">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Check if restaurant has good rating (4.0+) with sufficient reviews.
+     * v(G) = ~5
+     */
+    public boolean hasGoodRating(Restaurant restaurant, int minReviewCount) {
+<span class="pc bpc" id="L320" title="1 of 2 branches missed.">        if (restaurant == null) {</span>
+<span class="nc" id="L321">            return false;</span>
+        }
+
+<span class="fc bfc" id="L324" title="All 2 branches covered.">        if (restaurant.getReviewCount() &lt; minReviewCount) {</span>
+<span class="fc" id="L325">            return false;</span>
+        }
+
+<span class="fc" id="L328">        double rating = calculateAverageRating(restaurant);</span>
+<span class="fc bfc" id="L329" title="All 2 branches covered.">        return rating &gt;= 4.0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

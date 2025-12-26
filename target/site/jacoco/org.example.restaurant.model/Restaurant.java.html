@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Restaurant.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">final</a> &gt; <a href="index.source.html" class="el_package">org.example.restaurant.model</a> &gt; <span class="el_source">Restaurant.java</span></div><h1>Restaurant.java</h1><pre class="source lang-java linenums">package org.example.restaurant.model;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+/**
+ * Represents a restaurant with all its attributes.
+ */
+public class Restaurant {
+    private String id;
+    private String name;
+    private String description;
+    private Location location;
+    private CuisineType cuisineType;
+    private Set&lt;CuisineType&gt; additionalCuisineTypes;
+    private List&lt;MenuItem&gt; menu;
+    private List&lt;Review&gt; reviews;
+    private BusinessHours businessHours;
+    private double averagePrice;
+    private int priceLevel; // 1-4 ($ to $$$$)
+    private boolean active;
+    private String phoneNumber;
+    private String website;
+    private int capacity;
+    private boolean hasDelivery;
+    private boolean hasTakeout;
+    private boolean hasParking;
+    private boolean acceptsReservations;
+
+<span class="fc" id="L33">    public Restaurant() {</span>
+<span class="fc" id="L34">        this.additionalCuisineTypes = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L35">        this.menu = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L36">        this.reviews = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L37">        this.active = true;</span>
+<span class="fc" id="L38">    }</span>
+
+    public Restaurant(String id, String name) {
+<span class="fc" id="L41">        this();</span>
+<span class="fc" id="L42">        this.id = id;</span>
+<span class="fc" id="L43">        this.name = name;</span>
+<span class="fc" id="L44">    }</span>
+
+    public Restaurant(String id, String name, CuisineType cuisineType, Location location) {
+<span class="fc" id="L47">        this(id, name);</span>
+<span class="fc" id="L48">        this.cuisineType = cuisineType;</span>
+<span class="fc" id="L49">        this.location = location;</span>
+<span class="fc" id="L50">    }</span>
+
+    // Getters and Setters
+    public String getId() {
+<span class="fc" id="L54">        return id;</span>
+    }
+
+    public void setId(String id) {
+<span class="fc" id="L58">        this.id = id;</span>
+<span class="fc" id="L59">    }</span>
+
+    public String getName() {
+<span class="fc" id="L62">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="fc" id="L66">        this.name = name;</span>
+<span class="fc" id="L67">    }</span>
+
+    public String getDescription() {
+<span class="fc" id="L70">        return description;</span>
+    }
+
+    public void setDescription(String description) {
+<span class="nc" id="L74">        this.description = description;</span>
+<span class="nc" id="L75">    }</span>
+
+    public Location getLocation() {
+<span class="fc" id="L78">        return location;</span>
+    }
+
+    public void setLocation(Location location) {
+<span class="fc" id="L82">        this.location = location;</span>
+<span class="fc" id="L83">    }</span>
+
+    public CuisineType getCuisineType() {
+<span class="fc" id="L86">        return cuisineType;</span>
+    }
+
+    public void setCuisineType(CuisineType cuisineType) {
+<span class="fc" id="L90">        this.cuisineType = cuisineType;</span>
+<span class="fc" id="L91">    }</span>
+
+    public Set&lt;CuisineType&gt; getAdditionalCuisineTypes() {
+<span class="fc" id="L94">        return additionalCuisineTypes;</span>
+    }
+
+    public void setAdditionalCuisineTypes(Set&lt;CuisineType&gt; additionalCuisineTypes) {
+<span class="nc" id="L98">        this.additionalCuisineTypes = additionalCuisineTypes;</span>
+<span class="nc" id="L99">    }</span>
+
+    public void addCuisineType(CuisineType type) {
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if (type != null) {</span>
+<span class="fc" id="L103">            additionalCuisineTypes.add(type);</span>
+        }
+<span class="fc" id="L105">    }</span>
+
+    public List&lt;MenuItem&gt; getMenu() {
+<span class="fc" id="L108">        return menu;</span>
+    }
+
+    public void setMenu(List&lt;MenuItem&gt; menu) {
+<span class="nc" id="L112">        this.menu = menu;</span>
+<span class="nc" id="L113">    }</span>
+
+    public void addMenuItem(MenuItem item) {
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        if (item != null) {</span>
+<span class="fc" id="L117">            menu.add(item);</span>
+        }
+<span class="fc" id="L119">    }</span>
+
+    public List&lt;Review&gt; getReviews() {
+<span class="fc" id="L122">        return reviews;</span>
+    }
+
+    public void setReviews(List&lt;Review&gt; reviews) {
+<span class="nc" id="L126">        this.reviews = reviews;</span>
+<span class="nc" id="L127">    }</span>
+
+    public void addReview(Review review) {
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">        if (review != null) {</span>
+<span class="fc" id="L131">            reviews.add(review);</span>
+        }
+<span class="fc" id="L133">    }</span>
+
+    public BusinessHours getBusinessHours() {
+<span class="fc" id="L136">        return businessHours;</span>
+    }
+
+    public void setBusinessHours(BusinessHours businessHours) {
+<span class="fc" id="L140">        this.businessHours = businessHours;</span>
+<span class="fc" id="L141">    }</span>
+
+    public double getAveragePrice() {
+<span class="fc" id="L144">        return averagePrice;</span>
+    }
+
+    public void setAveragePrice(double averagePrice) {
+<span class="fc" id="L148">        this.averagePrice = averagePrice;</span>
+<span class="fc" id="L149">    }</span>
+
+    public int getPriceLevel() {
+<span class="fc" id="L152">        return priceLevel;</span>
+    }
+
+    public void setPriceLevel(int priceLevel) {
+<span class="fc" id="L156">        this.priceLevel = priceLevel;</span>
+<span class="fc" id="L157">    }</span>
+
+    public boolean isActive() {
+<span class="fc" id="L160">        return active;</span>
+    }
+
+    public void setActive(boolean active) {
+<span class="fc" id="L164">        this.active = active;</span>
+<span class="fc" id="L165">    }</span>
+
+    public String getPhoneNumber() {
+<span class="fc" id="L168">        return phoneNumber;</span>
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+<span class="fc" id="L172">        this.phoneNumber = phoneNumber;</span>
+<span class="fc" id="L173">    }</span>
+
+    public String getWebsite() {
+<span class="fc" id="L176">        return website;</span>
+    }
+
+    public void setWebsite(String website) {
+<span class="fc" id="L180">        this.website = website;</span>
+<span class="fc" id="L181">    }</span>
+
+    public int getCapacity() {
+<span class="fc" id="L184">        return capacity;</span>
+    }
+
+    public void setCapacity(int capacity) {
+<span class="nc" id="L188">        this.capacity = capacity;</span>
+<span class="nc" id="L189">    }</span>
+
+    public boolean isHasDelivery() {
+<span class="fc" id="L192">        return hasDelivery;</span>
+    }
+
+    public void setHasDelivery(boolean hasDelivery) {
+<span class="fc" id="L196">        this.hasDelivery = hasDelivery;</span>
+<span class="fc" id="L197">    }</span>
+
+    public boolean isHasTakeout() {
+<span class="fc" id="L200">        return hasTakeout;</span>
+    }
+
+    public void setHasTakeout(boolean hasTakeout) {
+<span class="fc" id="L204">        this.hasTakeout = hasTakeout;</span>
+<span class="fc" id="L205">    }</span>
+
+    public boolean isHasParking() {
+<span class="fc" id="L208">        return hasParking;</span>
+    }
+
+    public void setHasParking(boolean hasParking) {
+<span class="fc" id="L212">        this.hasParking = hasParking;</span>
+<span class="fc" id="L213">    }</span>
+
+    public boolean isAcceptsReservations() {
+<span class="fc" id="L216">        return acceptsReservations;</span>
+    }
+
+    public void setAcceptsReservations(boolean acceptsReservations) {
+<span class="fc" id="L220">        this.acceptsReservations = acceptsReservations;</span>
+<span class="fc" id="L221">    }</span>
+
+    // Business methods
+    public boolean hasCuisineType(CuisineType type) {
+<span class="fc bfc" id="L225" title="All 2 branches covered.">        if (type == null) {</span>
+<span class="fc" id="L226">            return false;</span>
+        }
+<span class="fc bfc" id="L228" title="All 2 branches covered.">        if (cuisineType == type) {</span>
+<span class="fc" id="L229">            return true;</span>
+        }
+<span class="fc" id="L231">        return additionalCuisineTypes.contains(type);</span>
+    }
+
+    public boolean isOpenNow() {
+<span class="nc bnc" id="L235" title="All 2 branches missed.">        if (businessHours == null) {</span>
+<span class="nc" id="L236">            return false;</span>
+        }
+<span class="nc" id="L238">        return businessHours.isOpenNow();</span>
+    }
+
+    public double calculateAverageRating() {
+<span class="pc bpc" id="L242" title="2 of 4 branches missed.">        if (reviews == null || reviews.isEmpty()) {</span>
+<span class="nc" id="L243">            return 0.0;</span>
+        }
+<span class="fc" id="L245">        double sum = 0;</span>
+<span class="fc" id="L246">        int count = 0;</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">        for (Review review : reviews) {</span>
+<span class="pc bpc" id="L248" title="3 of 6 branches missed.">            if (review != null &amp;&amp; review.getRating() &gt;= 1 &amp;&amp; review.getRating() &lt;= 5) {</span>
+<span class="fc" id="L249">                sum += review.getRating();</span>
+<span class="fc" id="L250">                count++;</span>
+            }
+<span class="fc" id="L252">        }</span>
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">        return count &gt; 0 ? sum / count : 0.0;</span>
+    }
+
+    public double calculateMenuAveragePrice() {
+<span class="pc bpc" id="L257" title="2 of 4 branches missed.">        if (menu == null || menu.isEmpty()) {</span>
+<span class="nc" id="L258">            return 0.0;</span>
+        }
+<span class="fc" id="L260">        double sum = 0;</span>
+<span class="fc" id="L261">        int count = 0;</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">        for (MenuItem item : menu) {</span>
+<span class="pc bpc" id="L263" title="3 of 6 branches missed.">            if (item != null &amp;&amp; item.getPrice() &gt; 0 &amp;&amp; item.isAvailable()) {</span>
+<span class="fc" id="L264">                sum += item.getPrice();</span>
+<span class="fc" id="L265">                count++;</span>
+            }
+<span class="fc" id="L267">        }</span>
+<span class="pc bpc" id="L268" title="1 of 2 branches missed.">        return count &gt; 0 ? sum / count : 0.0;</span>
+    }
+
+    public int getReviewCount() {
+<span class="pc bpc" id="L272" title="1 of 2 branches missed.">        return reviews != null ? reviews.size() : 0;</span>
+    }
+
+    public int getMenuItemCount() {
+<span class="nc bnc" id="L276" title="All 2 branches missed.">        return menu != null ? menu.size() : 0;</span>
+    }
+
+    public boolean matchesKeyword(String keyword) {
+<span class="pc bpc" id="L280" title="1 of 4 branches missed.">        if (keyword == null || keyword.trim().isEmpty()) {</span>
+<span class="fc" id="L281">            return true;</span>
+        }
+<span class="fc" id="L283">        String lowerKeyword = keyword.toLowerCase();</span>
+
+<span class="pc bpc" id="L285" title="1 of 4 branches missed.">        if (name != null &amp;&amp; name.toLowerCase().contains(lowerKeyword)) {</span>
+<span class="fc" id="L286">            return true;</span>
+        }
+<span class="pc bpc" id="L288" title="3 of 4 branches missed.">        if (description != null &amp;&amp; description.toLowerCase().contains(lowerKeyword)) {</span>
+<span class="nc" id="L289">            return true;</span>
+        }
+<span class="pc bpc" id="L291" title="1 of 4 branches missed.">        if (cuisineType != null &amp;&amp; cuisineType.getDisplayName().toLowerCase().contains(lowerKeyword)) {</span>
+<span class="nc" id="L292">            return true;</span>
+        }
+<span class="pc bpc" id="L294" title="1 of 2 branches missed.">        if (location != null) {</span>
+<span class="pc bpc" id="L295" title="1 of 4 branches missed.">            if (location.getCity() != null &amp;&amp; location.getCity().toLowerCase().contains(lowerKeyword)) {</span>
+<span class="fc" id="L296">                return true;</span>
+            }
+<span class="pc bpc" id="L298" title="2 of 4 branches missed.">            if (location.getAddress() != null &amp;&amp; location.getAddress().toLowerCase().contains(lowerKeyword)) {</span>
+<span class="nc" id="L299">                return true;</span>
+            }
+        }
+<span class="fc" id="L302">        return false;</span>
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L307" title="All 2 branches missed.">        if (this == o)</span>
+<span class="nc" id="L308">            return true;</span>
+<span class="nc bnc" id="L309" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass())</span>
+<span class="nc" id="L310">            return false;</span>
+<span class="nc" id="L311">        Restaurant that = (Restaurant) o;</span>
+<span class="nc" id="L312">        return Objects.equals(id, that.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L317">        return Objects.hash(id);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L322">        return &quot;Restaurant{&quot; +</span>
+                &quot;id='&quot; + id + '\'' +
+                &quot;, name='&quot; + name + '\'' +
+                &quot;, cuisineType=&quot; + cuisineType +
+<span class="nc bnc" id="L326" title="All 2 branches missed.">                &quot;, city=&quot; + (location != null ? location.getCity() : &quot;N/A&quot;) +</span>
+<span class="nc" id="L327">                &quot;, rating=&quot; + String.format(&quot;%.1f&quot;, calculateAverageRating()) +</span>
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RecommendationService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">final</a> &gt; <a href="index.source.html" class="el_package">org.example.restaurant.service</a> &gt; <span class="el_source">RecommendationService.java</span></div><h1>RecommendationService.java</h1><pre class="source lang-java linenums">package org.example.restaurant.service;
+
+import org.example.restaurant.model.*;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+/**
+ * Service for restaurant recommendations.
+ */
+public class RecommendationService {
+
+    private static final double EARTH_RADIUS_KM = 6371.0;
+    private final RatingService ratingService;
+    private final PriceAnalyzer priceAnalyzer;
+
+<span class="fc" id="L17">    public RecommendationService() {</span>
+<span class="fc" id="L18">        this.ratingService = new RatingService();</span>
+<span class="fc" id="L19">        this.priceAnalyzer = new PriceAnalyzer();</span>
+<span class="fc" id="L20">    }</span>
+
+<span class="fc" id="L22">    public RecommendationService(RatingService ratingService, PriceAnalyzer priceAnalyzer) {</span>
+<span class="fc" id="L23">        this.ratingService = ratingService;</span>
+<span class="fc" id="L24">        this.priceAnalyzer = priceAnalyzer;</span>
+<span class="fc" id="L25">    }</span>
+
+    /**
+     * Recommend restaurants based on user preferences.
+     * v(G) = ~15
+     */
+    public List&lt;Restaurant&gt; recommendByPreferences(UserPreferences prefs,
+            List&lt;Restaurant&gt; restaurants) {
+<span class="pc bpc" id="L33" title="1 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc" id="L34">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (prefs == null) {</span>
+<span class="fc" id="L38">            return getPopularRestaurants(restaurants, 10);</span>
+        }
+
+<span class="fc" id="L41">        List&lt;ScoredRestaurant&gt; scored = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        for (Restaurant restaurant : restaurants) {</span>
+<span class="pc bpc" id="L44" title="2 of 4 branches missed.">            if (restaurant == null || !restaurant.isActive()) {</span>
+<span class="nc" id="L45">                continue;</span>
+            }
+
+<span class="fc" id="L48">            double score = calculateMatchScore(restaurant, prefs);</span>
+
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">            if (score &gt; 0) {</span>
+<span class="fc" id="L51">                scored.add(new ScoredRestaurant(restaurant, score));</span>
+            }
+<span class="fc" id="L53">        }</span>
+
+        // Sort by score descending
+<span class="fc" id="L56">        scored.sort((a, b) -&gt; Double.compare(b.score, a.score));</span>
+
+<span class="fc" id="L58">        return scored.stream()</span>
+<span class="fc" id="L59">                .map(s -&gt; s.restaurant)</span>
+<span class="fc" id="L60">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Calculate match score for a restaurant against user preferences.
+     * v(G) = ~20
+     */
+    private double calculateMatchScore(Restaurant restaurant, UserPreferences prefs) {
+<span class="fc" id="L68">        double score = 50.0; // Base score</span>
+
+        // Cuisine match
+<span class="fc" id="L71">        CuisineType mainCuisine = restaurant.getCuisineType();</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if (mainCuisine != null) {</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">            if (prefs.likesCuisine(mainCuisine)) {</span>
+<span class="fc" id="L74">                score += 25;</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            } else if (prefs.dislikesCuisine(mainCuisine)) {</span>
+<span class="fc" id="L76">                score -= 40;</span>
+            }
+        }
+
+        // Additional cuisines
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        for (CuisineType type : restaurant.getAdditionalCuisineTypes()) {</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            if (prefs.likesCuisine(type)) {</span>
+<span class="nc" id="L83">                score += 10;</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">            } else if (prefs.dislikesCuisine(type)) {</span>
+<span class="nc" id="L85">                score -= 15;</span>
+            }
+<span class="nc" id="L87">        }</span>
+
+        // Price level check
+<span class="fc" id="L90">        int priceLevel = priceAnalyzer.categorizePriceLevel(restaurant);</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">        if (priceLevel &gt; 0) {</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">            if (priceLevel &lt;= prefs.getMaxPriceLevel()) {</span>
+<span class="fc" id="L93">                score += 10;</span>
+            } else {
+<span class="nc" id="L95">                score -= 25;</span>
+            }
+        }
+
+        // Rating check
+<span class="fc" id="L100">        double rating = ratingService.calculateAverageRating(restaurant);</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if (rating &gt;= prefs.getMinAcceptableRating()) {</span>
+<span class="fc" id="L102">            score += rating * 5;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        } else if (rating &gt; 0) {</span>
+<span class="nc" id="L104">            score -= 20;</span>
+        }
+
+        // Feature preferences
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">        if (prefs.isRequiresParking()) {</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">            if (restaurant.isHasParking()) {</span>
+<span class="nc" id="L110">                score += 15;</span>
+            } else {
+<span class="nc" id="L112">                score -= 25;</span>
+            }
+        }
+
+<span class="pc bpc" id="L116" title="3 of 4 branches missed.">        if (prefs.isPreferDelivery() &amp;&amp; restaurant.isHasDelivery()) {</span>
+<span class="nc" id="L117">            score += 10;</span>
+        }
+
+<span class="pc bpc" id="L120" title="3 of 4 branches missed.">        if (prefs.isPreferTakeout() &amp;&amp; restaurant.isHasTakeout()) {</span>
+<span class="nc" id="L121">            score += 10;</span>
+        }
+
+        // Distance check (if location available)
+<span class="pc bpc" id="L125" title="3 of 4 branches missed.">        if (prefs.getUserLocation() != null &amp;&amp; restaurant.getLocation() != null) {</span>
+<span class="nc" id="L126">            double distance = calculateDistance(prefs.getUserLocation(), restaurant.getLocation());</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">            if (distance &lt;= prefs.getMaxDistanceKm()) {</span>
+<span class="nc" id="L128">                score += 15 - (distance / prefs.getMaxDistanceKm() * 10);</span>
+            } else {
+<span class="nc" id="L130">                score -= 20;</span>
+            }
+        }
+
+<span class="fc" id="L134">        return Math.max(0, score);</span>
+    }
+
+    /**
+     * Recommend similar restaurants based on a reference restaurant.
+     * v(G) = ~12
+     */
+    public List&lt;Restaurant&gt; recommendSimilar(Restaurant reference,
+            List&lt;Restaurant&gt; candidates) {
+<span class="pc bpc" id="L143" title="2 of 6 branches missed.">        if (reference == null || candidates == null || candidates.isEmpty()) {</span>
+<span class="fc" id="L144">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L147">        List&lt;ScoredRestaurant&gt; scored = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        for (Restaurant candidate : candidates) {</span>
+<span class="pc bpc" id="L150" title="2 of 4 branches missed.">            if (candidate == null || !candidate.isActive()) {</span>
+<span class="nc" id="L151">                continue;</span>
+            }
+<span class="pc bpc" id="L153" title="1 of 4 branches missed.">            if (candidate.getId() != null &amp;&amp; candidate.getId().equals(reference.getId())) {</span>
+<span class="fc" id="L154">                continue; // Skip the reference restaurant itself</span>
+            }
+
+<span class="fc" id="L157">            double similarity = calculateSimilarity(reference, candidate);</span>
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">            if (similarity &gt; 0.2) { // Minimum similarity threshold</span>
+<span class="fc" id="L159">                scored.add(new ScoredRestaurant(candidate, similarity));</span>
+            }
+<span class="fc" id="L161">        }</span>
+
+<span class="fc" id="L163">        scored.sort((a, b) -&gt; Double.compare(b.score, a.score));</span>
+
+<span class="fc" id="L165">        return scored.stream()</span>
+<span class="fc" id="L166">                .limit(10)</span>
+<span class="fc" id="L167">                .map(s -&gt; s.restaurant)</span>
+<span class="fc" id="L168">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Calculate similarity score between two restaurants.
+     * v(G) = ~14
+     */
+    private double calculateSimilarity(Restaurant r1, Restaurant r2) {
+<span class="fc" id="L176">        double score = 0.0;</span>
+<span class="fc" id="L177">        double maxScore = 0.0;</span>
+
+        // Cuisine type match (weight: 30)
+<span class="fc" id="L180">        maxScore += 30;</span>
+<span class="pc bpc" id="L181" title="2 of 4 branches missed.">        if (r1.getCuisineType() != null &amp;&amp; r2.getCuisineType() != null) {</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">            if (r1.getCuisineType() == r2.getCuisineType()) {</span>
+<span class="fc" id="L183">                score += 30;</span>
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">            } else if (r2.hasCuisineType(r1.getCuisineType())) {</span>
+<span class="nc" id="L185">                score += 15;</span>
+            }
+        }
+
+        // Price level match (weight: 20)
+<span class="fc" id="L190">        maxScore += 20;</span>
+<span class="fc" id="L191">        int p1 = priceAnalyzer.categorizePriceLevel(r1);</span>
+<span class="fc" id="L192">        int p2 = priceAnalyzer.categorizePriceLevel(r2);</span>
+<span class="pc bpc" id="L193" title="2 of 4 branches missed.">        if (p1 &gt; 0 &amp;&amp; p2 &gt; 0) {</span>
+<span class="fc" id="L194">            int diff = Math.abs(p1 - p2);</span>
+<span class="fc" id="L195">            score += 20 - (diff * 7);</span>
+        }
+
+        // Rating similarity (weight: 20)
+<span class="fc" id="L199">        maxScore += 20;</span>
+<span class="fc" id="L200">        double rating1 = ratingService.calculateAverageRating(r1);</span>
+<span class="fc" id="L201">        double rating2 = ratingService.calculateAverageRating(r2);</span>
+<span class="pc bpc" id="L202" title="2 of 4 branches missed.">        if (rating1 &gt; 0 &amp;&amp; rating2 &gt; 0) {</span>
+<span class="fc" id="L203">            double ratingDiff = Math.abs(rating1 - rating2);</span>
+<span class="fc" id="L204">            score += Math.max(0, 20 - (ratingDiff * 5));</span>
+        }
+
+        // Location proximity (weight: 15)
+<span class="fc" id="L208">        maxScore += 15;</span>
+<span class="pc bpc" id="L209" title="2 of 4 branches missed.">        if (r1.getLocation() != null &amp;&amp; r2.getLocation() != null) {</span>
+<span class="fc" id="L210">            String city1 = r1.getLocation().getCity();</span>
+<span class="fc" id="L211">            String city2 = r2.getLocation().getCity();</span>
+<span class="pc bpc" id="L212" title="2 of 4 branches missed.">            if (city1 != null &amp;&amp; city1.equals(city2)) {</span>
+<span class="fc" id="L213">                score += 15;</span>
+            }
+        }
+
+        // Feature match (weight: 15)
+<span class="fc" id="L218">        maxScore += 15;</span>
+<span class="fc" id="L219">        int featureMatch = 0;</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">        if (r1.isHasDelivery() == r2.isHasDelivery())</span>
+<span class="fc" id="L221">            featureMatch++;</span>
+<span class="pc bpc" id="L222" title="1 of 2 branches missed.">        if (r1.isHasTakeout() == r2.isHasTakeout())</span>
+<span class="fc" id="L223">            featureMatch++;</span>
+<span class="pc bpc" id="L224" title="1 of 2 branches missed.">        if (r1.isHasParking() == r2.isHasParking())</span>
+<span class="fc" id="L225">            featureMatch++;</span>
+<span class="fc" id="L226">        score += featureMatch * 5;</span>
+
+<span class="pc bpc" id="L228" title="1 of 2 branches missed.">        return maxScore &gt; 0 ? score / maxScore : 0;</span>
+    }
+
+    /**
+     * Get popular restaurants based on review count and ratings.
+     * v(G) = ~8
+     */
+    public List&lt;Restaurant&gt; getPopularRestaurants(List&lt;Restaurant&gt; restaurants, int limit) {
+<span class="pc bpc" id="L236" title="1 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc" id="L237">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="pc bpc" id="L240" title="1 of 2 branches missed.">        if (limit &lt;= 0) {</span>
+<span class="nc" id="L241">            limit = 10;</span>
+        }
+
+<span class="fc" id="L244">        return restaurants.stream()</span>
+<span class="pc bpc" id="L245" title="2 of 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.isActive())</span>
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">                .filter(r -&gt; r.getReviewCount() &gt; 0)</span>
+<span class="fc" id="L247">                .sorted((r1, r2) -&gt; {</span>
+                    // Calculate popularity score
+<span class="fc" id="L249">                    double pop1 = calculatePopularityScore(r1);</span>
+<span class="fc" id="L250">                    double pop2 = calculatePopularityScore(r2);</span>
+<span class="fc" id="L251">                    return Double.compare(pop2, pop1);</span>
+                })
+<span class="fc" id="L253">                .limit(limit)</span>
+<span class="fc" id="L254">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Calculate popularity score.
+     * v(G) = ~6
+     */
+    private double calculatePopularityScore(Restaurant restaurant) {
+<span class="pc bpc" id="L262" title="1 of 2 branches missed.">        if (restaurant == null) {</span>
+<span class="nc" id="L263">            return 0;</span>
+        }
+
+<span class="fc" id="L266">        double rating = ratingService.calculateAverageRating(restaurant);</span>
+<span class="fc" id="L267">        int reviewCount = restaurant.getReviewCount();</span>
+
+        // Bayesian average to handle restaurants with few reviews
+<span class="fc" id="L270">        double avgRating = 3.5; // Platform average</span>
+<span class="fc" id="L271">        int minReviews = 5; // Minimum reviews for full weight</span>
+
+<span class="fc" id="L273">        double weightedRating = (reviewCount * rating + minReviews * avgRating)</span>
+                / (reviewCount + minReviews);
+
+        // Combine with review count (log scale)
+<span class="fc" id="L277">        double countFactor = Math.log10(reviewCount + 1) * 10;</span>
+
+<span class="fc" id="L279">        return weightedRating * 20 + countFactor;</span>
+    }
+
+    /**
+     * Find nearby restaurants.
+     * v(G) = ~10
+     */
+    public List&lt;Restaurant&gt; findNearby(Location userLocation,
+            List&lt;Restaurant&gt; restaurants,
+            double radiusKm) {
+<span class="pc bpc" id="L289" title="2 of 6 branches missed.">        if (userLocation == null || restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc" id="L290">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc bfc" id="L293" title="All 2 branches covered.">        if (radiusKm &lt;= 0) {</span>
+<span class="fc" id="L294">            radiusKm = 5.0; // Default 5km</span>
+        }
+
+<span class="fc" id="L297">        final double radius = radiusKm;</span>
+<span class="fc" id="L298">        List&lt;DistancedRestaurant&gt; nearby = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L300" title="All 2 branches covered.">        for (Restaurant restaurant : restaurants) {</span>
+<span class="pc bpc" id="L301" title="2 of 4 branches missed.">            if (restaurant == null || !restaurant.isActive()) {</span>
+<span class="nc" id="L302">                continue;</span>
+            }
+<span class="pc bpc" id="L304" title="1 of 2 branches missed.">            if (restaurant.getLocation() == null) {</span>
+<span class="nc" id="L305">                continue;</span>
+            }
+
+<span class="fc" id="L308">            double distance = calculateDistance(userLocation, restaurant.getLocation());</span>
+<span class="fc bfc" id="L309" title="All 2 branches covered.">            if (distance &lt;= radius) {</span>
+<span class="fc" id="L310">                nearby.add(new DistancedRestaurant(restaurant, distance));</span>
+            }
+<span class="fc" id="L312">        }</span>
+
+        // Sort by distance
+<span class="pc" id="L315">        nearby.sort(Comparator.comparingDouble(d -&gt; d.distance));</span>
+
+<span class="fc" id="L317">        return nearby.stream()</span>
+<span class="fc" id="L318">                .map(d -&gt; d.restaurant)</span>
+<span class="fc" id="L319">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Calculate distance between two locations using Haversine formula.
+     * v(G) = ~4
+     */
+    public double calculateDistance(Location from, Location to) {
+<span class="fc bfc" id="L327" title="All 4 branches covered.">        if (from == null || to == null) {</span>
+<span class="fc" id="L328">            return Double.MAX_VALUE;</span>
+        }
+
+<span class="fc" id="L331">        double lat1 = Math.toRadians(from.getLatitude());</span>
+<span class="fc" id="L332">        double lat2 = Math.toRadians(to.getLatitude());</span>
+<span class="fc" id="L333">        double deltaLat = Math.toRadians(to.getLatitude() - from.getLatitude());</span>
+<span class="fc" id="L334">        double deltaLon = Math.toRadians(to.getLongitude() - from.getLongitude());</span>
+
+<span class="fc" id="L336">        double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2)</span>
+<span class="fc" id="L337">                + Math.cos(lat1) * Math.cos(lat2)</span>
+<span class="fc" id="L338">                        * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);</span>
+
+<span class="fc" id="L340">        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));</span>
+
+<span class="fc" id="L342">        return EARTH_RADIUS_KM * c;</span>
+    }
+
+    /**
+     * Get restaurants sorted by distance.
+     * v(G) = ~4
+     */
+    public List&lt;Restaurant&gt; sortByDistance(Location userLocation,
+            List&lt;Restaurant&gt; restaurants) {
+<span class="pc bpc" id="L351" title="1 of 4 branches missed.">        if (userLocation == null || restaurants == null) {</span>
+<span class="fc" id="L352">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L355">        List&lt;DistancedRestaurant&gt; distanced = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L357" title="All 2 branches covered.">        for (Restaurant r : restaurants) {</span>
+<span class="pc bpc" id="L358" title="2 of 4 branches missed.">            if (r != null &amp;&amp; r.getLocation() != null) {</span>
+<span class="fc" id="L359">                double distance = calculateDistance(userLocation, r.getLocation());</span>
+<span class="fc" id="L360">                distanced.add(new DistancedRestaurant(r, distance));</span>
+            }
+<span class="fc" id="L362">        }</span>
+
+<span class="fc" id="L364">        distanced.sort(Comparator.comparingDouble(d -&gt; d.distance));</span>
+
+<span class="fc" id="L366">        return distanced.stream()</span>
+<span class="fc" id="L367">                .map(d -&gt; d.restaurant)</span>
+<span class="fc" id="L368">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Get top picks combining multiple factors.
+     * v(G) = ~8
+     */
+    public List&lt;Restaurant&gt; getTopPicks(List&lt;Restaurant&gt; restaurants,
+            Location userLocation,
+            int limit) {
+<span class="pc bpc" id="L378" title="1 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc" id="L379">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="pc bpc" id="L382" title="1 of 2 branches missed.">        if (limit &lt;= 0) {</span>
+<span class="nc" id="L383">            limit = 5;</span>
+        }
+
+<span class="fc" id="L386">        List&lt;ScoredRestaurant&gt; scored = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L388" title="All 2 branches covered.">        for (Restaurant restaurant : restaurants) {</span>
+<span class="pc bpc" id="L389" title="2 of 4 branches missed.">            if (restaurant == null || !restaurant.isActive()) {</span>
+<span class="nc" id="L390">                continue;</span>
+            }
+
+<span class="fc" id="L393">            double score = 0;</span>
+
+            // Rating factor (0-50)
+<span class="fc" id="L396">            double rating = ratingService.calculateAverageRating(restaurant);</span>
+<span class="fc" id="L397">            score += rating * 10;</span>
+
+            // Popularity factor (0-20)
+<span class="fc" id="L400">            score += Math.min(20, Math.log10(restaurant.getReviewCount() + 1) * 10);</span>
+
+            // Distance factor (0-30, if location available)
+<span class="pc bpc" id="L403" title="1 of 4 branches missed.">            if (userLocation != null &amp;&amp; restaurant.getLocation() != null) {</span>
+<span class="fc" id="L404">                double distance = calculateDistance(userLocation, restaurant.getLocation());</span>
+<span class="pc bpc" id="L405" title="1 of 2 branches missed.">                if (distance &lt;= 1) {</span>
+<span class="fc" id="L406">                    score += 30;</span>
+<span class="nc bnc" id="L407" title="All 2 branches missed.">                } else if (distance &lt;= 3) {</span>
+<span class="nc" id="L408">                    score += 20;</span>
+<span class="nc bnc" id="L409" title="All 2 branches missed.">                } else if (distance &lt;= 5) {</span>
+<span class="nc" id="L410">                    score += 10;</span>
+                }
+            }
+
+<span class="fc" id="L414">            scored.add(new ScoredRestaurant(restaurant, score));</span>
+<span class="fc" id="L415">        }</span>
+
+<span class="fc" id="L417">        scored.sort((a, b) -&gt; Double.compare(b.score, a.score));</span>
+
+<span class="fc" id="L419">        return scored.stream()</span>
+<span class="fc" id="L420">                .limit(limit)</span>
+<span class="fc" id="L421">                .map(s -&gt; s.restaurant)</span>
+<span class="fc" id="L422">                .collect(Collectors.toList());</span>
+    }
+
+    // Helper classes
+    private static class ScoredRestaurant {
+        Restaurant restaurant;
+        double score;
+
+<span class="fc" id="L430">        ScoredRestaurant(Restaurant restaurant, double score) {</span>
+<span class="fc" id="L431">            this.restaurant = restaurant;</span>
+<span class="fc" id="L432">            this.score = score;</span>
+<span class="fc" id="L433">        }</span>
+    }
+
+    private static class DistancedRestaurant {
+        Restaurant restaurant;
+        double distance;
+
+<span class="fc" id="L440">        DistancedRestaurant(Restaurant restaurant, double distance) {</span>
+<span class="fc" id="L441">            this.restaurant = restaurant;</span>
+<span class="fc" id="L442">            this.distance = distance;</span>
+<span class="fc" id="L443">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

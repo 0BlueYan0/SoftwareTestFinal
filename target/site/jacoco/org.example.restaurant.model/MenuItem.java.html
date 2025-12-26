@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MenuItem.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">final</a> &gt; <a href="index.source.html" class="el_package">org.example.restaurant.model</a> &gt; <span class="el_source">MenuItem.java</span></div><h1>MenuItem.java</h1><pre class="source lang-java linenums">package org.example.restaurant.model;
+
+import java.util.Objects;
+
+/**
+ * Represents a menu item in a restaurant.
+ */
+public class MenuItem {
+    private String id;
+    private String name;
+    private String description;
+    private double price;
+    private String category;
+    private boolean vegetarian;
+    private boolean vegan;
+    private boolean glutenFree;
+    private boolean spicy;
+    private boolean available;
+    private int calories;
+
+<span class="nc" id="L21">    public MenuItem() {</span>
+<span class="nc" id="L22">        this.available = true;</span>
+<span class="nc" id="L23">    }</span>
+
+<span class="fc" id="L25">    public MenuItem(String id, String name, double price) {</span>
+<span class="fc" id="L26">        this.id = id;</span>
+<span class="fc" id="L27">        this.name = name;</span>
+<span class="fc" id="L28">        this.price = price;</span>
+<span class="fc" id="L29">        this.available = true;</span>
+<span class="fc" id="L30">    }</span>
+
+    public MenuItem(String id, String name, double price, String category) {
+<span class="nc" id="L33">        this(id, name, price);</span>
+<span class="nc" id="L34">        this.category = category;</span>
+<span class="nc" id="L35">    }</span>
+
+    public String getId() {
+<span class="fc" id="L38">        return id;</span>
+    }
+
+    public void setId(String id) {
+<span class="nc" id="L42">        this.id = id;</span>
+<span class="nc" id="L43">    }</span>
+
+    public String getName() {
+<span class="fc" id="L46">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="nc" id="L50">        this.name = name;</span>
+<span class="nc" id="L51">    }</span>
+
+    public String getDescription() {
+<span class="fc" id="L54">        return description;</span>
+    }
+
+    public void setDescription(String description) {
+<span class="nc" id="L58">        this.description = description;</span>
+<span class="nc" id="L59">    }</span>
+
+    public double getPrice() {
+<span class="fc" id="L62">        return price;</span>
+    }
+
+    public void setPrice(double price) {
+<span class="nc" id="L66">        this.price = price;</span>
+<span class="nc" id="L67">    }</span>
+
+    public String getCategory() {
+<span class="fc" id="L70">        return category;</span>
+    }
+
+    public void setCategory(String category) {
+<span class="nc" id="L74">        this.category = category;</span>
+<span class="nc" id="L75">    }</span>
+
+    public boolean isVegetarian() {
+<span class="nc" id="L78">        return vegetarian;</span>
+    }
+
+    public void setVegetarian(boolean vegetarian) {
+<span class="fc" id="L82">        this.vegetarian = vegetarian;</span>
+<span class="fc" id="L83">    }</span>
+
+    public boolean isVegan() {
+<span class="nc" id="L86">        return vegan;</span>
+    }
+
+    public void setVegan(boolean vegan) {
+<span class="fc" id="L90">        this.vegan = vegan;</span>
+<span class="fc" id="L91">    }</span>
+
+    public boolean isGlutenFree() {
+<span class="nc" id="L94">        return glutenFree;</span>
+    }
+
+    public void setGlutenFree(boolean glutenFree) {
+<span class="fc" id="L98">        this.glutenFree = glutenFree;</span>
+<span class="fc" id="L99">    }</span>
+
+    public boolean isSpicy() {
+<span class="nc" id="L102">        return spicy;</span>
+    }
+
+    public void setSpicy(boolean spicy) {
+<span class="nc" id="L106">        this.spicy = spicy;</span>
+<span class="nc" id="L107">    }</span>
+
+    public boolean isAvailable() {
+<span class="fc" id="L110">        return available;</span>
+    }
+
+    public void setAvailable(boolean available) {
+<span class="fc" id="L114">        this.available = available;</span>
+<span class="fc" id="L115">    }</span>
+
+    public int getCalories() {
+<span class="fc" id="L118">        return calories;</span>
+    }
+
+    public void setCalories(int calories) {
+<span class="nc" id="L122">        this.calories = calories;</span>
+<span class="nc" id="L123">    }</span>
+
+    public boolean matchesDietaryRestrictions(boolean requireVegetarian, boolean requireVegan,
+            boolean requireGlutenFree) {
+<span class="pc bpc" id="L127" title="1 of 4 branches missed.">        if (requireVegetarian &amp;&amp; !vegetarian) {</span>
+<span class="nc" id="L128">            return false;</span>
+        }
+<span class="pc bpc" id="L130" title="1 of 4 branches missed.">        if (requireVegan &amp;&amp; !vegan) {</span>
+<span class="fc" id="L131">            return false;</span>
+        }
+<span class="pc bpc" id="L133" title="2 of 4 branches missed.">        if (requireGlutenFree &amp;&amp; !glutenFree) {</span>
+<span class="nc" id="L134">            return false;</span>
+        }
+<span class="fc" id="L136">        return true;</span>
+    }
+
+    public boolean isInPriceRange(double minPrice, double maxPrice) {
+<span class="pc bpc" id="L140" title="1 of 4 branches missed.">        if (minPrice &lt; 0 || maxPrice &lt; 0) {</span>
+<span class="fc" id="L141">            return false;</span>
+        }
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        if (minPrice &gt; maxPrice) {</span>
+<span class="fc" id="L144">            return false;</span>
+        }
+<span class="pc bpc" id="L146" title="2 of 4 branches missed.">        return price &gt;= minPrice &amp;&amp; price &lt;= maxPrice;</span>
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        if (this == o)</span>
+<span class="nc" id="L152">            return true;</span>
+<span class="nc bnc" id="L153" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass())</span>
+<span class="nc" id="L154">            return false;</span>
+<span class="nc" id="L155">        MenuItem menuItem = (MenuItem) o;</span>
+<span class="nc" id="L156">        return Objects.equals(id, menuItem.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L161">        return Objects.hash(id);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L166">        return &quot;MenuItem{&quot; +</span>
+                &quot;id='&quot; + id + '\'' +
+                &quot;, name='&quot; + name + '\'' +
+                &quot;, price=&quot; + price +
+                &quot;, category='&quot; + category + '\'' +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestaurantSearchService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">final</a> &gt; <a href="index.source.html" class="el_package">org.example.restaurant.service</a> &gt; <span class="el_source">RestaurantSearchService.java</span></div><h1>RestaurantSearchService.java</h1><pre class="source lang-java linenums">package org.example.restaurant.service;
+
+import org.example.restaurant.model.*;
+import org.example.restaurant.repository.RestaurantRepository;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+/**
+ * Main service for searching and filtering restaurants.
+ */
+public class RestaurantSearchService {
+
+    private final RestaurantRepository repository;
+    private final RatingService ratingService;
+    private final PriceAnalyzer priceAnalyzer;
+    private final BusinessHoursService businessHoursService;
+    private final RecommendationService recommendationService;
+
+<span class="fc" id="L20">    public RestaurantSearchService(RestaurantRepository repository) {</span>
+<span class="fc" id="L21">        this.repository = repository;</span>
+<span class="fc" id="L22">        this.ratingService = new RatingService();</span>
+<span class="fc" id="L23">        this.priceAnalyzer = new PriceAnalyzer();</span>
+<span class="fc" id="L24">        this.businessHoursService = new BusinessHoursService();</span>
+<span class="fc" id="L25">        this.recommendationService = new RecommendationService(ratingService, priceAnalyzer);</span>
+<span class="fc" id="L26">    }</span>
+
+    /**
+     * Search restaurants by name (exact match).
+     * v(G) = ~5
+     */
+    public List&lt;Restaurant&gt; searchByName(String name) {
+<span class="fc bfc" id="L33" title="All 4 branches covered.">        if (name == null || name.trim().isEmpty()) {</span>
+<span class="fc" id="L34">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L37">        return repository.findAll().stream()</span>
+<span class="pc bpc" id="L38" title="1 of 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.isActive())</span>
+<span class="pc bpc" id="L39" title="1 of 4 branches missed.">                .filter(r -&gt; r.getName() != null &amp;&amp; r.getName().equalsIgnoreCase(name.trim()))</span>
+<span class="fc" id="L40">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Search restaurants by name (fuzzy match).
+     * v(G) = ~8
+     */
+    public List&lt;Restaurant&gt; searchByNameFuzzy(String keyword) {
+<span class="pc bpc" id="L48" title="1 of 4 branches missed.">        if (keyword == null || keyword.trim().isEmpty()) {</span>
+<span class="fc" id="L49">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L52">        String lowerKeyword = keyword.trim().toLowerCase();</span>
+
+<span class="fc" id="L54">        return repository.findAll().stream()</span>
+<span class="pc bpc" id="L55" title="1 of 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.isActive())</span>
+<span class="fc" id="L56">                .filter(r -&gt; {</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">                    if (r.getName() == null) {</span>
+<span class="nc" id="L58">                        return false;</span>
+                    }
+<span class="fc" id="L60">                    String lowerName = r.getName().toLowerCase();</span>
+                    // Check for contains or starts with
+<span class="fc bfc" id="L62" title="All 2 branches covered.">                    return lowerName.contains(lowerKeyword)</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">                            || lowerName.startsWith(lowerKeyword)</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">                            || calculateLevenshteinSimilarity(lowerName, lowerKeyword) &gt; 0.6;</span>
+                })
+<span class="fc" id="L66">                .sorted((r1, r2) -&gt; {</span>
+                    // Prioritize exact starts with
+<span class="nc" id="L68">                    boolean s1 = r1.getName().toLowerCase().startsWith(lowerKeyword);</span>
+<span class="nc" id="L69">                    boolean s2 = r2.getName().toLowerCase().startsWith(lowerKeyword);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                    if (s1 != s2) {</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">                        return s1 ? -1 : 1;</span>
+                    }
+<span class="nc" id="L73">                    return r1.getName().compareToIgnoreCase(r2.getName());</span>
+                })
+<span class="fc" id="L75">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Calculate Levenshtein similarity for fuzzy matching.
+     * v(G) = ~6
+     */
+    private double calculateLevenshteinSimilarity(String s1, String s2) {
+<span class="pc bpc" id="L83" title="2 of 4 branches missed.">        if (s1 == null || s2 == null) {</span>
+<span class="nc" id="L84">            return 0.0;</span>
+        }
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">        if (s1.equals(s2)) {</span>
+<span class="nc" id="L87">            return 1.0;</span>
+        }
+
+<span class="fc" id="L90">        int[][] dp = new int[s1.length() + 1][s2.length() + 1];</span>
+
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        for (int i = 0; i &lt;= s1.length(); i++) {</span>
+<span class="fc" id="L93">            dp[i][0] = i;</span>
+        }
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        for (int j = 0; j &lt;= s2.length(); j++) {</span>
+<span class="fc" id="L96">            dp[0][j] = j;</span>
+        }
+
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        for (int i = 1; i &lt;= s1.length(); i++) {</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">            for (int j = 1; j &lt;= s2.length(); j++) {</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">                int cost = s1.charAt(i - 1) == s2.charAt(j - 1) ? 0 : 1;</span>
+<span class="fc" id="L102">                dp[i][j] = Math.min(Math.min(</span>
+                        dp[i - 1][j] + 1,
+                        dp[i][j - 1] + 1),
+                        dp[i - 1][j - 1] + cost);
+            }
+        }
+
+<span class="fc" id="L109">        int maxLen = Math.max(s1.length(), s2.length());</span>
+<span class="fc" id="L110">        return 1.0 - ((double) dp[s1.length()][s2.length()] / maxLen);</span>
+    }
+
+    /**
+     * Search restaurants by city.
+     * v(G) = ~6
+     */
+    public List&lt;Restaurant&gt; searchByCity(String city) {
+<span class="pc bpc" id="L118" title="1 of 4 branches missed.">        if (city == null || city.trim().isEmpty()) {</span>
+<span class="fc" id="L119">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L122">        String lowerCity = city.trim().toLowerCase();</span>
+
+<span class="fc" id="L124">        return repository.findAll().stream()</span>
+<span class="pc bpc" id="L125" title="1 of 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.isActive())</span>
+<span class="fc" id="L126">                .filter(r -&gt; {</span>
+<span class="pc bpc" id="L127" title="2 of 4 branches missed.">                    if (r.getLocation() == null || r.getLocation().getCity() == null) {</span>
+<span class="nc" id="L128">                        return false;</span>
+                    }
+<span class="fc" id="L130">                    return r.getLocation().getCity().toLowerCase().contains(lowerCity);</span>
+                })
+<span class="fc" id="L132">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Search restaurants by district.
+     * v(G) = ~6
+     */
+    public List&lt;Restaurant&gt; searchByDistrict(String district) {
+<span class="pc bpc" id="L140" title="3 of 4 branches missed.">        if (district == null || district.trim().isEmpty()) {</span>
+<span class="fc" id="L141">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="nc" id="L144">        String lowerDistrict = district.trim().toLowerCase();</span>
+
+<span class="nc" id="L146">        return repository.findAll().stream()</span>
+<span class="nc bnc" id="L147" title="All 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.isActive())</span>
+<span class="nc" id="L148">                .filter(r -&gt; {</span>
+<span class="nc bnc" id="L149" title="All 4 branches missed.">                    if (r.getLocation() == null || r.getLocation().getDistrict() == null) {</span>
+<span class="nc" id="L150">                        return false;</span>
+                    }
+<span class="nc" id="L152">                    return r.getLocation().getDistrict().toLowerCase().contains(lowerDistrict);</span>
+                })
+<span class="nc" id="L154">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Search restaurants by cuisine type.
+     * v(G) = ~5
+     */
+    public List&lt;Restaurant&gt; searchByCuisineType(CuisineType cuisineType) {
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (cuisineType == null) {</span>
+<span class="fc" id="L163">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L166">        return repository.findAll().stream()</span>
+<span class="pc bpc" id="L167" title="1 of 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.isActive())</span>
+<span class="fc" id="L168">                .filter(r -&gt; r.hasCuisineType(cuisineType))</span>
+<span class="fc" id="L169">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Search restaurants by multiple cuisine types.
+     * v(G) = ~7
+     */
+    public List&lt;Restaurant&gt; searchByMultipleCuisineTypes(Set&lt;CuisineType&gt; cuisineTypes) {
+<span class="pc bpc" id="L177" title="1 of 4 branches missed.">        if (cuisineTypes == null || cuisineTypes.isEmpty()) {</span>
+<span class="fc" id="L178">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L181">        return repository.findAll().stream()</span>
+<span class="pc bpc" id="L182" title="1 of 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.isActive())</span>
+<span class="fc" id="L183">                .filter(r -&gt; {</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">                    for (CuisineType type : cuisineTypes) {</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">                        if (r.hasCuisineType(type)) {</span>
+<span class="fc" id="L186">                            return true;</span>
+                        }
+<span class="fc" id="L188">                    }</span>
+<span class="fc" id="L189">                    return false;</span>
+                })
+<span class="fc" id="L191">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Search with multiple criteria.
+     * v(G) = ~25
+     */
+    public List&lt;Restaurant&gt; searchByMultipleCriteria(SearchCriteria criteria) {
+<span class="fc bfc" id="L199" title="All 2 branches covered.">        if (criteria == null) {</span>
+<span class="fc" id="L200">            return getAllRestaurants(); // Return only active restaurants</span>
+        }
+
+<span class="fc" id="L203">        List&lt;Restaurant&gt; results = repository.findAll().stream()</span>
+<span class="pc bpc" id="L204" title="1 of 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.isActive())</span>
+<span class="fc" id="L205">                .collect(Collectors.toList());</span>
+
+        // Apply keyword filter
+<span class="pc bpc" id="L208" title="1 of 4 branches missed.">        if (criteria.getKeyword() != null &amp;&amp; !criteria.getKeyword().trim().isEmpty()) {</span>
+<span class="fc" id="L209">            String keyword = criteria.getKeyword().trim().toLowerCase();</span>
+<span class="fc" id="L210">            results = results.stream()</span>
+<span class="fc" id="L211">                    .filter(r -&gt; r.matchesKeyword(keyword))</span>
+<span class="fc" id="L212">                    .collect(Collectors.toList());</span>
+        }
+
+        // Apply city filter
+<span class="pc bpc" id="L216" title="1 of 4 branches missed.">        if (criteria.getCity() != null &amp;&amp; !criteria.getCity().trim().isEmpty()) {</span>
+<span class="fc" id="L217">            String city = criteria.getCity().trim().toLowerCase();</span>
+<span class="fc" id="L218">            results = results.stream()</span>
+<span class="pc bpc" id="L219" title="1 of 2 branches missed.">                    .filter(r -&gt; r.getLocation() != null</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">                            &amp;&amp; r.getLocation().getCity() != null</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">                            &amp;&amp; r.getLocation().getCity().toLowerCase().contains(city))</span>
+<span class="fc" id="L222">                    .collect(Collectors.toList());</span>
+        }
+
+        // Apply district filter
+<span class="pc bpc" id="L226" title="3 of 4 branches missed.">        if (criteria.getDistrict() != null &amp;&amp; !criteria.getDistrict().trim().isEmpty()) {</span>
+<span class="nc" id="L227">            String district = criteria.getDistrict().trim().toLowerCase();</span>
+<span class="nc" id="L228">            results = results.stream()</span>
+<span class="nc bnc" id="L229" title="All 2 branches missed.">                    .filter(r -&gt; r.getLocation() != null</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">                            &amp;&amp; r.getLocation().getDistrict() != null</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">                            &amp;&amp; r.getLocation().getDistrict().toLowerCase().contains(district))</span>
+<span class="nc" id="L232">                    .collect(Collectors.toList());</span>
+        }
+
+        // Apply cuisine type filter
+<span class="fc bfc" id="L236" title="All 2 branches covered.">        if (criteria.getCuisineType() != null) {</span>
+<span class="fc" id="L237">            CuisineType type = criteria.getCuisineType();</span>
+<span class="fc" id="L238">            results = results.stream()</span>
+<span class="fc" id="L239">                    .filter(r -&gt; r.hasCuisineType(type))</span>
+<span class="fc" id="L240">                    .collect(Collectors.toList());</span>
+        }
+
+        // Apply multiple cuisine types filter
+<span class="pc bpc" id="L244" title="2 of 4 branches missed.">        if (criteria.getCuisineTypes() != null &amp;&amp; !criteria.getCuisineTypes().isEmpty()) {</span>
+<span class="nc" id="L245">            Set&lt;CuisineType&gt; types = criteria.getCuisineTypes();</span>
+<span class="nc" id="L246">            results = results.stream()</span>
+<span class="nc" id="L247">                    .filter(r -&gt; {</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">                        for (CuisineType t : types) {</span>
+<span class="nc bnc" id="L249" title="All 2 branches missed.">                            if (r.hasCuisineType(t)) {</span>
+<span class="nc" id="L250">                                return true;</span>
+                            }
+<span class="nc" id="L252">                        }</span>
+<span class="nc" id="L253">                        return false;</span>
+                    })
+<span class="nc" id="L255">                    .collect(Collectors.toList());</span>
+        }
+
+        // Apply rating filter
+<span class="pc bpc" id="L259" title="1 of 2 branches missed.">        if (criteria.hasRatingFilter()) {</span>
+<span class="nc" id="L260">            results = ratingService.filterByRatingRange(results,</span>
+<span class="nc" id="L261">                    criteria.getMinRating(), criteria.getMaxRating());</span>
+        }
+
+        // Apply price filter
+<span class="pc bpc" id="L265" title="1 of 2 branches missed.">        if (criteria.hasPriceFilter()) {</span>
+<span class="nc bnc" id="L266" title="All 2 branches missed.">            if (criteria.getPriceLevel() != null) {</span>
+<span class="nc" id="L267">                results = priceAnalyzer.filterByPriceLevel(results, criteria.getPriceLevel());</span>
+            } else {
+<span class="nc" id="L269">                results = priceAnalyzer.filterByPriceRange(results,</span>
+<span class="nc" id="L270">                        criteria.getMinPrice(), criteria.getMaxPrice());</span>
+            }
+        }
+
+        // Apply open now filter
+<span class="pc bpc" id="L275" title="1 of 2 branches missed.">        if (Boolean.TRUE.equals(criteria.getOpenNow())) {</span>
+<span class="nc" id="L276">            results = businessHoursService.findOpenNow(results);</span>
+        }
+
+        // Apply feature filters
+<span class="fc bfc" id="L280" title="All 2 branches covered.">        if (Boolean.TRUE.equals(criteria.getHasDelivery())) {</span>
+<span class="fc" id="L281">            results = results.stream()</span>
+<span class="fc" id="L282">                    .filter(Restaurant::isHasDelivery)</span>
+<span class="fc" id="L283">                    .collect(Collectors.toList());</span>
+        }
+<span class="pc bpc" id="L285" title="1 of 2 branches missed.">        if (Boolean.TRUE.equals(criteria.getHasTakeout())) {</span>
+<span class="nc" id="L286">            results = results.stream()</span>
+<span class="nc" id="L287">                    .filter(Restaurant::isHasTakeout)</span>
+<span class="nc" id="L288">                    .collect(Collectors.toList());</span>
+        }
+<span class="fc bfc" id="L290" title="All 2 branches covered.">        if (Boolean.TRUE.equals(criteria.getHasParking())) {</span>
+<span class="fc" id="L291">            results = results.stream()</span>
+<span class="fc" id="L292">                    .filter(Restaurant::isHasParking)</span>
+<span class="fc" id="L293">                    .collect(Collectors.toList());</span>
+        }
+<span class="fc bfc" id="L295" title="All 2 branches covered.">        if (Boolean.TRUE.equals(criteria.getAcceptsReservations())) {</span>
+<span class="fc" id="L296">            results = results.stream()</span>
+<span class="fc" id="L297">                    .filter(Restaurant::isAcceptsReservations)</span>
+<span class="fc" id="L298">                    .collect(Collectors.toList());</span>
+        }
+
+        // Apply location filter
+<span class="pc bpc" id="L302" title="1 of 2 branches missed.">        if (criteria.hasLocationFilter()) {</span>
+<span class="nc" id="L303">            Location userLocation = new Location(criteria.getLatitude(), criteria.getLongitude());</span>
+<span class="nc" id="L304">            results = recommendationService.findNearby(userLocation, results, criteria.getRadiusKm());</span>
+        }
+
+        // Apply sorting
+<span class="fc" id="L308">        results = sortResults(results, criteria);</span>
+
+        // Apply pagination
+<span class="fc" id="L311">        int offset = criteria.getOffset();</span>
+<span class="fc" id="L312">        int limit = criteria.getLimit();</span>
+
+<span class="fc bfc" id="L314" title="All 2 branches covered.">        if (offset &gt;= results.size()) {</span>
+<span class="fc" id="L315">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L318">        int endIndex = Math.min(offset + limit, results.size());</span>
+<span class="fc" id="L319">        return results.subList(offset, endIndex);</span>
+    }
+
+    /**
+     * Sort search results based on criteria.
+     * v(G) = ~10
+     */
+    public List&lt;Restaurant&gt; sortResults(List&lt;Restaurant&gt; results, SearchCriteria criteria) {
+<span class="pc bpc" id="L327" title="2 of 4 branches missed.">        if (results == null || results.isEmpty()) {</span>
+<span class="nc" id="L328">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="pc bpc" id="L331" title="1 of 4 branches missed.">        if (criteria == null || criteria.getSortBy() == null) {</span>
+<span class="fc" id="L332">            return new ArrayList&lt;&gt;(results);</span>
+        }
+
+        Comparator&lt;Restaurant&gt; comparator;
+
+<span class="pc bpc" id="L337" title="4 of 6 branches missed.">        switch (criteria.getSortBy()) {</span>
+            case NAME:
+<span class="fc" id="L339">                comparator = Comparator.comparing(</span>
+<span class="pc bpc" id="L340" title="1 of 2 branches missed.">                        r -&gt; r.getName() != null ? r.getName() : &quot;&quot;,</span>
+                        String.CASE_INSENSITIVE_ORDER);
+<span class="fc" id="L342">                break;</span>
+            case RATING:
+<span class="fc" id="L344">                comparator = Comparator.comparingDouble(</span>
+<span class="fc" id="L345">                        r -&gt; ratingService.calculateAverageRating(r));</span>
+<span class="fc" id="L346">                break;</span>
+            case PRICE:
+<span class="nc" id="L348">                comparator = Comparator.comparingDouble(</span>
+<span class="nc" id="L349">                        r -&gt; priceAnalyzer.calculateAveragePrice(r));</span>
+<span class="nc" id="L350">                break;</span>
+            case REVIEW_COUNT:
+<span class="nc" id="L352">                comparator = Comparator.comparingInt(Restaurant::getReviewCount);</span>
+<span class="nc" id="L353">                break;</span>
+            case DISTANCE:
+<span class="nc bnc" id="L355" title="All 2 branches missed.">                if (criteria.hasLocationFilter()) {</span>
+<span class="nc" id="L356">                    Location userLocation = new Location(criteria.getLatitude(), criteria.getLongitude());</span>
+<span class="nc" id="L357">                    comparator = Comparator.comparingDouble(</span>
+<span class="nc bnc" id="L358" title="All 2 branches missed.">                            r -&gt; r.getLocation() != null</span>
+<span class="nc" id="L359">                                    ? recommendationService.calculateDistance(userLocation, r.getLocation())</span>
+<span class="nc" id="L360">                                    : Double.MAX_VALUE);</span>
+<span class="nc" id="L361">                } else {</span>
+<span class="nc bnc" id="L362" title="All 2 branches missed.">                    comparator = Comparator.comparing(r -&gt; r.getName() != null ? r.getName() : &quot;&quot;);</span>
+                }
+<span class="nc" id="L364">                break;</span>
+            case RELEVANCE:
+            default:
+                // For relevance, prioritize by rating * review count
+<span class="nc" id="L368">                comparator = Comparator.comparingDouble(</span>
+<span class="nc" id="L369">                        r -&gt; ratingService.calculateAverageRating(r) * Math.log10(r.getReviewCount() + 1));</span>
+                break;
+        }
+
+<span class="fc bfc" id="L373" title="All 2 branches covered.">        if (!criteria.isAscending()) {</span>
+<span class="fc" id="L374">            comparator = comparator.reversed();</span>
+        }
+
+<span class="fc" id="L377">        return results.stream()</span>
+<span class="fc" id="L378">                .sorted(comparator)</span>
+<span class="fc" id="L379">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Get all restaurants.
+     */
+    public List&lt;Restaurant&gt; getAllRestaurants() {
+<span class="fc" id="L386">        return repository.findAll().stream()</span>
+<span class="pc bpc" id="L387" title="1 of 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.isActive())</span>
+<span class="fc" id="L388">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Count total restaurants.
+     */
+    public long countRestaurants() {
+<span class="fc" id="L395">        return repository.findAll().stream()</span>
+<span class="pc bpc" id="L396" title="1 of 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.isActive())</span>
+<span class="fc" id="L397">                .count();</span>
+    }
+
+    /**
+     * Search with keyword across multiple fields.
+     * v(G) = ~8
+     */
+    public List&lt;Restaurant&gt; searchGlobal(String keyword) {
+<span class="pc bpc" id="L405" title="1 of 4 branches missed.">        if (keyword == null || keyword.trim().isEmpty()) {</span>
+<span class="fc" id="L406">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="fc" id="L409">        String lowerKeyword = keyword.trim().toLowerCase();</span>
+
+<span class="fc" id="L411">        return repository.findAll().stream()</span>
+<span class="pc bpc" id="L412" title="1 of 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.isActive())</span>
+<span class="fc" id="L413">                .filter(r -&gt; matchesGlobalSearch(r, lowerKeyword))</span>
+<span class="fc" id="L414">                .sorted((r1, r2) -&gt; {</span>
+                    // Prioritize name matches
+<span class="nc bnc" id="L416" title="All 2 branches missed.">                    boolean name1 = r1.getName() != null</span>
+<span class="nc bnc" id="L417" title="All 2 branches missed.">                            &amp;&amp; r1.getName().toLowerCase().contains(lowerKeyword);</span>
+<span class="nc bnc" id="L418" title="All 2 branches missed.">                    boolean name2 = r2.getName() != null</span>
+<span class="nc bnc" id="L419" title="All 2 branches missed.">                            &amp;&amp; r2.getName().toLowerCase().contains(lowerKeyword);</span>
+<span class="nc bnc" id="L420" title="All 2 branches missed.">                    if (name1 != name2) {</span>
+<span class="nc bnc" id="L421" title="All 2 branches missed.">                        return name1 ? -1 : 1;</span>
+                    }
+<span class="nc" id="L423">                    return 0;</span>
+                })
+<span class="fc" id="L425">                .collect(Collectors.toList());</span>
+    }
+
+    private boolean matchesGlobalSearch(Restaurant r, String keyword) {
+        // Check name
+<span class="pc bpc" id="L430" title="1 of 4 branches missed.">        if (r.getName() != null &amp;&amp; r.getName().toLowerCase().contains(keyword)) {</span>
+<span class="fc" id="L431">            return true;</span>
+        }
+        // Check description
+<span class="pc bpc" id="L434" title="3 of 4 branches missed.">        if (r.getDescription() != null &amp;&amp; r.getDescription().toLowerCase().contains(keyword)) {</span>
+<span class="nc" id="L435">            return true;</span>
+        }
+        // Check cuisine type
+<span class="pc bpc" id="L438" title="1 of 2 branches missed.">        if (r.getCuisineType() != null &amp;&amp;</span>
+<span class="pc bpc" id="L439" title="1 of 2 branches missed.">                r.getCuisineType().getDisplayName().toLowerCase().contains(keyword)) {</span>
+<span class="nc" id="L440">            return true;</span>
+        }
+        // Check city
+<span class="pc bpc" id="L443" title="2 of 4 branches missed.">        if (r.getLocation() != null &amp;&amp; r.getLocation().getCity() != null &amp;&amp;</span>
+<span class="pc bpc" id="L444" title="1 of 2 branches missed.">                r.getLocation().getCity().toLowerCase().contains(keyword)) {</span>
+<span class="nc" id="L445">            return true;</span>
+        }
+        // Check address
+<span class="pc bpc" id="L448" title="2 of 4 branches missed.">        if (r.getLocation() != null &amp;&amp; r.getLocation().getAddress() != null &amp;&amp;</span>
+<span class="pc bpc" id="L449" title="1 of 2 branches missed.">                r.getLocation().getAddress().toLowerCase().contains(keyword)) {</span>
+<span class="nc" id="L450">            return true;</span>
+        }
+<span class="fc" id="L452">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
