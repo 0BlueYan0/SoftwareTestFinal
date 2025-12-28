@@ -20,26 +20,26 @@ public class RestaurantRepository {
 <span class="fc" id="L20">    }</span>
 
     public Restaurant save(Restaurant restaurant) {
-<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        if (restaurant == null) {</span>
-<span class="nc" id="L24">            throw new IllegalArgumentException(&quot;Restaurant cannot be null&quot;);</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (restaurant == null) {</span>
+<span class="fc" id="L24">            throw new IllegalArgumentException(&quot;Restaurant cannot be null&quot;);</span>
         }
-<span class="pc bpc" id="L26" title="2 of 4 branches missed.">        if (restaurant.getId() == null || restaurant.getId().trim().isEmpty()) {</span>
-<span class="nc" id="L27">            throw new IllegalArgumentException(&quot;Restaurant ID cannot be null or empty&quot;);</span>
+<span class="fc bfc" id="L26" title="All 4 branches covered.">        if (restaurant.getId() == null || restaurant.getId().trim().isEmpty()) {</span>
+<span class="fc" id="L27">            throw new IllegalArgumentException(&quot;Restaurant ID cannot be null or empty&quot;);</span>
         }
 <span class="fc" id="L29">        restaurants.put(restaurant.getId(), restaurant);</span>
 <span class="fc" id="L30">        return restaurant;</span>
     }
 
     public Optional&lt;Restaurant&gt; findById(String id) {
-<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (id == null) {</span>
-<span class="nc" id="L35">            return Optional.empty();</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (id == null) {</span>
+<span class="fc" id="L35">            return Optional.empty();</span>
         }
 <span class="fc" id="L37">        return Optional.ofNullable(restaurants.get(id));</span>
     }
 
     public Restaurant getById(String id) {
-<span class="pc" id="L41">        return findById(id)</span>
-<span class="pc" id="L42">                .orElseThrow(() -&gt; new RestaurantNotFoundException(&quot;Restaurant not found with id: &quot; + id, id));</span>
+<span class="fc" id="L41">        return findById(id)</span>
+<span class="fc" id="L42">                .orElseThrow(() -&gt; new RestaurantNotFoundException(&quot;Restaurant not found with id: &quot; + id, id));</span>
     }
 
     public List&lt;Restaurant&gt; findAll() {
@@ -47,36 +47,36 @@ public class RestaurantRepository {
     }
 
     public List&lt;Restaurant&gt; findByName(String name) {
-<span class="nc bnc" id="L50" title="All 4 branches missed.">        if (name == null || name.trim().isEmpty()) {</span>
-<span class="nc" id="L51">            return new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L50" title="All 4 branches covered.">        if (name == null || name.trim().isEmpty()) {</span>
+<span class="fc" id="L51">            return new ArrayList&lt;&gt;();</span>
         }
-<span class="nc" id="L53">        List&lt;Restaurant&gt; result = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L54">        String lowerName = name.toLowerCase();</span>
-<span class="nc bnc" id="L55" title="All 2 branches missed.">        for (Restaurant restaurant : restaurants.values()) {</span>
-<span class="nc bnc" id="L56" title="All 2 branches missed.">            if (restaurant.getName() != null &amp;&amp;</span>
-<span class="nc bnc" id="L57" title="All 2 branches missed.">                    restaurant.getName().toLowerCase().contains(lowerName)) {</span>
-<span class="nc" id="L58">                result.add(restaurant);</span>
+<span class="fc" id="L53">        List&lt;Restaurant&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L54">        String lowerName = name.toLowerCase();</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        for (Restaurant restaurant : restaurants.values()) {</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">            if (restaurant.getName() != null &amp;&amp;</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">                    restaurant.getName().toLowerCase().contains(lowerName)) {</span>
+<span class="fc" id="L58">                result.add(restaurant);</span>
             }
-<span class="nc" id="L60">        }</span>
-<span class="nc" id="L61">        return result;</span>
+<span class="fc" id="L60">        }</span>
+<span class="fc" id="L61">        return result;</span>
     }
 
     public void delete(String id) {
-<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (id != null) {</span>
-<span class="nc" id="L66">            restaurants.remove(id);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (id != null) {</span>
+<span class="fc" id="L66">            restaurants.remove(id);</span>
         }
-<span class="nc" id="L68">    }</span>
+<span class="fc" id="L68">    }</span>
 
     public void deleteAll() {
-<span class="nc" id="L71">        restaurants.clear();</span>
-<span class="nc" id="L72">    }</span>
+<span class="fc" id="L71">        restaurants.clear();</span>
+<span class="fc" id="L72">    }</span>
 
     public boolean exists(String id) {
-<span class="nc bnc" id="L75" title="All 4 branches missed.">        return id != null &amp;&amp; restaurants.containsKey(id);</span>
+<span class="fc bfc" id="L75" title="All 4 branches covered.">        return id != null &amp;&amp; restaurants.containsKey(id);</span>
     }
 
     public long count() {
 <span class="fc" id="L79">        return restaurants.size();</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -37,51 +37,51 @@ public class Review {
     }
 
     public void setId(String id) {
-<span class="nc" id="L40">        this.id = id;</span>
-<span class="nc" id="L41">    }</span>
+<span class="fc" id="L40">        this.id = id;</span>
+<span class="fc" id="L41">    }</span>
 
     public String getRestaurantId() {
 <span class="fc" id="L44">        return restaurantId;</span>
     }
 
     public void setRestaurantId(String restaurantId) {
-<span class="nc" id="L48">        this.restaurantId = restaurantId;</span>
-<span class="nc" id="L49">    }</span>
+<span class="fc" id="L48">        this.restaurantId = restaurantId;</span>
+<span class="fc" id="L49">    }</span>
 
     public String getUserId() {
-<span class="nc" id="L52">        return userId;</span>
+<span class="fc" id="L52">        return userId;</span>
     }
 
     public void setUserId(String userId) {
-<span class="nc" id="L56">        this.userId = userId;</span>
-<span class="nc" id="L57">    }</span>
+<span class="fc" id="L56">        this.userId = userId;</span>
+<span class="fc" id="L57">    }</span>
 
     public String getUserName() {
 <span class="fc" id="L60">        return userName;</span>
     }
 
     public void setUserName(String userName) {
-<span class="nc" id="L64">        this.userName = userName;</span>
-<span class="nc" id="L65">    }</span>
+<span class="fc" id="L64">        this.userName = userName;</span>
+<span class="fc" id="L65">    }</span>
 
     public int getRating() {
 <span class="fc" id="L68">        return rating;</span>
     }
 
     public void setRating(int rating) {
-<span class="nc" id="L72">        this.rating = rating;</span>
-<span class="nc" id="L73">    }</span>
+<span class="fc" id="L72">        this.rating = rating;</span>
+<span class="fc" id="L73">    }</span>
 
     public String getComment() {
 <span class="fc" id="L76">        return comment;</span>
     }
 
     public void setComment(String comment) {
-<span class="nc" id="L80">        this.comment = comment;</span>
-<span class="nc" id="L81">    }</span>
+<span class="fc" id="L80">        this.comment = comment;</span>
+<span class="fc" id="L81">    }</span>
 
     public LocalDateTime getCreatedAt() {
-<span class="nc" id="L84">        return createdAt;</span>
+<span class="fc" id="L84">        return createdAt;</span>
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
@@ -89,20 +89,20 @@ public class Review {
 <span class="fc" id="L89">    }</span>
 
     public LocalDateTime getUpdatedAt() {
-<span class="nc" id="L92">        return updatedAt;</span>
+<span class="fc" id="L92">        return updatedAt;</span>
     }
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
-<span class="nc" id="L96">        this.updatedAt = updatedAt;</span>
-<span class="nc" id="L97">    }</span>
+<span class="fc" id="L96">        this.updatedAt = updatedAt;</span>
+<span class="fc" id="L97">    }</span>
 
     public int getHelpfulCount() {
 <span class="fc" id="L100">        return helpfulCount;</span>
     }
 
     public void setHelpfulCount(int helpfulCount) {
-<span class="nc" id="L104">        this.helpfulCount = helpfulCount;</span>
-<span class="nc" id="L105">    }</span>
+<span class="fc" id="L104">        this.helpfulCount = helpfulCount;</span>
+<span class="fc" id="L105">    }</span>
 
     public boolean isVerified() {
 <span class="fc" id="L108">        return verified;</span>
@@ -121,14 +121,14 @@ public class Review {
 <span class="fc" id="L121">    }</span>
 
     public boolean isValid() {
-<span class="pc bpc" id="L124" title="1 of 4 branches missed.">        if (rating &lt; 1 || rating &gt; 5) {</span>
+<span class="fc bfc" id="L124" title="All 4 branches covered.">        if (rating &lt; 1 || rating &gt; 5) {</span>
 <span class="fc" id="L125">            return false;</span>
         }
-<span class="pc bpc" id="L127" title="2 of 4 branches missed.">        if (restaurantId == null || restaurantId.trim().isEmpty()) {</span>
-<span class="nc" id="L128">            return false;</span>
+<span class="fc bfc" id="L127" title="All 4 branches covered.">        if (restaurantId == null || restaurantId.trim().isEmpty()) {</span>
+<span class="fc" id="L128">            return false;</span>
         }
-<span class="pc bpc" id="L130" title="2 of 4 branches missed.">        if (userLevel &lt; 1 || userLevel &gt; 5) {</span>
-<span class="nc" id="L131">            return false;</span>
+<span class="fc bfc" id="L130" title="All 4 branches covered.">        if (userLevel &lt; 1 || userLevel &gt; 5) {</span>
+<span class="fc" id="L131">            return false;</span>
         }
 <span class="fc" id="L133">        return true;</span>
     }
@@ -139,45 +139,77 @@ public class Review {
 <span class="fc bfc" id="L139" title="All 2 branches covered.">        if (verified) {</span>
 <span class="fc" id="L140">            weight *= 1.5;</span>
         }
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">        if (helpfulCount &gt; 10) {</span>
-<span class="nc" id="L143">            weight *= 1.2;</span>
-<span class="pc bpc" id="L144" title="1 of 2 branches missed.">        } else if (helpfulCount &gt; 5) {</span>
-<span class="nc" id="L145">            weight *= 1.1;</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        if (helpfulCount &gt; 10) {</span>
+<span class="fc" id="L143">            weight *= 1.2;</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        } else if (helpfulCount &gt; 5) {</span>
+<span class="fc" id="L145">            weight *= 1.1;</span>
         }
 <span class="fc" id="L147">        return Math.min(weight, 2.0); // Cap at 2.0</span>
     }
 
     public boolean isRecent() {
-<span class="pc bpc" id="L151" title="1 of 2 branches missed.">        if (createdAt == null) {</span>
-<span class="nc" id="L152">            return false;</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        if (createdAt == null) {</span>
+<span class="fc" id="L152">            return false;</span>
         }
 <span class="fc" id="L154">        return createdAt.isAfter(LocalDateTime.now().minusMonths(6));</span>
     }
 
+    /**
+     * Checks if user level is at least the specified minimum.
+     * 
+     * @param minLevel the minimum level required (1-5)
+     * @return true if user level is at least minLevel
+     */
+    public boolean hasUserLevelAtLeast(int minLevel) {
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        return this.userLevel &gt;= minLevel;</span>
+    }
+
+    /**
+     * Checks if this is an expert review (user level &gt;= 4).
+     * 
+     * @return true if user level is 4 or higher
+     */
+    public boolean isExpertReview() {
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        return this.userLevel &gt;= 4;</span>
+    }
+
+    /**
+     * Compares user level with another review.
+     * 
+     * @param other the other review to compare with
+     * @return negative if less, 0 if equal, positive if greater
+     */
+    public int compareUserLevelTo(Review other) {
+<span class="fc bfc" id="L183" title="All 2 branches covered.">        if (other == null) {</span>
+<span class="fc" id="L184">            return 1;</span>
+        }
+<span class="fc" id="L186">        return Integer.compare(this.userLevel, other.getUserLevel());</span>
+    }
+
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L159" title="All 2 branches missed.">        if (this == o)</span>
-<span class="nc" id="L160">            return true;</span>
-<span class="nc bnc" id="L161" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass())</span>
-<span class="nc" id="L162">            return false;</span>
-<span class="nc" id="L163">        Review review = (Review) o;</span>
-<span class="nc" id="L164">        return Objects.equals(id, review.id);</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">        if (this == o)</span>
+<span class="fc" id="L192">            return true;</span>
+<span class="fc bfc" id="L193" title="All 4 branches covered.">        if (o == null || getClass() != o.getClass())</span>
+<span class="fc" id="L194">            return false;</span>
+<span class="fc" id="L195">        Review review = (Review) o;</span>
+<span class="fc" id="L196">        return Objects.equals(id, review.id);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="nc" id="L169">        return Objects.hash(id);</span>
+<span class="fc" id="L201">        return Objects.hash(id);</span>
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L174">        return &quot;Review{&quot; +</span>
+<span class="fc" id="L206">        return &quot;Review{&quot; +</span>
                 &quot;id='&quot; + id + '\'' +
                 &quot;, rating=&quot; + rating +
-<span class="nc bnc" id="L177" title="All 4 branches missed.">                &quot;, comment='&quot; + (comment != null &amp;&amp; comment.length() &gt; 50 ? comment.substring(0, 50) + &quot;...&quot; : comment)</span>
+<span class="fc bfc" id="L209" title="All 4 branches covered.">                &quot;, comment='&quot; + (comment != null &amp;&amp; comment.length() &gt; 50 ? comment.substring(0, 50) + &quot;...&quot; : comment)</span>
                 + '\'' +
                 &quot;, userName='&quot; + userName + '\'' +
                 '}';
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

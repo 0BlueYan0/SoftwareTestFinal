@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.012" tests="32" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.007" tests="32" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,7 +13,7 @@
     <property name="user.country" value="TW"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/Users/0blueyan0/Library/Java/JavaVirtualMachines/openjdk-25/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/0blueyan0/Downloads/SoftwareTestFinal/target/surefire/surefirebooter-20251226164118961_3.jar /Users/0blueyan0/Downloads/SoftwareTestFinal/target/surefire 2025-12-26T16-41-18_923-jvmRun1 surefire-20251226164118961_1tmp surefire_0-20251226164118961_2tmp"/>
+    <property name="sun.java.command" value="/Users/0blueyan0/Downloads/SoftwareTestFinal/target/surefire/surefirebooter-20251228171651245_3.jar /Users/0blueyan0/Downloads/SoftwareTestFinal/target/surefire 2025-12-28T17-16-51_211-jvmRun1 surefire-20251228171651245_1tmp surefire_0-20251228171651245_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/0blueyan0/Downloads/SoftwareTestFinal/target/test-classes:/Users/0blueyan0/Downloads/SoftwareTestFinal/target/classes:/Users/0blueyan0/.m2/repository/org/junit/jupiter/junit-jupiter/5.11.0/junit-jupiter-5.11.0.jar:/Users/0blueyan0/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.11.0/junit-jupiter-api-5.11.0.jar:/Users/0blueyan0/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/0blueyan0/.m2/repository/org/junit/platform/junit-platform-commons/1.11.0/junit-platform-commons-1.11.0.jar:/Users/0blueyan0/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.11.0/junit-jupiter-engine-5.11.0.jar:/Users/0blueyan0/.m2/repository/org/junit/platform/junit-platform-engine/1.11.0/junit-platform-engine-1.11.0.jar:/Users/0blueyan0/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/0blueyan0/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/0blueyan0/Downloads/SoftwareTestFinal/target/surefire/surefirebooter-20251226164118961_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/0blueyan0/Downloads/SoftwareTestFinal/target/surefire/surefirebooter-20251228171651245_3.jar"/>
     <property name="user.script" value="Hant"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
@@ -68,33 +68,33 @@
   <testcase name="searchByMultipleCriteria_CityFilter" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.001"/>
   <testcase name="searchByCuisineType_FindsCorrectType" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="searchByCity_NullCity_ReturnsEmpty" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
-  <testcase name="searchByMultipleCriteria_NullCriteria_ReturnsAllActive" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
-  <testcase name="searchByNameFuzzy_PartialMatch" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.001"/>
+  <testcase name="searchByMultipleCriteria_NullCriteria_ReturnsAllActive" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.001"/>
+  <testcase name="searchByNameFuzzy_PartialMatch" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="searchByCuisineType_NullType_ReturnsEmpty" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="searchByMultipleCriteria_ReservationsFilter" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
-  <testcase name="searchGlobal_NullKeyword_ReturnsEmpty" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.001"/>
+  <testcase name="searchGlobal_NullKeyword_ReturnsEmpty" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="sortResults_ByRatingDescending" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.001"/>
   <testcase name="searchByDistrict_NullDistrict_ReturnsEmpty" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="searchByMultipleCriteria_ParkingFilter" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="searchByName_ExactMatch" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.001"/>
   <testcase name="searchGlobal_MatchesCity" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="searchGlobal_MatchesName" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
-  <testcase name="searchByMultipleCriteria_OffsetBeyondResults" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.001"/>
+  <testcase name="searchByMultipleCriteria_OffsetBeyondResults" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="searchByMultipleCriteria_Pagination" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="getAllRestaurants_ExcludesInactive" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
-  <testcase name="searchByName_CaseInsensitive" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
+  <testcase name="searchByName_CaseInsensitive" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.001"/>
   <testcase name="searchByName_NullName_ReturnsEmpty" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="searchByCity_DifferentCity" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="countRestaurants_CountsOnlyActive" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
-  <testcase name="searchByCity_FindsRestaurantsInCity" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.001"/>
+  <testcase name="searchByCity_FindsRestaurantsInCity" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="searchByMultipleCriteria_DeliveryFilter" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
-  <testcase name="searchByNameFuzzy_NullKeyword_ReturnsEmpty" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
+  <testcase name="searchByNameFuzzy_NullKeyword_ReturnsEmpty" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.001"/>
   <testcase name="searchByName_EmptyName_ReturnsEmpty" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="searchByMultipleCriteria_KeywordFilter" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="searchByMultipleCriteria_CuisineFilter" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="searchByMultipleCriteria_CombinedFilters" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
-  <testcase name="searchByMultipleCuisineTypes_NullTypes_ReturnsEmpty" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.001"/>
+  <testcase name="searchByMultipleCuisineTypes_NullTypes_ReturnsEmpty" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
   <testcase name="searchByNameFuzzy_ChineseCharacters" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
-  <testcase name="searchByMultipleCuisineTypes_FindsAnyMatching" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
-  <testcase name="sortResults_ByNameAscending" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.001"/>
+  <testcase name="searchByMultipleCuisineTypes_FindsAnyMatching" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.001"/>
+  <testcase name="sortResults_ByNameAscending" classname="org.example.restaurant.service.RestaurantSearchServiceTest" time="0.0"/>
 </testsuite>

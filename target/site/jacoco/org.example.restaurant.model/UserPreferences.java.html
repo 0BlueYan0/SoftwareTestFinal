@@ -29,30 +29,30 @@ public class UserPreferences {
 <span class="fc" id="L29">    }</span>
 
     public Set&lt;CuisineType&gt; getFavoriteCuisines() {
-<span class="nc" id="L32">        return favoriteCuisines;</span>
+<span class="fc" id="L32">        return favoriteCuisines;</span>
     }
 
     public void setFavoriteCuisines(Set&lt;CuisineType&gt; favoriteCuisines) {
-<span class="nc" id="L36">        this.favoriteCuisines = favoriteCuisines;</span>
-<span class="nc" id="L37">    }</span>
+<span class="fc" id="L36">        this.favoriteCuisines = favoriteCuisines;</span>
+<span class="fc" id="L37">    }</span>
 
     public void addFavoriteCuisine(CuisineType type) {
-<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        if (type != null) {</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (type != null) {</span>
 <span class="fc" id="L41">            favoriteCuisines.add(type);</span>
 <span class="fc" id="L42">            dislikedCuisines.remove(type);</span>
         }
 <span class="fc" id="L44">    }</span>
 
     public Set&lt;CuisineType&gt; getDislikedCuisines() {
-<span class="nc" id="L47">        return dislikedCuisines;</span>
+<span class="fc" id="L47">        return dislikedCuisines;</span>
     }
 
     public void setDislikedCuisines(Set&lt;CuisineType&gt; dislikedCuisines) {
-<span class="nc" id="L51">        this.dislikedCuisines = dislikedCuisines;</span>
-<span class="nc" id="L52">    }</span>
+<span class="fc" id="L51">        this.dislikedCuisines = dislikedCuisines;</span>
+<span class="fc" id="L52">    }</span>
 
     public void addDislikedCuisine(CuisineType type) {
-<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if (type != null) {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (type != null) {</span>
 <span class="fc" id="L56">            dislikedCuisines.add(type);</span>
 <span class="fc" id="L57">            favoriteCuisines.remove(type);</span>
         }
@@ -75,137 +75,137 @@ public class UserPreferences {
 <span class="fc" id="L75">    }</span>
 
     public boolean isPreferVegetarian() {
-<span class="nc" id="L78">        return preferVegetarian;</span>
+<span class="fc" id="L78">        return preferVegetarian;</span>
     }
 
     public void setPreferVegetarian(boolean preferVegetarian) {
-<span class="nc" id="L82">        this.preferVegetarian = preferVegetarian;</span>
-<span class="nc" id="L83">    }</span>
+<span class="fc" id="L82">        this.preferVegetarian = preferVegetarian;</span>
+<span class="fc" id="L83">    }</span>
 
     public boolean isPreferVegan() {
-<span class="nc" id="L86">        return preferVegan;</span>
+<span class="fc" id="L86">        return preferVegan;</span>
     }
 
     public void setPreferVegan(boolean preferVegan) {
-<span class="nc" id="L90">        this.preferVegan = preferVegan;</span>
-<span class="nc" id="L91">    }</span>
+<span class="fc" id="L90">        this.preferVegan = preferVegan;</span>
+<span class="fc" id="L91">    }</span>
 
     public boolean isPreferGlutenFree() {
-<span class="nc" id="L94">        return preferGlutenFree;</span>
+<span class="fc" id="L94">        return preferGlutenFree;</span>
     }
 
     public void setPreferGlutenFree(boolean preferGlutenFree) {
-<span class="nc" id="L98">        this.preferGlutenFree = preferGlutenFree;</span>
-<span class="nc" id="L99">    }</span>
+<span class="fc" id="L98">        this.preferGlutenFree = preferGlutenFree;</span>
+<span class="fc" id="L99">    }</span>
 
     public boolean isRequiresParking() {
 <span class="fc" id="L102">        return requiresParking;</span>
     }
 
     public void setRequiresParking(boolean requiresParking) {
-<span class="nc" id="L106">        this.requiresParking = requiresParking;</span>
-<span class="nc" id="L107">    }</span>
+<span class="fc" id="L106">        this.requiresParking = requiresParking;</span>
+<span class="fc" id="L107">    }</span>
 
     public boolean isPreferDelivery() {
 <span class="fc" id="L110">        return preferDelivery;</span>
     }
 
     public void setPreferDelivery(boolean preferDelivery) {
-<span class="nc" id="L114">        this.preferDelivery = preferDelivery;</span>
-<span class="nc" id="L115">    }</span>
+<span class="fc" id="L114">        this.preferDelivery = preferDelivery;</span>
+<span class="fc" id="L115">    }</span>
 
     public boolean isPreferTakeout() {
 <span class="fc" id="L118">        return preferTakeout;</span>
     }
 
     public void setPreferTakeout(boolean preferTakeout) {
-<span class="nc" id="L122">        this.preferTakeout = preferTakeout;</span>
-<span class="nc" id="L123">    }</span>
+<span class="fc" id="L122">        this.preferTakeout = preferTakeout;</span>
+<span class="fc" id="L123">    }</span>
 
     public double getMaxDistanceKm() {
-<span class="nc" id="L126">        return maxDistanceKm;</span>
+<span class="fc" id="L126">        return maxDistanceKm;</span>
     }
 
     public void setMaxDistanceKm(double maxDistanceKm) {
-<span class="nc" id="L130">        this.maxDistanceKm = maxDistanceKm;</span>
-<span class="nc" id="L131">    }</span>
+<span class="fc" id="L130">        this.maxDistanceKm = maxDistanceKm;</span>
+<span class="fc" id="L131">    }</span>
 
     public Location getUserLocation() {
 <span class="fc" id="L134">        return userLocation;</span>
     }
 
     public void setUserLocation(Location userLocation) {
-<span class="nc" id="L138">        this.userLocation = userLocation;</span>
-<span class="nc" id="L139">    }</span>
+<span class="fc" id="L138">        this.userLocation = userLocation;</span>
+<span class="fc" id="L139">    }</span>
 
     public boolean likesCuisine(CuisineType type) {
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">        if (type == null) {</span>
-<span class="nc" id="L143">            return false;</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        if (type == null) {</span>
+<span class="fc" id="L143">            return false;</span>
         }
 <span class="fc" id="L145">        return favoriteCuisines.contains(type);</span>
     }
 
     public boolean dislikesCuisine(CuisineType type) {
-<span class="pc bpc" id="L149" title="1 of 2 branches missed.">        if (type == null) {</span>
-<span class="nc" id="L150">            return false;</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        if (type == null) {</span>
+<span class="fc" id="L150">            return false;</span>
         }
 <span class="fc" id="L152">        return dislikedCuisines.contains(type);</span>
     }
 
     public double calculatePreferenceScore(Restaurant restaurant) {
-<span class="pc bpc" id="L156" title="1 of 2 branches missed.">        if (restaurant == null) {</span>
-<span class="nc" id="L157">            return 0.0;</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (restaurant == null) {</span>
+<span class="fc" id="L157">            return 0.0;</span>
         }
 
 <span class="fc" id="L160">        double score = 50.0; // Base score</span>
 
         // Cuisine preference
-<span class="pc bpc" id="L163" title="1 of 2 branches missed.">        if (likesCuisine(restaurant.getCuisineType())) {</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">        if (likesCuisine(restaurant.getCuisineType())) {</span>
 <span class="fc" id="L164">            score += 20;</span>
-<span class="nc bnc" id="L165" title="All 2 branches missed.">        } else if (dislikesCuisine(restaurant.getCuisineType())) {</span>
-<span class="nc" id="L166">            score -= 30;</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        } else if (dislikesCuisine(restaurant.getCuisineType())) {</span>
+<span class="fc" id="L166">            score -= 30;</span>
         }
 
         // Check additional cuisine types
-<span class="pc bpc" id="L170" title="1 of 2 branches missed.">        for (CuisineType type : restaurant.getAdditionalCuisineTypes()) {</span>
-<span class="nc bnc" id="L171" title="All 2 branches missed.">            if (likesCuisine(type)) {</span>
-<span class="nc" id="L172">                score += 10;</span>
-<span class="nc bnc" id="L173" title="All 2 branches missed.">            } else if (dislikesCuisine(type)) {</span>
-<span class="nc" id="L174">                score -= 15;</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        for (CuisineType type : restaurant.getAdditionalCuisineTypes()) {</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            if (likesCuisine(type)) {</span>
+<span class="fc" id="L172">                score += 10;</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">            } else if (dislikesCuisine(type)) {</span>
+<span class="fc" id="L174">                score -= 15;</span>
             }
-<span class="nc" id="L176">        }</span>
+<span class="fc" id="L176">        }</span>
 
         // Price level
-<span class="pc bpc" id="L179" title="2 of 4 branches missed.">        if (restaurant.getPriceLevel() &gt; 0 &amp;&amp; restaurant.getPriceLevel() &lt;= maxPriceLevel) {</span>
+<span class="pc bpc" id="L179" title="1 of 4 branches missed.">        if (restaurant.getPriceLevel() &gt; 0 &amp;&amp; restaurant.getPriceLevel() &lt;= maxPriceLevel) {</span>
 <span class="fc" id="L180">            score += 10;</span>
-<span class="nc bnc" id="L181" title="All 2 branches missed.">        } else if (restaurant.getPriceLevel() &gt; maxPriceLevel) {</span>
-<span class="nc" id="L182">            score -= 20;</span>
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">        } else if (restaurant.getPriceLevel() &gt; maxPriceLevel) {</span>
+<span class="fc" id="L182">            score -= 20;</span>
         }
 
         // Rating
 <span class="fc" id="L186">        double rating = restaurant.calculateAverageRating();</span>
-<span class="pc bpc" id="L187" title="1 of 2 branches missed.">        if (rating &gt;= minAcceptableRating) {</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">        if (rating &gt;= minAcceptableRating) {</span>
 <span class="fc" id="L188">            score += (rating / 5.0) * 15;</span>
         } else {
-<span class="nc" id="L190">            score -= 25;</span>
+<span class="fc" id="L190">            score -= 25;</span>
         }
 
         // Features
-<span class="pc bpc" id="L194" title="3 of 4 branches missed.">        if (requiresParking &amp;&amp; restaurant.isHasParking()) {</span>
-<span class="nc" id="L195">            score += 10;</span>
-<span class="pc bpc" id="L196" title="3 of 4 branches missed.">        } else if (requiresParking &amp;&amp; !restaurant.isHasParking()) {</span>
-<span class="nc" id="L197">            score -= 20;</span>
+<span class="fc bfc" id="L194" title="All 4 branches covered.">        if (requiresParking &amp;&amp; restaurant.isHasParking()) {</span>
+<span class="fc" id="L195">            score += 10;</span>
+<span class="pc bpc" id="L196" title="1 of 4 branches missed.">        } else if (requiresParking &amp;&amp; !restaurant.isHasParking()) {</span>
+<span class="fc" id="L197">            score -= 20;</span>
         }
 
-<span class="pc bpc" id="L200" title="3 of 4 branches missed.">        if (preferDelivery &amp;&amp; restaurant.isHasDelivery()) {</span>
-<span class="nc" id="L201">            score += 5;</span>
+<span class="pc bpc" id="L200" title="1 of 4 branches missed.">        if (preferDelivery &amp;&amp; restaurant.isHasDelivery()) {</span>
+<span class="fc" id="L201">            score += 5;</span>
         }
 
-<span class="pc bpc" id="L204" title="3 of 4 branches missed.">        if (preferTakeout &amp;&amp; restaurant.isHasTakeout()) {</span>
-<span class="nc" id="L205">            score += 5;</span>
+<span class="pc bpc" id="L204" title="1 of 4 branches missed.">        if (preferTakeout &amp;&amp; restaurant.isHasTakeout()) {</span>
+<span class="fc" id="L205">            score += 5;</span>
         }
 
 <span class="fc" id="L208">        return Math.max(0, Math.min(100, score));</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

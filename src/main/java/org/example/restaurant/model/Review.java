@@ -154,6 +154,38 @@ public class Review {
         return createdAt.isAfter(LocalDateTime.now().minusMonths(6));
     }
 
+    /**
+     * Checks if user level is at least the specified minimum.
+     * 
+     * @param minLevel the minimum level required (1-5)
+     * @return true if user level is at least minLevel
+     */
+    public boolean hasUserLevelAtLeast(int minLevel) {
+        return this.userLevel >= minLevel;
+    }
+
+    /**
+     * Checks if this is an expert review (user level >= 4).
+     * 
+     * @return true if user level is 4 or higher
+     */
+    public boolean isExpertReview() {
+        return this.userLevel >= 4;
+    }
+
+    /**
+     * Compares user level with another review.
+     * 
+     * @param other the other review to compare with
+     * @return negative if less, 0 if equal, positive if greater
+     */
+    public int compareUserLevelTo(Review other) {
+        if (other == null) {
+            return 1;
+        }
+        return Integer.compare(this.userLevel, other.getUserLevel());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

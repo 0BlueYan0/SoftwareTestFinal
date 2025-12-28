@@ -21,14 +21,14 @@ public class BusinessHours {
 <span class="fc" id="L21">    }</span>
 
     public void setHours(DayOfWeek day, LocalTime openTime, LocalTime closeTime) {
-<span class="pc bpc" id="L24" title="2 of 4 branches missed.">        if (openTime != null &amp;&amp; closeTime != null) {</span>
+<span class="fc bfc" id="L24" title="All 4 branches covered.">        if (openTime != null &amp;&amp; closeTime != null) {</span>
 <span class="fc" id="L25">            weeklyHours.put(day, new TimeSlot(openTime, closeTime));</span>
         }
 <span class="fc" id="L27">    }</span>
 
     public void setClosed(DayOfWeek day) {
-<span class="nc" id="L30">        weeklyHours.put(day, null);</span>
-<span class="nc" id="L31">    }</span>
+<span class="fc" id="L30">        weeklyHours.put(day, null);</span>
+<span class="fc" id="L31">    }</span>
 
     public TimeSlot getHours(DayOfWeek day) {
 <span class="fc" id="L34">        return weeklyHours.get(day);</span>
@@ -39,8 +39,8 @@ public class BusinessHours {
     }
 
     public void setClosedOnHolidays(boolean closedOnHolidays) {
-<span class="nc" id="L42">        this.closedOnHolidays = closedOnHolidays;</span>
-<span class="nc" id="L43">    }</span>
+<span class="fc" id="L42">        this.closedOnHolidays = closedOnHolidays;</span>
+<span class="fc" id="L43">    }</span>
 
     public Map&lt;DayOfWeek, TimeSlot&gt; getWeeklyHours() {
 <span class="fc" id="L46">        return weeklyHours;</span>
@@ -51,19 +51,19 @@ public class BusinessHours {
 <span class="nc" id="L51">    }</span>
 
     public boolean isOpenAt(LocalDateTime dateTime) {
-<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (dateTime == null) {</span>
-<span class="nc" id="L55">            return false;</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (dateTime == null) {</span>
+<span class="fc" id="L55">            return false;</span>
         }
 
-<span class="nc" id="L58">        DayOfWeek day = dateTime.getDayOfWeek();</span>
-<span class="nc" id="L59">        LocalTime time = dateTime.toLocalTime();</span>
+<span class="fc" id="L58">        DayOfWeek day = dateTime.getDayOfWeek();</span>
+<span class="fc" id="L59">        LocalTime time = dateTime.toLocalTime();</span>
 
-<span class="nc" id="L61">        TimeSlot slot = weeklyHours.get(day);</span>
-<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (slot == null) {</span>
-<span class="nc" id="L63">            return false;</span>
+<span class="fc" id="L61">        TimeSlot slot = weeklyHours.get(day);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (slot == null) {</span>
+<span class="fc" id="L63">            return false;</span>
         }
 
-<span class="nc" id="L66">        return slot.contains(time);</span>
+<span class="fc" id="L66">        return slot.contains(time);</span>
     }
 
     public boolean isOpenNow() {
@@ -71,26 +71,26 @@ public class BusinessHours {
     }
 
     public LocalDateTime getNextOpenTime(LocalDateTime from) {
-<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (from == null) {</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (from == null) {</span>
 <span class="nc" id="L75">            from = LocalDateTime.now();</span>
         }
 
         // Check up to 7 days
-<span class="nc bnc" id="L79" title="All 2 branches missed.">        for (int i = 0; i &lt; 7; i++) {</span>
-<span class="nc" id="L80">            LocalDate date = from.toLocalDate().plusDays(i);</span>
-<span class="nc" id="L81">            DayOfWeek day = date.getDayOfWeek();</span>
-<span class="nc" id="L82">            TimeSlot slot = weeklyHours.get(day);</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        for (int i = 0; i &lt; 7; i++) {</span>
+<span class="fc" id="L80">            LocalDate date = from.toLocalDate().plusDays(i);</span>
+<span class="fc" id="L81">            DayOfWeek day = date.getDayOfWeek();</span>
+<span class="fc" id="L82">            TimeSlot slot = weeklyHours.get(day);</span>
 
-<span class="nc bnc" id="L84" title="All 2 branches missed.">            if (slot != null) {</span>
-<span class="nc" id="L85">                LocalDateTime openTime = LocalDateTime.of(date, slot.getOpenTime());</span>
-<span class="nc bnc" id="L86" title="All 2 branches missed.">                if (i == 0) {</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">            if (slot != null) {</span>
+<span class="fc" id="L85">                LocalDateTime openTime = LocalDateTime.of(date, slot.getOpenTime());</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">                if (i == 0) {</span>
                     // Same day - check if it's still in the future
-<span class="nc bnc" id="L88" title="All 2 branches missed.">                    if (openTime.isAfter(from)) {</span>
-<span class="nc" id="L89">                        return openTime;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">                    if (openTime.isAfter(from)) {</span>
+<span class="fc" id="L89">                        return openTime;</span>
                     }
                     // Already open or past opening time
-<span class="nc bnc" id="L92" title="All 2 branches missed.">                    if (slot.contains(from.toLocalTime())) {</span>
-<span class="nc" id="L93">                        return from; // Already open</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">                    if (slot.contains(from.toLocalTime())) {</span>
+<span class="fc" id="L93">                        return from; // Already open</span>
                     }
                 } else {
 <span class="nc" id="L96">                    return openTime;</span>
@@ -146,23 +146,23 @@ public class BusinessHours {
 
         @Override
         public boolean equals(Object o) {
-<span class="nc bnc" id="L149" title="All 2 branches missed.">            if (this == o)</span>
-<span class="nc" id="L150">                return true;</span>
-<span class="nc bnc" id="L151" title="All 4 branches missed.">            if (o == null || getClass() != o.getClass())</span>
-<span class="nc" id="L152">                return false;</span>
-<span class="nc" id="L153">            TimeSlot timeSlot = (TimeSlot) o;</span>
-<span class="nc bnc" id="L154" title="All 2 branches missed.">            return Objects.equals(openTime, timeSlot.openTime)</span>
-<span class="nc bnc" id="L155" title="All 2 branches missed.">                    &amp;&amp; Objects.equals(closeTime, timeSlot.closeTime);</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">            if (this == o)</span>
+<span class="fc" id="L150">                return true;</span>
+<span class="pc bpc" id="L151" title="1 of 4 branches missed.">            if (o == null || getClass() != o.getClass())</span>
+<span class="fc" id="L152">                return false;</span>
+<span class="fc" id="L153">            TimeSlot timeSlot = (TimeSlot) o;</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">            return Objects.equals(openTime, timeSlot.openTime)</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">                    &amp;&amp; Objects.equals(closeTime, timeSlot.closeTime);</span>
         }
 
         @Override
         public int hashCode() {
-<span class="nc" id="L160">            return Objects.hash(openTime, closeTime);</span>
+<span class="fc" id="L160">            return Objects.hash(openTime, closeTime);</span>
         }
 
         @Override
         public String toString() {
-<span class="nc" id="L165">            return openTime + &quot; - &quot; + closeTime;</span>
+<span class="fc" id="L165">            return openTime + &quot; - &quot; + closeTime;</span>
         }
     }
 
@@ -183,4 +183,4 @@ public class BusinessHours {
 <span class="nc" id="L183">        return sb.toString();</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

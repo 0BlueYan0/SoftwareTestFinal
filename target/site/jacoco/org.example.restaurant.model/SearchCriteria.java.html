@@ -53,8 +53,8 @@ public class SearchCriteria {
     }
 
     public SearchCriteria district(String district) {
-<span class="nc" id="L56">        this.district = district;</span>
-<span class="nc" id="L57">        return this;</span>
+<span class="fc" id="L56">        this.district = district;</span>
+<span class="fc" id="L57">        return this;</span>
     }
 
     public SearchCriteria cuisineType(CuisineType cuisineType) {
@@ -63,10 +63,10 @@ public class SearchCriteria {
     }
 
     public SearchCriteria addCuisineType(CuisineType type) {
-<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (type != null) {</span>
-<span class="nc" id="L67">            this.cuisineTypes.add(type);</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (type != null) {</span>
+<span class="fc" id="L67">            this.cuisineTypes.add(type);</span>
         }
-<span class="nc" id="L69">        return this;</span>
+<span class="fc" id="L69">        return this;</span>
     }
 
     public SearchCriteria minRating(Double minRating) {
@@ -80,23 +80,23 @@ public class SearchCriteria {
     }
 
     public SearchCriteria minPrice(Double minPrice) {
-<span class="nc" id="L83">        this.minPrice = minPrice;</span>
-<span class="nc" id="L84">        return this;</span>
+<span class="fc" id="L83">        this.minPrice = minPrice;</span>
+<span class="fc" id="L84">        return this;</span>
     }
 
     public SearchCriteria maxPrice(Double maxPrice) {
-<span class="nc" id="L88">        this.maxPrice = maxPrice;</span>
-<span class="nc" id="L89">        return this;</span>
+<span class="fc" id="L88">        this.maxPrice = maxPrice;</span>
+<span class="fc" id="L89">        return this;</span>
     }
 
     public SearchCriteria priceLevel(Integer priceLevel) {
-<span class="nc" id="L93">        this.priceLevel = priceLevel;</span>
-<span class="nc" id="L94">        return this;</span>
+<span class="fc" id="L93">        this.priceLevel = priceLevel;</span>
+<span class="fc" id="L94">        return this;</span>
     }
 
     public SearchCriteria openNow(Boolean openNow) {
-<span class="nc" id="L98">        this.openNow = openNow;</span>
-<span class="nc" id="L99">        return this;</span>
+<span class="fc" id="L98">        this.openNow = openNow;</span>
+<span class="fc" id="L99">        return this;</span>
     }
 
     public SearchCriteria hasDelivery(Boolean hasDelivery) {
@@ -105,8 +105,8 @@ public class SearchCriteria {
     }
 
     public SearchCriteria hasTakeout(Boolean hasTakeout) {
-<span class="nc" id="L108">        this.hasTakeout = hasTakeout;</span>
-<span class="nc" id="L109">        return this;</span>
+<span class="fc" id="L108">        this.hasTakeout = hasTakeout;</span>
+<span class="fc" id="L109">        return this;</span>
     }
 
     public SearchCriteria hasParking(Boolean hasParking) {
@@ -160,24 +160,24 @@ public class SearchCriteria {
     }
 
     public void setCity(String city) {
-<span class="nc" id="L163">        this.city = city;</span>
-<span class="nc" id="L164">    }</span>
+<span class="fc" id="L163">        this.city = city;</span>
+<span class="fc" id="L164">    }</span>
 
     public String getDistrict() {
 <span class="fc" id="L167">        return district;</span>
     }
 
     public void setDistrict(String district) {
-<span class="nc" id="L171">        this.district = district;</span>
-<span class="nc" id="L172">    }</span>
+<span class="fc" id="L171">        this.district = district;</span>
+<span class="fc" id="L172">    }</span>
 
     public CuisineType getCuisineType() {
 <span class="fc" id="L175">        return cuisineType;</span>
     }
 
     public void setCuisineType(CuisineType cuisineType) {
-<span class="nc" id="L179">        this.cuisineType = cuisineType;</span>
-<span class="nc" id="L180">    }</span>
+<span class="fc" id="L179">        this.cuisineType = cuisineType;</span>
+<span class="fc" id="L180">    }</span>
 
     public Set&lt;CuisineType&gt; getCuisineTypes() {
 <span class="fc" id="L183">        return cuisineTypes;</span>
@@ -208,16 +208,16 @@ public class SearchCriteria {
     }
 
     public void setMinPrice(Double minPrice) {
-<span class="nc" id="L211">        this.minPrice = minPrice;</span>
-<span class="nc" id="L212">    }</span>
+<span class="fc" id="L211">        this.minPrice = minPrice;</span>
+<span class="fc" id="L212">    }</span>
 
     public Double getMaxPrice() {
 <span class="fc" id="L215">        return maxPrice;</span>
     }
 
     public void setMaxPrice(Double maxPrice) {
-<span class="nc" id="L219">        this.maxPrice = maxPrice;</span>
-<span class="nc" id="L220">    }</span>
+<span class="fc" id="L219">        this.maxPrice = maxPrice;</span>
+<span class="fc" id="L220">    }</span>
 
     public Integer getPriceLevel() {
 <span class="fc" id="L223">        return priceLevel;</span>
@@ -232,117 +232,117 @@ public class SearchCriteria {
     }
 
     public void setOpenNow(Boolean openNow) {
-<span class="nc" id="L235">        this.openNow = openNow;</span>
-<span class="nc" id="L236">    }</span>
+<span class="fc" id="L235">        this.openNow = openNow;</span>
+<span class="fc" id="L236">    }</span>
 
     public Boolean getHasDelivery() {
 <span class="fc" id="L239">        return hasDelivery;</span>
     }
 
     public void setHasDelivery(Boolean hasDelivery) {
-<span class="nc" id="L243">        this.hasDelivery = hasDelivery;</span>
-<span class="nc" id="L244">    }</span>
+<span class="fc" id="L243">        this.hasDelivery = hasDelivery;</span>
+<span class="fc" id="L244">    }</span>
 
     public Boolean getHasTakeout() {
 <span class="fc" id="L247">        return hasTakeout;</span>
     }
 
     public void setHasTakeout(Boolean hasTakeout) {
-<span class="nc" id="L251">        this.hasTakeout = hasTakeout;</span>
-<span class="nc" id="L252">    }</span>
+<span class="fc" id="L251">        this.hasTakeout = hasTakeout;</span>
+<span class="fc" id="L252">    }</span>
 
     public Boolean getHasParking() {
 <span class="fc" id="L255">        return hasParking;</span>
     }
 
     public void setHasParking(Boolean hasParking) {
-<span class="nc" id="L259">        this.hasParking = hasParking;</span>
-<span class="nc" id="L260">    }</span>
+<span class="fc" id="L259">        this.hasParking = hasParking;</span>
+<span class="fc" id="L260">    }</span>
 
     public Boolean getAcceptsReservations() {
 <span class="fc" id="L263">        return acceptsReservations;</span>
     }
 
     public void setAcceptsReservations(Boolean acceptsReservations) {
-<span class="nc" id="L267">        this.acceptsReservations = acceptsReservations;</span>
-<span class="nc" id="L268">    }</span>
+<span class="fc" id="L267">        this.acceptsReservations = acceptsReservations;</span>
+<span class="fc" id="L268">    }</span>
 
     public Double getLatitude() {
-<span class="nc" id="L271">        return latitude;</span>
+<span class="fc" id="L271">        return latitude;</span>
     }
 
     public void setLatitude(Double latitude) {
-<span class="nc" id="L275">        this.latitude = latitude;</span>
-<span class="nc" id="L276">    }</span>
+<span class="fc" id="L275">        this.latitude = latitude;</span>
+<span class="fc" id="L276">    }</span>
 
     public Double getLongitude() {
-<span class="nc" id="L279">        return longitude;</span>
+<span class="fc" id="L279">        return longitude;</span>
     }
 
     public void setLongitude(Double longitude) {
-<span class="nc" id="L283">        this.longitude = longitude;</span>
-<span class="nc" id="L284">    }</span>
+<span class="fc" id="L283">        this.longitude = longitude;</span>
+<span class="fc" id="L284">    }</span>
 
     public Double getRadiusKm() {
-<span class="nc" id="L287">        return radiusKm;</span>
+<span class="fc" id="L287">        return radiusKm;</span>
     }
 
     public void setRadiusKm(Double radiusKm) {
-<span class="nc" id="L291">        this.radiusKm = radiusKm;</span>
-<span class="nc" id="L292">    }</span>
+<span class="fc" id="L291">        this.radiusKm = radiusKm;</span>
+<span class="fc" id="L292">    }</span>
 
     public SortType getSortBy() {
 <span class="fc" id="L295">        return sortBy;</span>
     }
 
     public void setSortBy(SortType sortBy) {
-<span class="nc" id="L299">        this.sortBy = sortBy;</span>
-<span class="nc" id="L300">    }</span>
+<span class="fc" id="L299">        this.sortBy = sortBy;</span>
+<span class="fc" id="L300">    }</span>
 
     public boolean isAscending() {
 <span class="fc" id="L303">        return ascending;</span>
     }
 
     public void setAscending(boolean ascending) {
-<span class="nc" id="L307">        this.ascending = ascending;</span>
-<span class="nc" id="L308">    }</span>
+<span class="fc" id="L307">        this.ascending = ascending;</span>
+<span class="fc" id="L308">    }</span>
 
     public int getLimit() {
 <span class="fc" id="L311">        return limit;</span>
     }
 
     public void setLimit(int limit) {
-<span class="nc" id="L315">        this.limit = limit;</span>
-<span class="nc" id="L316">    }</span>
+<span class="fc" id="L315">        this.limit = limit;</span>
+<span class="fc" id="L316">    }</span>
 
     public int getOffset() {
 <span class="fc" id="L319">        return offset;</span>
     }
 
     public void setOffset(int offset) {
-<span class="nc" id="L323">        this.offset = offset;</span>
-<span class="nc" id="L324">    }</span>
+<span class="fc" id="L323">        this.offset = offset;</span>
+<span class="fc" id="L324">    }</span>
 
     public boolean hasLocationFilter() {
-<span class="pc bpc" id="L327" title="3 of 8 branches missed.">        return latitude != null &amp;&amp; longitude != null &amp;&amp; radiusKm != null &amp;&amp; radiusKm &gt; 0;</span>
+<span class="fc bfc" id="L327" title="All 8 branches covered.">        return latitude != null &amp;&amp; longitude != null &amp;&amp; radiusKm != null &amp;&amp; radiusKm &gt; 0;</span>
     }
 
     public boolean hasPriceFilter() {
-<span class="pc bpc" id="L331" title="3 of 6 branches missed.">        return minPrice != null || maxPrice != null || priceLevel != null;</span>
+<span class="fc bfc" id="L331" title="All 6 branches covered.">        return minPrice != null || maxPrice != null || priceLevel != null;</span>
     }
 
     public boolean hasRatingFilter() {
-<span class="pc bpc" id="L335" title="2 of 4 branches missed.">        return minRating != null || maxRating != null;</span>
+<span class="fc bfc" id="L335" title="All 4 branches covered.">        return minRating != null || maxRating != null;</span>
     }
 
     public boolean isEmpty() {
-<span class="pc bpc" id="L339" title="3 of 8 branches missed.">        return keyword == null &amp;&amp; city == null &amp;&amp; district == null</span>
-<span class="pc bpc" id="L340" title="11 of 22 branches missed.">                &amp;&amp; cuisineType == null &amp;&amp; cuisineTypes.isEmpty()</span>
+<span class="fc bfc" id="L339" title="All 8 branches covered.">        return keyword == null &amp;&amp; city == null &amp;&amp; district == null</span>
+<span class="pc bpc" id="L340" title="1 of 22 branches missed.">                &amp;&amp; cuisineType == null &amp;&amp; cuisineTypes.isEmpty()</span>
                 &amp;&amp; minRating == null &amp;&amp; maxRating == null
                 &amp;&amp; minPrice == null &amp;&amp; maxPrice == null &amp;&amp; priceLevel == null
                 &amp;&amp; openNow == null &amp;&amp; hasDelivery == null &amp;&amp; hasTakeout == null
                 &amp;&amp; hasParking == null &amp;&amp; acceptsReservations == null
-<span class="pc bpc" id="L345" title="1 of 2 branches missed.">                &amp;&amp; !hasLocationFilter();</span>
+<span class="fc bfc" id="L345" title="All 2 branches covered.">                &amp;&amp; !hasLocationFilter();</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

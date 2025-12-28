@@ -124,26 +124,26 @@ public class MenuItem {
 
     public boolean matchesDietaryRestrictions(boolean requireVegetarian, boolean requireVegan,
             boolean requireGlutenFree) {
-<span class="pc bpc" id="L127" title="1 of 4 branches missed.">        if (requireVegetarian &amp;&amp; !vegetarian) {</span>
-<span class="nc" id="L128">            return false;</span>
+<span class="fc bfc" id="L127" title="All 4 branches covered.">        if (requireVegetarian &amp;&amp; !vegetarian) {</span>
+<span class="fc" id="L128">            return false;</span>
         }
-<span class="pc bpc" id="L130" title="1 of 4 branches missed.">        if (requireVegan &amp;&amp; !vegan) {</span>
+<span class="fc bfc" id="L130" title="All 4 branches covered.">        if (requireVegan &amp;&amp; !vegan) {</span>
 <span class="fc" id="L131">            return false;</span>
         }
-<span class="pc bpc" id="L133" title="2 of 4 branches missed.">        if (requireGlutenFree &amp;&amp; !glutenFree) {</span>
-<span class="nc" id="L134">            return false;</span>
+<span class="pc bpc" id="L133" title="1 of 4 branches missed.">        if (requireGlutenFree &amp;&amp; !glutenFree) {</span>
+<span class="fc" id="L134">            return false;</span>
         }
 <span class="fc" id="L136">        return true;</span>
     }
 
     public boolean isInPriceRange(double minPrice, double maxPrice) {
-<span class="pc bpc" id="L140" title="1 of 4 branches missed.">        if (minPrice &lt; 0 || maxPrice &lt; 0) {</span>
+<span class="fc bfc" id="L140" title="All 4 branches covered.">        if (minPrice &lt; 0 || maxPrice &lt; 0) {</span>
 <span class="fc" id="L141">            return false;</span>
         }
 <span class="fc bfc" id="L143" title="All 2 branches covered.">        if (minPrice &gt; maxPrice) {</span>
 <span class="fc" id="L144">            return false;</span>
         }
-<span class="pc bpc" id="L146" title="2 of 4 branches missed.">        return price &gt;= minPrice &amp;&amp; price &lt;= maxPrice;</span>
+<span class="pc bpc" id="L146" title="1 of 4 branches missed.">        return price &gt;= minPrice &amp;&amp; price &lt;= maxPrice;</span>
     }
 
     @Override
@@ -171,4 +171,4 @@ public class MenuItem {
                 '}';
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
