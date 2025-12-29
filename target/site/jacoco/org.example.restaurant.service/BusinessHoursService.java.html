@@ -72,7 +72,7 @@ import java.util.stream.Collectors;
 
         // Check holiday closure
 <span class="fc" id="L74">        LocalDate date = dateTime.toLocalDate();</span>
-<span class="pc bpc" id="L75" title="1 of 4 branches missed.">        if (hours.isClosedOnHolidays() &amp;&amp; isHoliday(date)) {</span>
+<span class="fc bfc" id="L75" title="All 4 branches covered.">        if (hours.isClosedOnHolidays() &amp;&amp; isHoliday(date)) {</span>
 <span class="fc" id="L76">            return false;</span>
         }
 
@@ -174,7 +174,7 @@ import java.util.stream.Collectors;
         }
 
         // Search next 14 days
-<span class="pc bpc" id="L177" title="1 of 2 branches missed.">        for (int i = 0; i &lt;= 14; i++) {</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">        for (int i = 0; i &lt;= 14; i++) {</span>
 <span class="fc" id="L178">            LocalDate date = from.toLocalDate().plusDays(i);</span>
 
             // Skip holidays if restaurant closes on holidays
@@ -185,8 +185,8 @@ import java.util.stream.Collectors;
 <span class="fc" id="L185">            DayOfWeek day = date.getDayOfWeek();</span>
 <span class="fc" id="L186">            BusinessHours.TimeSlot slot = hours.getHours(day);</span>
 
-<span class="pc bpc" id="L188" title="1 of 2 branches missed.">            if (slot == null) {</span>
-<span class="nc" id="L189">                continue;</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">            if (slot == null) {</span>
+<span class="fc" id="L189">                continue;</span>
             }
 
 <span class="fc" id="L192">            LocalDateTime openTime = LocalDateTime.of(date, slot.getOpenTime());</span>
@@ -201,7 +201,7 @@ import java.util.stream.Collectors;
             }
         }
 
-<span class="nc" id="L204">        return null; // Restaurant doesn't open in the next 14 days</span>
+<span class="fc" id="L204">        return null; // Restaurant doesn't open in the next 14 days</span>
     }
 
     /**
@@ -237,24 +237,24 @@ import java.util.stream.Collectors;
 <span class="fc" id="L237">            return false;</span>
         }
 
-<span class="pc bpc" id="L240" title="1 of 2 branches missed.">        if (!isOpenNow(restaurant)) {</span>
+<span class="fc bfc" id="L240" title="All 2 branches covered.">        if (!isOpenNow(restaurant)) {</span>
 <span class="fc" id="L241">            return false;</span>
         }
 
-<span class="nc" id="L244">        LocalTime closingTime = getClosingTimeToday(restaurant);</span>
-<span class="nc bnc" id="L245" title="All 2 branches missed.">        if (closingTime == null) {</span>
+<span class="fc" id="L244">        LocalTime closingTime = getClosingTimeToday(restaurant);</span>
+<span class="pc bpc" id="L245" title="1 of 2 branches missed.">        if (closingTime == null) {</span>
 <span class="nc" id="L246">            return false;</span>
         }
 
-<span class="nc" id="L249">        LocalTime now = LocalTime.now();</span>
-<span class="nc" id="L250">        LocalTime threshold = now.plusMinutes(withinMinutes);</span>
+<span class="fc" id="L249">        LocalTime now = LocalTime.now();</span>
+<span class="fc" id="L250">        LocalTime threshold = now.plusMinutes(withinMinutes);</span>
 
         // Handle overnight closing
-<span class="nc bnc" id="L253" title="All 2 branches missed.">        if (closingTime.isBefore(now)) {</span>
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">        if (closingTime.isBefore(now)) {</span>
 <span class="nc" id="L254">            return false; // Closes after midnight, not soon</span>
         }
 
-<span class="nc bnc" id="L257" title="All 4 branches missed.">        return closingTime.isBefore(threshold) || closingTime.equals(threshold);</span>
+<span class="pc bpc" id="L257" title="2 of 4 branches missed.">        return closingTime.isBefore(threshold) || closingTime.equals(threshold);</span>
     }
 
     /**
@@ -262,14 +262,14 @@ import java.util.stream.Collectors;
      * v(G) = ~4
      */
     public List&lt;Restaurant&gt; findClosingSoon(List&lt;Restaurant&gt; restaurants, int withinMinutes) {
-<span class="pc bpc" id="L265" title="1 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc bfc" id="L265" title="All 4 branches covered.">        if (restaurants == null || restaurants.isEmpty()) {</span>
 <span class="fc" id="L266">            return new ArrayList&lt;&gt;();</span>
         }
 
-<span class="nc" id="L269">        return restaurants.stream()</span>
-<span class="nc bnc" id="L270" title="All 2 branches missed.">                .filter(r -&gt; r != null)</span>
-<span class="nc" id="L271">                .filter(r -&gt; isClosingSoon(r, withinMinutes))</span>
-<span class="nc" id="L272">                .collect(Collectors.toList());</span>
+<span class="fc" id="L269">        return restaurants.stream()</span>
+<span class="fc bfc" id="L270" title="All 2 branches covered.">                .filter(r -&gt; r != null)</span>
+<span class="fc" id="L271">                .filter(r -&gt; isClosingSoon(r, withinMinutes))</span>
+<span class="fc" id="L272">                .collect(Collectors.toList());</span>
     }
 
     /**

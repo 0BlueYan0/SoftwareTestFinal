@@ -150,3 +150,63 @@ return results.subList(offset, endIndex);
 | 12 | 設計缺陷 | 中 | ✅ 已修復 |
 
 以上 12 個 Bug 均已在最終版本中修復，並透過單元測試驗證修復效果。
+
+---
+
+## Bug #13: 測試類別中重複定義方法 (Duplicate Methods)
+**發現位置**: `RestaurantSearchServiceTest`, `InputValidatorTest`
+**描述**: 測試類別中存在名稱與簽章完全相同的方法，導致編譯失敗。
+- `RestaurantSearchServiceTest`: 重複定義 `searchByMultipleCriteria_WithPriceLevel()` 和 `countRestaurants()`
+- `InputValidatorTest`: 重複定義 `validateReview_UserLevelZero_ThrowsException()`
+**修復**: 識別並移除多餘的重複方法定義，保留一份正確的實作。
+
+---
+
+## Bug #14: JaCoCo 版本不相容 (Unsupported Class Version)
+**發現位置**: Maven Build Process
+**描述**: 在使用較新版 JDK (如 JDK 21) 執行測試覆蓋率報告時，JaCoCo 0.8.x 早期版本拋出 `Unsupported class file major version 65` (或更高) 錯誤。
+**修復**: 將 JaCoCo Maven Plugin 升級至 0.8.11 或更新版本，以支援 JDK 21+ 的 class file 格式。
+
+---
+
+## Bug #15: 測試程式碼缺乏組織與可讀性
+**發現位置**: 所有 `src/test/java` 下的測試類別
+**描述**: 隨著測試案例增加，單一測試類別變得過於龐大，數百行程式碼混雜不同功能的測試，難以閱讀與維護。
+**修復**: 全面重構測試代碼，採用 JUnit 5 `@Nested` 內部類別架構。
+- 將測試依功能分組（例如 `Search`, `Validation`, `Calculation` 等）
+- 每個內部類別專注於特定場景或方法
+- 大幅提升測試代碼的結構化程度與可讀性
+
+---
+
+## 更新總結
+
+| Bug # | 類型 | 嚴重程度 | 修復狀態 |
+|-------|------|----------|----------|
+| 13 | 編譯錯誤 | 高 | ✅ 已修復 |
+| 14 | 環境配置 | 高 | ✅ 已修復 |
+| 15 | 代碼品質 | 中 | ✅ 已修復 |
+| 16 | PMD P3 錯誤 | 中 | ✅ 已修復 |
+
+新增的 Bug 與優化項目也已全數完成。
+
+---
+
+## Bug #16: PMD Priority 3 錯誤 (CollapsibleIfStatements)
+**發現位置**: `InputValidator.java`
+**描述**: PMD 程式碼檢查發現多處可合併的嵌套 `if` 語句 (Priority 3 Violation)，這降低了程式碼的簡潔性與可讀性。
+**原始代碼**:
+```java
+if (restaurant.getPhoneNumber() != null && !restaurant.getPhoneNumber().isEmpty()) {
+    if (!isValidPhoneNumber(restaurant.getPhoneNumber())) {
+        throw new ValidationException("Invalid phone number format", "phoneNumber");
+    }
+}
+```
+**修復**: 將嵌套的 `if` 合併為單一條件判斷。
+```java
+if (restaurant.getPhoneNumber() != null && !restaurant.getPhoneNumber().isEmpty() 
+    && !isValidPhoneNumber(restaurant.getPhoneNumber())) {
+    throw new ValidationException("Invalid phone number format", "phoneNumber");
+}
+```

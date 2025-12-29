@@ -18,9 +18,9 @@ public class MenuItem {
     private boolean available;
     private int calories;
 
-<span class="nc" id="L21">    public MenuItem() {</span>
-<span class="nc" id="L22">        this.available = true;</span>
-<span class="nc" id="L23">    }</span>
+<span class="fc" id="L21">    public MenuItem() {</span>
+<span class="fc" id="L22">        this.available = true;</span>
+<span class="fc" id="L23">    }</span>
 
 <span class="fc" id="L25">    public MenuItem(String id, String name, double price) {</span>
 <span class="fc" id="L26">        this.id = id;</span>
@@ -30,52 +30,52 @@ public class MenuItem {
 <span class="fc" id="L30">    }</span>
 
     public MenuItem(String id, String name, double price, String category) {
-<span class="nc" id="L33">        this(id, name, price);</span>
-<span class="nc" id="L34">        this.category = category;</span>
-<span class="nc" id="L35">    }</span>
+<span class="fc" id="L33">        this(id, name, price);</span>
+<span class="fc" id="L34">        this.category = category;</span>
+<span class="fc" id="L35">    }</span>
 
     public String getId() {
 <span class="fc" id="L38">        return id;</span>
     }
 
     public void setId(String id) {
-<span class="nc" id="L42">        this.id = id;</span>
-<span class="nc" id="L43">    }</span>
+<span class="fc" id="L42">        this.id = id;</span>
+<span class="fc" id="L43">    }</span>
 
     public String getName() {
 <span class="fc" id="L46">        return name;</span>
     }
 
     public void setName(String name) {
-<span class="nc" id="L50">        this.name = name;</span>
-<span class="nc" id="L51">    }</span>
+<span class="fc" id="L50">        this.name = name;</span>
+<span class="fc" id="L51">    }</span>
 
     public String getDescription() {
 <span class="fc" id="L54">        return description;</span>
     }
 
     public void setDescription(String description) {
-<span class="nc" id="L58">        this.description = description;</span>
-<span class="nc" id="L59">    }</span>
+<span class="fc" id="L58">        this.description = description;</span>
+<span class="fc" id="L59">    }</span>
 
     public double getPrice() {
 <span class="fc" id="L62">        return price;</span>
     }
 
     public void setPrice(double price) {
-<span class="nc" id="L66">        this.price = price;</span>
-<span class="nc" id="L67">    }</span>
+<span class="fc" id="L66">        this.price = price;</span>
+<span class="fc" id="L67">    }</span>
 
     public String getCategory() {
 <span class="fc" id="L70">        return category;</span>
     }
 
     public void setCategory(String category) {
-<span class="nc" id="L74">        this.category = category;</span>
-<span class="nc" id="L75">    }</span>
+<span class="fc" id="L74">        this.category = category;</span>
+<span class="fc" id="L75">    }</span>
 
     public boolean isVegetarian() {
-<span class="nc" id="L78">        return vegetarian;</span>
+<span class="fc" id="L78">        return vegetarian;</span>
     }
 
     public void setVegetarian(boolean vegetarian) {
@@ -83,7 +83,7 @@ public class MenuItem {
 <span class="fc" id="L83">    }</span>
 
     public boolean isVegan() {
-<span class="nc" id="L86">        return vegan;</span>
+<span class="fc" id="L86">        return vegan;</span>
     }
 
     public void setVegan(boolean vegan) {
@@ -91,7 +91,7 @@ public class MenuItem {
 <span class="fc" id="L91">    }</span>
 
     public boolean isGlutenFree() {
-<span class="nc" id="L94">        return glutenFree;</span>
+<span class="fc" id="L94">        return glutenFree;</span>
     }
 
     public void setGlutenFree(boolean glutenFree) {
@@ -99,12 +99,12 @@ public class MenuItem {
 <span class="fc" id="L99">    }</span>
 
     public boolean isSpicy() {
-<span class="nc" id="L102">        return spicy;</span>
+<span class="fc" id="L102">        return spicy;</span>
     }
 
     public void setSpicy(boolean spicy) {
-<span class="nc" id="L106">        this.spicy = spicy;</span>
-<span class="nc" id="L107">    }</span>
+<span class="fc" id="L106">        this.spicy = spicy;</span>
+<span class="fc" id="L107">    }</span>
 
     public boolean isAvailable() {
 <span class="fc" id="L110">        return available;</span>
@@ -119,8 +119,8 @@ public class MenuItem {
     }
 
     public void setCalories(int calories) {
-<span class="nc" id="L122">        this.calories = calories;</span>
-<span class="nc" id="L123">    }</span>
+<span class="fc" id="L122">        this.calories = calories;</span>
+<span class="fc" id="L123">    }</span>
 
     public boolean matchesDietaryRestrictions(boolean requireVegetarian, boolean requireVegan,
             boolean requireGlutenFree) {
@@ -130,7 +130,7 @@ public class MenuItem {
 <span class="fc bfc" id="L130" title="All 4 branches covered.">        if (requireVegan &amp;&amp; !vegan) {</span>
 <span class="fc" id="L131">            return false;</span>
         }
-<span class="pc bpc" id="L133" title="1 of 4 branches missed.">        if (requireGlutenFree &amp;&amp; !glutenFree) {</span>
+<span class="fc bfc" id="L133" title="All 4 branches covered.">        if (requireGlutenFree &amp;&amp; !glutenFree) {</span>
 <span class="fc" id="L134">            return false;</span>
         }
 <span class="fc" id="L136">        return true;</span>
@@ -148,22 +148,22 @@ public class MenuItem {
 
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L151" title="All 2 branches missed.">        if (this == o)</span>
-<span class="nc" id="L152">            return true;</span>
-<span class="nc bnc" id="L153" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass())</span>
-<span class="nc" id="L154">            return false;</span>
-<span class="nc" id="L155">        MenuItem menuItem = (MenuItem) o;</span>
-<span class="nc" id="L156">        return Objects.equals(id, menuItem.id);</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        if (this == o)</span>
+<span class="fc" id="L152">            return true;</span>
+<span class="fc bfc" id="L153" title="All 4 branches covered.">        if (o == null || getClass() != o.getClass())</span>
+<span class="fc" id="L154">            return false;</span>
+<span class="fc" id="L155">        MenuItem menuItem = (MenuItem) o;</span>
+<span class="fc" id="L156">        return Objects.equals(id, menuItem.id);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="nc" id="L161">        return Objects.hash(id);</span>
+<span class="fc" id="L161">        return Objects.hash(id);</span>
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L166">        return &quot;MenuItem{&quot; +</span>
+<span class="fc" id="L166">        return &quot;MenuItem{&quot; +</span>
                 &quot;id='&quot; + id + '\'' +
                 &quot;, name='&quot; + name + '\'' +
                 &quot;, price=&quot; + price +

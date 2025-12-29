@@ -55,17 +55,15 @@ public class InputValidator {
         }
 
         // Validate phone number format (if present)
-        if (restaurant.getPhoneNumber() != null && !restaurant.getPhoneNumber().isEmpty()) {
-            if (!isValidPhoneNumber(restaurant.getPhoneNumber())) {
-                throw new ValidationException("Invalid phone number format", "phoneNumber");
-            }
+        if (restaurant.getPhoneNumber() != null && !restaurant.getPhoneNumber().isEmpty()
+                && !isValidPhoneNumber(restaurant.getPhoneNumber())) {
+            throw new ValidationException("Invalid phone number format", "phoneNumber");
         }
 
         // Validate website format (if present)
-        if (restaurant.getWebsite() != null && !restaurant.getWebsite().isEmpty()) {
-            if (!isValidUrl(restaurant.getWebsite())) {
-                throw new ValidationException("Invalid website URL format", "website");
-            }
+        if (restaurant.getWebsite() != null && !restaurant.getWebsite().isEmpty()
+                && !isValidUrl(restaurant.getWebsite())) {
+            throw new ValidationException("Invalid website URL format", "website");
         }
 
         // Validate location if present
@@ -114,10 +112,9 @@ public class InputValidator {
         }
 
         // Validate postal code
-        if (location.getPostalCode() != null && !location.getPostalCode().isEmpty()) {
-            if (!isValidPostalCode(location.getPostalCode())) {
-                throw new ValidationException("Invalid postal code format", "postalCode");
-            }
+        if (location.getPostalCode() != null && !location.getPostalCode().isEmpty()
+                && !isValidPostalCode(location.getPostalCode())) {
+            throw new ValidationException("Invalid postal code format", "postalCode");
         }
     }
 
@@ -191,20 +188,15 @@ public class InputValidator {
         }
 
         // Validate rating range
-        if (criteria.getMinRating() != null) {
-            if (criteria.getMinRating() < 0 || criteria.getMinRating() > 5) {
-                throw new ValidationException("Minimum rating must be between 0 and 5", "minRating");
-            }
+        if (criteria.getMinRating() != null && (criteria.getMinRating() < 0 || criteria.getMinRating() > 5)) {
+            throw new ValidationException("Minimum rating must be between 0 and 5", "minRating");
         }
-        if (criteria.getMaxRating() != null) {
-            if (criteria.getMaxRating() < 0 || criteria.getMaxRating() > 5) {
-                throw new ValidationException("Maximum rating must be between 0 and 5", "maxRating");
-            }
+        if (criteria.getMaxRating() != null && (criteria.getMaxRating() < 0 || criteria.getMaxRating() > 5)) {
+            throw new ValidationException("Maximum rating must be between 0 and 5", "maxRating");
         }
-        if (criteria.getMinRating() != null && criteria.getMaxRating() != null) {
-            if (criteria.getMinRating() > criteria.getMaxRating()) {
-                throw new ValidationException("Minimum rating cannot exceed maximum rating", "minRating");
-            }
+        if (criteria.getMinRating() != null && criteria.getMaxRating() != null
+                && criteria.getMinRating() > criteria.getMaxRating()) {
+            throw new ValidationException("Minimum rating cannot exceed maximum rating", "minRating");
         }
 
         // Validate price range
@@ -214,17 +206,14 @@ public class InputValidator {
         if (criteria.getMaxPrice() != null && criteria.getMaxPrice() < 0) {
             throw new ValidationException("Maximum price cannot be negative", "maxPrice");
         }
-        if (criteria.getMinPrice() != null && criteria.getMaxPrice() != null) {
-            if (criteria.getMinPrice() > criteria.getMaxPrice()) {
-                throw new ValidationException("Minimum price cannot exceed maximum price", "minPrice");
-            }
+        if (criteria.getMinPrice() != null && criteria.getMaxPrice() != null
+                && criteria.getMinPrice() > criteria.getMaxPrice()) {
+            throw new ValidationException("Minimum price cannot exceed maximum price", "minPrice");
         }
 
         // Validate price level
-        if (criteria.getPriceLevel() != null) {
-            if (criteria.getPriceLevel() < 1 || criteria.getPriceLevel() > 4) {
-                throw new ValidationException("Price level must be between 1 and 4", "priceLevel");
-            }
+        if (criteria.getPriceLevel() != null && (criteria.getPriceLevel() < 1 || criteria.getPriceLevel() > 4)) {
+            throw new ValidationException("Price level must be between 1 and 4", "priceLevel");
         }
 
         // Validate location parameters

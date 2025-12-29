@@ -47,8 +47,8 @@ public class BusinessHours {
     }
 
     public void setWeeklyHours(Map&lt;DayOfWeek, TimeSlot&gt; weeklyHours) {
-<span class="nc" id="L50">        this.weeklyHours = weeklyHours;</span>
-<span class="nc" id="L51">    }</span>
+<span class="fc" id="L50">        this.weeklyHours = weeklyHours;</span>
+<span class="fc" id="L51">    }</span>
 
     public boolean isOpenAt(LocalDateTime dateTime) {
 <span class="fc bfc" id="L54" title="All 2 branches covered.">        if (dateTime == null) {</span>
@@ -71,33 +71,33 @@ public class BusinessHours {
     }
 
     public LocalDateTime getNextOpenTime(LocalDateTime from) {
-<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (from == null) {</span>
-<span class="nc" id="L75">            from = LocalDateTime.now();</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (from == null) {</span>
+<span class="fc" id="L75">            from = LocalDateTime.now();</span>
         }
 
         // Check up to 7 days
-<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        for (int i = 0; i &lt; 7; i++) {</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        for (int i = 0; i &lt; 7; i++) {</span>
 <span class="fc" id="L80">            LocalDate date = from.toLocalDate().plusDays(i);</span>
 <span class="fc" id="L81">            DayOfWeek day = date.getDayOfWeek();</span>
 <span class="fc" id="L82">            TimeSlot slot = weeklyHours.get(day);</span>
 
-<span class="pc bpc" id="L84" title="1 of 2 branches missed.">            if (slot != null) {</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">            if (slot != null) {</span>
 <span class="fc" id="L85">                LocalDateTime openTime = LocalDateTime.of(date, slot.getOpenTime());</span>
-<span class="pc bpc" id="L86" title="1 of 2 branches missed.">                if (i == 0) {</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">                if (i == 0) {</span>
                     // Same day - check if it's still in the future
 <span class="fc bfc" id="L88" title="All 2 branches covered.">                    if (openTime.isAfter(from)) {</span>
 <span class="fc" id="L89">                        return openTime;</span>
                     }
                     // Already open or past opening time
-<span class="pc bpc" id="L92" title="1 of 2 branches missed.">                    if (slot.contains(from.toLocalTime())) {</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">                    if (slot.contains(from.toLocalTime())) {</span>
 <span class="fc" id="L93">                        return from; // Already open</span>
                     }
                 } else {
-<span class="nc" id="L96">                    return openTime;</span>
+<span class="fc" id="L96">                    return openTime;</span>
                 }
             }
         }
-<span class="nc" id="L100">        return null; // Never opens</span>
+<span class="fc" id="L100">        return null; // Never opens</span>
     }
 
     /**
@@ -107,8 +107,8 @@ public class BusinessHours {
         private LocalTime openTime;
         private LocalTime closeTime;
 
-<span class="nc" id="L110">        public TimeSlot() {</span>
-<span class="nc" id="L111">        }</span>
+<span class="fc" id="L110">        public TimeSlot() {</span>
+<span class="fc" id="L111">        }</span>
 
 <span class="fc" id="L113">        public TimeSlot(LocalTime openTime, LocalTime closeTime) {</span>
 <span class="fc" id="L114">            this.openTime = openTime;</span>
@@ -120,19 +120,19 @@ public class BusinessHours {
         }
 
         public void setOpenTime(LocalTime openTime) {
-<span class="nc" id="L123">            this.openTime = openTime;</span>
-<span class="nc" id="L124">        }</span>
+<span class="fc" id="L123">            this.openTime = openTime;</span>
+<span class="fc" id="L124">        }</span>
 
         public LocalTime getCloseTime() {
 <span class="fc" id="L127">            return closeTime;</span>
         }
 
         public void setCloseTime(LocalTime closeTime) {
-<span class="nc" id="L131">            this.closeTime = closeTime;</span>
-<span class="nc" id="L132">        }</span>
+<span class="fc" id="L131">            this.closeTime = closeTime;</span>
+<span class="fc" id="L132">        }</span>
 
         public boolean contains(LocalTime time) {
-<span class="pc bpc" id="L135" title="2 of 6 branches missed.">            if (time == null || openTime == null || closeTime == null) {</span>
+<span class="fc bfc" id="L135" title="All 6 branches covered.">            if (time == null || openTime == null || closeTime == null) {</span>
 <span class="fc" id="L136">                return false;</span>
             }
 
@@ -148,7 +148,7 @@ public class BusinessHours {
         public boolean equals(Object o) {
 <span class="fc bfc" id="L149" title="All 2 branches covered.">            if (this == o)</span>
 <span class="fc" id="L150">                return true;</span>
-<span class="pc bpc" id="L151" title="1 of 4 branches missed.">            if (o == null || getClass() != o.getClass())</span>
+<span class="fc bfc" id="L151" title="All 4 branches covered.">            if (o == null || getClass() != o.getClass())</span>
 <span class="fc" id="L152">                return false;</span>
 <span class="fc" id="L153">            TimeSlot timeSlot = (TimeSlot) o;</span>
 <span class="fc bfc" id="L154" title="All 2 branches covered.">            return Objects.equals(openTime, timeSlot.openTime)</span>
@@ -168,19 +168,19 @@ public class BusinessHours {
 
     @Override
     public String toString() {
-<span class="nc" id="L171">        StringBuilder sb = new StringBuilder(&quot;BusinessHours{\n&quot;);</span>
-<span class="nc bnc" id="L172" title="All 2 branches missed.">        for (DayOfWeek day : DayOfWeek.values()) {</span>
-<span class="nc" id="L173">            TimeSlot slot = weeklyHours.get(day);</span>
-<span class="nc" id="L174">            sb.append(&quot;  &quot;).append(day).append(&quot;: &quot;);</span>
-<span class="nc bnc" id="L175" title="All 2 branches missed.">            if (slot != null) {</span>
-<span class="nc" id="L176">                sb.append(slot);</span>
+<span class="fc" id="L171">        StringBuilder sb = new StringBuilder(&quot;BusinessHours{\n&quot;);</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">        for (DayOfWeek day : DayOfWeek.values()) {</span>
+<span class="fc" id="L173">            TimeSlot slot = weeklyHours.get(day);</span>
+<span class="fc" id="L174">            sb.append(&quot;  &quot;).append(day).append(&quot;: &quot;);</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">            if (slot != null) {</span>
+<span class="fc" id="L176">                sb.append(slot);</span>
             } else {
-<span class="nc" id="L178">                sb.append(&quot;Closed&quot;);</span>
+<span class="fc" id="L178">                sb.append(&quot;Closed&quot;);</span>
             }
-<span class="nc" id="L180">            sb.append(&quot;\n&quot;);</span>
+<span class="fc" id="L180">            sb.append(&quot;\n&quot;);</span>
         }
-<span class="nc" id="L182">        sb.append(&quot;}&quot;);</span>
-<span class="nc" id="L183">        return sb.toString();</span>
+<span class="fc" id="L182">        sb.append(&quot;}&quot;);</span>
+<span class="fc" id="L183">        return sb.toString();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

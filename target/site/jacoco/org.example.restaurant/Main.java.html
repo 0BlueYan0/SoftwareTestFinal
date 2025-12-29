@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">final</a> &gt; <a href="index.source.html" class="el_package">org.example.restaurant</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package org.example.restaurant;
+
+import org.example.restaurant.data.SampleDataLoader;
+import org.example.restaurant.model.*;
+import org.example.restaurant.repository.RestaurantRepository;
+import org.example.restaurant.service.*;
+
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ * 餐廳搜尋系統 - 主程式入口點
+ * 提供互動式命令列介面供 Demo 使用
+ */
+public class Main {
+
+    private final RestaurantRepository repository;
+    private final RestaurantSearchService searchService;
+    private final RecommendationService recommendationService;
+    private final RatingService ratingService;
+    private final BusinessHoursService businessHoursService;
+    private final PriceAnalyzer priceAnalyzer;
+    private final Scanner scanner;
+
+<span class="fc" id="L25">    public Main() {</span>
+        // 初始化服務
+<span class="fc" id="L27">        this.repository = new RestaurantRepository();</span>
+<span class="fc" id="L28">        this.ratingService = new RatingService();</span>
+<span class="fc" id="L29">        this.priceAnalyzer = new PriceAnalyzer();</span>
+<span class="fc" id="L30">        this.searchService = new RestaurantSearchService(repository);</span>
+<span class="fc" id="L31">        this.businessHoursService = new BusinessHoursService();</span>
+<span class="fc" id="L32">        this.recommendationService = new RecommendationService(ratingService, priceAnalyzer);</span>
+<span class="fc" id="L33">        this.scanner = new Scanner(System.in);</span>
+
+        // 載入示範資料
+<span class="fc" id="L36">        SampleDataLoader dataLoader = new SampleDataLoader(repository);</span>
+<span class="fc" id="L37">        dataLoader.loadSampleData();</span>
+<span class="fc" id="L38">    }</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L41">        Main app = new Main();</span>
+<span class="nc" id="L42">        app.run();</span>
+<span class="nc" id="L43">    }</span>
+
+    public void run() {
+<span class="fc" id="L46">        System.out.println(&quot;\n&quot; + &quot;=&quot;.repeat(50));</span>
+<span class="fc" id="L47">        System.out.println(&quot;      台中美食搜尋系統 Demo&quot;);</span>
+<span class="fc" id="L48">        System.out.println(&quot;=&quot;.repeat(50));</span>
+
+<span class="fc" id="L50">        boolean running = true;</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        while (running) {</span>
+<span class="fc" id="L52">            printMenu();</span>
+<span class="fc" id="L53">            String choice = scanner.nextLine().trim();</span>
+
+<span class="pc bpc" id="L55" title="1 of 8 branches missed.">            switch (choice) {</span>
+                case &quot;1&quot;:
+<span class="fc" id="L57">                    searchByKeyword();</span>
+<span class="fc" id="L58">                    break;</span>
+                case &quot;2&quot;:
+<span class="nc" id="L60">                    showPopularRestaurants();</span>
+<span class="nc" id="L61">                    break;</span>
+                case &quot;3&quot;:
+<span class="fc" id="L63">                    showRecommendations();</span>
+<span class="fc" id="L64">                    break;</span>
+                case &quot;4&quot;:
+<span class="fc" id="L66">                    searchByPriceLevel();</span>
+<span class="fc" id="L67">                    break;</span>
+                case &quot;5&quot;:
+<span class="fc" id="L69">                    showAllRestaurants();</span>
+<span class="fc" id="L70">                    break;</span>
+                case &quot;6&quot;:
+<span class="fc" id="L72">                    showOpenNow();</span>
+<span class="fc" id="L73">                    break;</span>
+                case &quot;0&quot;:
+<span class="fc" id="L75">                    running = false;</span>
+<span class="fc" id="L76">                    System.out.println(&quot;\n感謝使用，再見！&quot;);</span>
+<span class="fc" id="L77">                    break;</span>
+                default:
+<span class="fc" id="L79">                    System.out.println(&quot;\n無效的選項，請重新輸入&quot;);</span>
+            }
+<span class="fc" id="L81">        }</span>
+<span class="fc" id="L82">    }</span>
+
+    private void printMenu() {
+<span class="fc" id="L85">        System.out.println(&quot;\n&quot; + &quot;-&quot;.repeat(40));</span>
+<span class="fc" id="L86">        System.out.println(&quot;請選擇功能:&quot;);</span>
+<span class="fc" id="L87">        System.out.println(&quot;  1. 關鍵字搜尋餐廳&quot;);</span>
+<span class="fc" id="L88">        System.out.println(&quot;  2. 查看人氣餐廳&quot;);</span>
+<span class="fc" id="L89">        System.out.println(&quot;  3. 取得餐廳推薦&quot;);</span>
+<span class="fc" id="L90">        System.out.println(&quot;  4. 依價格等級搜尋&quot;);</span>
+<span class="fc" id="L91">        System.out.println(&quot;  5. 顯示所有餐廳&quot;);</span>
+<span class="fc" id="L92">        System.out.println(&quot;  6. 查看營業中餐廳&quot;);</span>
+<span class="fc" id="L93">        System.out.println(&quot;  0. 離開系統&quot;);</span>
+<span class="fc" id="L94">        System.out.print(&quot;\n請輸入選項: &quot;);</span>
+<span class="fc" id="L95">    }</span>
+
+    private void searchByKeyword() {
+<span class="fc" id="L98">        System.out.print(&quot;\n請輸入搜尋關鍵字 (名稱、菜系、地區): &quot;);</span>
+<span class="fc" id="L99">        String keyword = scanner.nextLine().trim();</span>
+
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (keyword.isEmpty()) {</span>
+<span class="fc" id="L102">            System.out.println(&quot;關鍵字不能為空&quot;);</span>
+<span class="fc" id="L103">            return;</span>
+        }
+
+<span class="fc" id="L106">        List&lt;Restaurant&gt; results = searchService.searchGlobal(keyword);</span>
+
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (results.isEmpty()) {</span>
+<span class="fc" id="L109">            System.out.println(&quot;\n找不到符合「&quot; + keyword + &quot;」的餐廳&quot;);</span>
+        } else {
+<span class="fc" id="L111">            System.out.println(&quot;\n搜尋「&quot; + keyword + &quot;」找到 &quot; + results.size() + &quot; 家餐廳:&quot;);</span>
+<span class="fc" id="L112">            printRestaurantList(results);</span>
+        }
+<span class="fc" id="L114">    }</span>
+
+    private void showPopularRestaurants() {
+<span class="nc" id="L117">        List&lt;Restaurant&gt; allRestaurants = searchService.getAllRestaurants();</span>
+<span class="nc" id="L118">        List&lt;Restaurant&gt; popular = recommendationService.getPopularRestaurants(allRestaurants, 5);</span>
+
+<span class="nc" id="L120">        System.out.println(&quot;\n人氣 TOP 5 餐廳:&quot;);</span>
+<span class="nc" id="L121">        printRestaurantList(popular);</span>
+<span class="nc" id="L122">    }</span>
+
+    private void showRecommendations() {
+<span class="fc" id="L125">        List&lt;Restaurant&gt; allRestaurants = searchService.getAllRestaurants();</span>
+
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">        if (allRestaurants.isEmpty()) {</span>
+<span class="nc" id="L128">            System.out.println(&quot;目前沒有餐廳資料&quot;);</span>
+<span class="nc" id="L129">            return;</span>
+        }
+
+<span class="fc" id="L132">        System.out.println(&quot;\n目前餐廳列表:&quot;);</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        for (int i = 0; i &lt; allRestaurants.size(); i++) {</span>
+<span class="fc" id="L134">            Restaurant r = allRestaurants.get(i);</span>
+<span class="fc" id="L135">            System.out.println(&quot;  &quot; + (i + 1) + &quot;. &quot; + r.getName());</span>
+        }
+
+<span class="fc" id="L138">        System.out.print(&quot;\n請選擇餐廳編號以取得類似推薦: &quot;);</span>
+        try {
+<span class="fc" id="L140">            int index = Integer.parseInt(scanner.nextLine().trim()) - 1;</span>
+<span class="fc bfc" id="L141" title="All 4 branches covered.">            if (index &gt;= 0 &amp;&amp; index &lt; allRestaurants.size()) {</span>
+<span class="fc" id="L142">                Restaurant reference = allRestaurants.get(index);</span>
+<span class="fc" id="L143">                List&lt;Restaurant&gt; similar = recommendationService.recommendSimilar(reference, allRestaurants);</span>
+
+<span class="fc" id="L145">                System.out.println(&quot;\n與「&quot; + reference.getName() + &quot;」相似的餐廳:&quot;);</span>
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">                if (similar.isEmpty()) {</span>
+<span class="nc" id="L147">                    System.out.println(&quot;  找不到類似餐廳&quot;);</span>
+                } else {
+<span class="fc" id="L149">                    printRestaurantList(similar);</span>
+                }
+<span class="fc" id="L151">            } else {</span>
+<span class="fc" id="L152">                System.out.println(&quot;無效的編號&quot;);</span>
+            }
+<span class="fc" id="L154">        } catch (NumberFormatException e) {</span>
+<span class="fc" id="L155">            System.out.println(&quot;請輸入有效的數字&quot;);</span>
+<span class="fc" id="L156">        }</span>
+<span class="fc" id="L157">    }</span>
+
+    private void searchByPriceLevel() {
+<span class="fc" id="L160">        System.out.println(&quot;\n價格等級:&quot;);</span>
+<span class="fc" id="L161">        System.out.println(&quot;  1: $ (經濟實惠)&quot;);</span>
+<span class="fc" id="L162">        System.out.println(&quot;  2: $$ (中等價位)&quot;);</span>
+<span class="fc" id="L163">        System.out.println(&quot;  3: $$$ (高檔餐廳)&quot;);</span>
+<span class="fc" id="L164">        System.out.println(&quot;  4: $$$$ (頂級餐廳)&quot;);</span>
+<span class="fc" id="L165">        System.out.print(&quot;\n請輸入價格等級 (1-4): &quot;);</span>
+
+        try {
+<span class="fc" id="L168">            int level = Integer.parseInt(scanner.nextLine().trim());</span>
+<span class="fc bfc" id="L169" title="All 4 branches covered.">            if (level &lt; 1 || level &gt; 4) {</span>
+<span class="fc" id="L170">                System.out.println(&quot;請輸入 1-4 之間的數字&quot;);</span>
+<span class="fc" id="L171">                return;</span>
+            }
+
+            // 手動過濾價格等級
+<span class="fc" id="L175">            List&lt;Restaurant&gt; allRestaurants = searchService.getAllRestaurants();</span>
+<span class="fc" id="L176">            List&lt;Restaurant&gt; results = new java.util.ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">            for (Restaurant r : allRestaurants) {</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">                if (r.getPriceLevel() == level) {</span>
+<span class="fc" id="L179">                    results.add(r);</span>
+                }
+<span class="fc" id="L181">            }</span>
+<span class="fc" id="L182">            String priceSymbol = &quot;$&quot;.repeat(level);</span>
+
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">            if (results.isEmpty()) {</span>
+<span class="nc" id="L185">                System.out.println(&quot;\n找不到價格等級為 &quot; + priceSymbol + &quot; 的餐廳&quot;);</span>
+            } else {
+<span class="fc" id="L187">                System.out.println(&quot;\n價格等級 &quot; + priceSymbol + &quot; 的餐廳 (&quot; + results.size() + &quot; 家):&quot;);</span>
+<span class="fc" id="L188">                printRestaurantList(results);</span>
+            }
+<span class="fc" id="L190">        } catch (NumberFormatException e) {</span>
+<span class="fc" id="L191">            System.out.println(&quot;請輸入有效的數字&quot;);</span>
+<span class="fc" id="L192">        }</span>
+<span class="fc" id="L193">    }</span>
+
+    private void showAllRestaurants() {
+<span class="fc" id="L196">        List&lt;Restaurant&gt; all = searchService.getAllRestaurants();</span>
+<span class="fc" id="L197">        System.out.println(&quot;\n所有餐廳列表 (&quot; + all.size() + &quot; 家):&quot;);</span>
+<span class="fc" id="L198">        printRestaurantList(all);</span>
+<span class="fc" id="L199">    }</span>
+
+    private void showOpenNow() {
+<span class="fc" id="L202">        List&lt;Restaurant&gt; all = searchService.getAllRestaurants();</span>
+<span class="fc" id="L203">        List&lt;Restaurant&gt; openNow = businessHoursService.findOpenNow(all);</span>
+
+<span class="fc" id="L205">        System.out.println(&quot;\n目前營業中的餐廳 (&quot; + openNow.size() + &quot; 家):&quot;);</span>
+<span class="fc bfc" id="L206" title="All 2 branches covered.">        if (openNow.isEmpty()) {</span>
+<span class="fc" id="L207">            System.out.println(&quot;  目前沒有營業中的餐廳&quot;);</span>
+        } else {
+<span class="fc" id="L209">            printRestaurantList(openNow);</span>
+        }
+<span class="fc" id="L211">    }</span>
+
+    private void printRestaurantList(List&lt;Restaurant&gt; restaurants) {
+<span class="fc" id="L214">        System.out.println(&quot;-&quot;.repeat(60));</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">        for (Restaurant r : restaurants) {</span>
+<span class="fc" id="L216">            double rating = ratingService.calculateAverageRating(r);</span>
+<span class="fc" id="L217">            String stars = getStars(rating);</span>
+<span class="fc" id="L218">            String priceLevel = &quot;$&quot;.repeat(Math.max(1, r.getPriceLevel()));</span>
+
+<span class="fc" id="L220">            System.out.println(&quot;  &quot; + r.getName());</span>
+<span class="fc" id="L221">            System.out</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">                    .println(&quot;     菜系: &quot; + (r.getCuisineType() != null ? r.getCuisineType().getDisplayName() : &quot;未分類&quot;));</span>
+<span class="fc" id="L223">            System.out.println(&quot;     評分: &quot; + stars + &quot; (&quot; + String.format(&quot;%.1f&quot;, rating) + &quot;)&quot;);</span>
+<span class="fc" id="L224">            System.out.println(&quot;     價位: &quot; + priceLevel + &quot; (平均 $&quot; + r.getAveragePrice() + &quot;)&quot;);</span>
+<span class="fc bfc" id="L225" title="All 2 branches covered.">            if (r.getLocation() != null) {</span>
+<span class="fc" id="L226">                System.out.println(&quot;     地址: &quot; + r.getLocation().getAddress());</span>
+            }
+<span class="pc bpc" id="L228" title="1 of 4 branches missed.">            if (r.getDescription() != null &amp;&amp; !r.getDescription().isEmpty()) {</span>
+<span class="fc" id="L229">                String desc = r.getDescription();</span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">                if (desc.length() &gt; 40) {</span>
+<span class="fc" id="L231">                    desc = desc.substring(0, 40) + &quot;...&quot;;</span>
+                }
+<span class="fc" id="L233">                System.out.println(&quot;     簡介: &quot; + desc);</span>
+            }
+<span class="fc" id="L235">            System.out.println();</span>
+<span class="fc" id="L236">        }</span>
+<span class="fc" id="L237">        System.out.println(&quot;-&quot;.repeat(60));</span>
+<span class="fc" id="L238">    }</span>
+
+    private String getStars(double rating) {
+<span class="fc" id="L241">        int fullStars = (int) rating;</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">        boolean halfStar = (rating - fullStars) &gt;= 0.5;</span>
+<span class="fc" id="L243">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">        for (int i = 0; i &lt; fullStars; i++) {</span>
+<span class="fc" id="L245">            sb.append(&quot;★&quot;);</span>
+        }
+<span class="fc bfc" id="L247" title="All 2 branches covered.">        if (halfStar) {</span>
+<span class="fc" id="L248">            sb.append(&quot;☆&quot;);</span>
+        }
+<span class="fc bfc" id="L250" title="All 2 branches covered.">        while (sb.length() &lt; 5) {</span>
+<span class="fc" id="L251">            sb.append(&quot;☆&quot;);</span>
+        }
+<span class="fc" id="L253">        return sb.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -36,14 +36,14 @@ import java.util.stream.Collectors;
 <span class="fc" id="L36">        int validCount = 0;</span>
 
 <span class="fc bfc" id="L38" title="All 2 branches covered.">        for (Review review : reviews) {</span>
-<span class="pc bpc" id="L39" title="2 of 6 branches missed.">            if (review != null &amp;&amp; review.getRating() &gt;= 1 &amp;&amp; review.getRating() &lt;= 5) {</span>
+<span class="fc bfc" id="L39" title="All 6 branches covered.">            if (review != null &amp;&amp; review.getRating() &gt;= 1 &amp;&amp; review.getRating() &lt;= 5) {</span>
 <span class="fc" id="L40">                sum += review.getRating();</span>
 <span class="fc" id="L41">                validCount++;</span>
             }
 <span class="fc" id="L43">        }</span>
 
-<span class="pc bpc" id="L45" title="1 of 2 branches missed.">        if (validCount == 0) {</span>
-<span class="nc" id="L46">            return 0.0;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (validCount == 0) {</span>
+<span class="fc" id="L46">            return 0.0;</span>
         }
 
 <span class="fc" id="L49">        return Math.round((sum / validCount) * 10.0) / 10.0;</span>
@@ -59,8 +59,8 @@ import java.util.stream.Collectors;
         }
 
 <span class="fc" id="L61">        List&lt;Review&gt; reviews = restaurant.getReviews();</span>
-<span class="pc bpc" id="L62" title="2 of 4 branches missed.">        if (reviews == null || reviews.isEmpty()) {</span>
-<span class="nc" id="L63">            return 0.0;</span>
+<span class="pc bpc" id="L62" title="1 of 4 branches missed.">        if (reviews == null || reviews.isEmpty()) {</span>
+<span class="fc" id="L63">            return 0.0;</span>
         }
 
         // Not enough reviews for weighted calculation
@@ -72,15 +72,15 @@ import java.util.stream.Collectors;
 <span class="fc" id="L72">        double totalWeight = 0;</span>
 
 <span class="fc bfc" id="L74" title="All 2 branches covered.">        for (Review review : reviews) {</span>
-<span class="pc bpc" id="L75" title="3 of 6 branches missed.">            if (review != null &amp;&amp; review.getRating() &gt;= 1 &amp;&amp; review.getRating() &lt;= 5) {</span>
+<span class="pc bpc" id="L75" title="2 of 6 branches missed.">            if (review != null &amp;&amp; review.getRating() &gt;= 1 &amp;&amp; review.getRating() &lt;= 5) {</span>
 <span class="fc" id="L76">                double weight = calculateReviewWeight(review);</span>
 <span class="fc" id="L77">                weightedSum += review.getRating() * weight;</span>
 <span class="fc" id="L78">                totalWeight += weight;</span>
             }
 <span class="fc" id="L80">        }</span>
 
-<span class="pc bpc" id="L82" title="1 of 2 branches missed.">        if (totalWeight == 0) {</span>
-<span class="nc" id="L83">            return 0.0;</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (totalWeight == 0) {</span>
+<span class="fc" id="L83">            return 0.0;</span>
         }
 
 <span class="fc" id="L86">        return Math.round((weightedSum / totalWeight) * 10.0) / 10.0;</span>
@@ -91,38 +91,38 @@ import java.util.stream.Collectors;
      * v(G) = ~8
      */
     private double calculateReviewWeight(Review review) {
-<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (review == null) {</span>
-<span class="nc" id="L95">            return DEFAULT_WEIGHT;</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (review == null) {</span>
+<span class="fc" id="L95">            return DEFAULT_WEIGHT;</span>
         }
 
 <span class="fc" id="L98">        double weight = 1.0;</span>
 
         // Factor 1: User level (1-5)
 <span class="fc" id="L101">        int userLevel = review.getUserLevel();</span>
-<span class="pc bpc" id="L102" title="2 of 4 branches missed.">        if (userLevel &gt;= 1 &amp;&amp; userLevel &lt;= 5) {</span>
+<span class="pc bpc" id="L102" title="1 of 4 branches missed.">        if (userLevel &gt;= 1 &amp;&amp; userLevel &lt;= 5) {</span>
 <span class="fc" id="L103">            weight *= (0.5 + userLevel * 0.2); // 0.7 to 1.5</span>
         }
 
         // Factor 2: Verification status
-<span class="pc bpc" id="L107" title="1 of 2 branches missed.">        if (review.isVerified()) {</span>
-<span class="nc" id="L108">            weight *= 1.3;</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (review.isVerified()) {</span>
+<span class="fc" id="L108">            weight *= 1.3;</span>
         }
 
         // Factor 3: Helpful count
 <span class="fc" id="L112">        int helpfulCount = review.getHelpfulCount();</span>
-<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (helpfulCount &gt; 20) {</span>
-<span class="nc" id="L114">            weight *= 1.4;</span>
-<span class="pc bpc" id="L115" title="1 of 2 branches missed.">        } else if (helpfulCount &gt; 10) {</span>
-<span class="nc" id="L116">            weight *= 1.2;</span>
-<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        } else if (helpfulCount &gt; 5) {</span>
-<span class="nc" id="L118">            weight *= 1.1;</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        if (helpfulCount &gt; 20) {</span>
+<span class="fc" id="L114">            weight *= 1.4;</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        } else if (helpfulCount &gt; 10) {</span>
+<span class="fc" id="L116">            weight *= 1.2;</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        } else if (helpfulCount &gt; 5) {</span>
+<span class="fc" id="L118">            weight *= 1.1;</span>
         }
 
         // Factor 4: Recency
-<span class="pc bpc" id="L122" title="1 of 2 branches missed.">        if (review.isRecent()) {</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        if (review.isRecent()) {</span>
 <span class="fc" id="L123">            weight *= 1.2;</span>
         } else {
-<span class="nc" id="L125">            weight *= 0.9;</span>
+<span class="fc" id="L125">            weight *= 0.9;</span>
         }
 
         // Cap the weight
@@ -135,21 +135,21 @@ import java.util.stream.Collectors;
      */
     public List&lt;Restaurant&gt; filterByRatingRange(List&lt;Restaurant&gt; restaurants,
             Double minRating, Double maxRating) {
-<span class="pc bpc" id="L138" title="1 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc bfc" id="L138" title="All 4 branches covered.">        if (restaurants == null || restaurants.isEmpty()) {</span>
 <span class="fc" id="L139">            return new ArrayList&lt;&gt;();</span>
         }
 
 <span class="fc" id="L142">        List&lt;Restaurant&gt; result = new ArrayList&lt;&gt;();</span>
 
 <span class="fc bfc" id="L144" title="All 2 branches covered.">        for (Restaurant restaurant : restaurants) {</span>
-<span class="pc bpc" id="L145" title="1 of 2 branches missed.">            if (restaurant == null) {</span>
-<span class="nc" id="L146">                continue;</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">            if (restaurant == null) {</span>
+<span class="fc" id="L146">                continue;</span>
             }
 
 <span class="fc" id="L149">            double rating = calculateAverageRating(restaurant);</span>
 
 <span class="fc bfc" id="L151" title="All 4 branches covered.">            boolean meetsMin = (minRating == null) || (rating &gt;= minRating);</span>
-<span class="pc bpc" id="L152" title="2 of 4 branches missed.">            boolean meetsMax = (maxRating == null) || (rating &lt;= maxRating);</span>
+<span class="pc bpc" id="L152" title="1 of 4 branches missed.">            boolean meetsMax = (maxRating == null) || (rating &lt;= maxRating);</span>
 
 <span class="pc bpc" id="L154" title="1 of 4 branches missed.">            if (meetsMin &amp;&amp; meetsMax) {</span>
 <span class="fc" id="L155">                result.add(restaurant);</span>
@@ -164,26 +164,26 @@ import java.util.stream.Collectors;
      * v(G) = ~6
      */
     public List&lt;Restaurant&gt; getTopRatedRestaurants(List&lt;Restaurant&gt; restaurants, int limit) {
-<span class="pc bpc" id="L167" title="1 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc bfc" id="L167" title="All 4 branches covered.">        if (restaurants == null || restaurants.isEmpty()) {</span>
 <span class="fc" id="L168">            return new ArrayList&lt;&gt;();</span>
         }
 
-<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if (limit &lt;= 0) {</span>
-<span class="nc" id="L172">            limit = 10;</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">        if (limit &lt;= 0) {</span>
+<span class="fc" id="L172">            limit = 10;</span>
         }
 
 <span class="fc" id="L175">        return restaurants.stream()</span>
 <span class="pc bpc" id="L176" title="1 of 2 branches missed.">                .filter(r -&gt; r != null)</span>
-<span class="pc bpc" id="L177" title="2 of 4 branches missed.">                .filter(r -&gt; r.getReviews() != null &amp;&amp; !r.getReviews().isEmpty())</span>
+<span class="pc bpc" id="L177" title="1 of 4 branches missed.">                .filter(r -&gt; r.getReviews() != null &amp;&amp; !r.getReviews().isEmpty())</span>
 <span class="fc" id="L178">                .sorted((r1, r2) -&gt; {</span>
 <span class="fc" id="L179">                    double rating1 = calculateWeightedRating(r1);</span>
 <span class="fc" id="L180">                    double rating2 = calculateWeightedRating(r2);</span>
 <span class="fc" id="L181">                    int ratingCompare = Double.compare(rating2, rating1);</span>
-<span class="pc bpc" id="L182" title="1 of 2 branches missed.">                    if (ratingCompare != 0) {</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">                    if (ratingCompare != 0) {</span>
 <span class="fc" id="L183">                        return ratingCompare;</span>
                     }
                     // Secondary sort by review count
-<span class="nc" id="L186">                    return Integer.compare(r2.getReviewCount(), r1.getReviewCount());</span>
+<span class="fc" id="L186">                    return Integer.compare(r2.getReviewCount(), r1.getReviewCount());</span>
                 })
 <span class="fc" id="L188">                .limit(limit)</span>
 <span class="fc" id="L189">                .collect(Collectors.toList());</span>
@@ -194,12 +194,12 @@ import java.util.stream.Collectors;
      * v(G) = ~4
      */
     public List&lt;Restaurant&gt; filterByMinReviewCount(List&lt;Restaurant&gt; restaurants, int minCount) {
-<span class="pc bpc" id="L197" title="2 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
-<span class="nc" id="L198">            return new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L197" title="All 4 branches covered.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc" id="L198">            return new ArrayList&lt;&gt;();</span>
         }
 
-<span class="pc bpc" id="L201" title="1 of 2 branches missed.">        if (minCount &lt; 0) {</span>
-<span class="nc" id="L202">            minCount = 0;</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">        if (minCount &lt; 0) {</span>
+<span class="fc" id="L202">            minCount = 0;</span>
         }
 
 <span class="fc" id="L205">        final int threshold = minCount;</span>
@@ -221,9 +221,9 @@ import java.util.stream.Collectors;
         }
 
 <span class="fc bfc" id="L223" title="All 2 branches covered.">        for (Review review : restaurant.getReviews()) {</span>
-<span class="pc bpc" id="L224" title="1 of 2 branches missed.">            if (review != null) {</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">            if (review != null) {</span>
 <span class="fc" id="L225">                int rating = review.getRating();</span>
-<span class="pc bpc" id="L226" title="2 of 4 branches missed.">                if (rating &gt;= 1 &amp;&amp; rating &lt;= 5) {</span>
+<span class="fc bfc" id="L226" title="All 4 branches covered.">                if (rating &gt;= 1 &amp;&amp; rating &lt;= 5) {</span>
 <span class="fc" id="L227">                    distribution[rating - 1]++;</span>
                 }
             }
@@ -237,55 +237,55 @@ import java.util.stream.Collectors;
      * v(G) = ~10
      */
     public String calculateRatingTrend(Restaurant restaurant) {
-<span class="pc bpc" id="L240" title="2 of 4 branches missed.">        if (restaurant == null || restaurant.getReviews() == null) {</span>
-<span class="nc" id="L241">            return &quot;UNKNOWN&quot;;</span>
+<span class="pc bpc" id="L240" title="1 of 4 branches missed.">        if (restaurant == null || restaurant.getReviews() == null) {</span>
+<span class="fc" id="L241">            return &quot;UNKNOWN&quot;;</span>
         }
 
 <span class="fc" id="L244">        List&lt;Review&gt; reviews = restaurant.getReviews();</span>
-<span class="pc bpc" id="L245" title="1 of 2 branches missed.">        if (reviews.size() &lt; 10) {</span>
+<span class="fc bfc" id="L245" title="All 2 branches covered.">        if (reviews.size() &lt; 10) {</span>
 <span class="fc" id="L246">            return &quot;INSUFFICIENT_DATA&quot;;</span>
         }
 
         // Sort by date
-<span class="nc" id="L250">        List&lt;Review&gt; sortedReviews = reviews.stream()</span>
-<span class="nc bnc" id="L251" title="All 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.getCreatedAt() != null)</span>
-<span class="nc" id="L252">                .sorted(Comparator.comparing(Review::getCreatedAt))</span>
-<span class="nc" id="L253">                .collect(Collectors.toList());</span>
+<span class="fc" id="L250">        List&lt;Review&gt; sortedReviews = reviews.stream()</span>
+<span class="pc bpc" id="L251" title="2 of 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.getCreatedAt() != null)</span>
+<span class="fc" id="L252">                .sorted(Comparator.comparing(Review::getCreatedAt))</span>
+<span class="fc" id="L253">                .collect(Collectors.toList());</span>
 
-<span class="nc bnc" id="L255" title="All 2 branches missed.">        if (sortedReviews.size() &lt; 10) {</span>
+<span class="pc bpc" id="L255" title="1 of 2 branches missed.">        if (sortedReviews.size() &lt; 10) {</span>
 <span class="nc" id="L256">            return &quot;INSUFFICIENT_DATA&quot;;</span>
         }
 
         // Compare first half vs second half
-<span class="nc" id="L260">        int midPoint = sortedReviews.size() / 2;</span>
+<span class="fc" id="L260">        int midPoint = sortedReviews.size() / 2;</span>
 
-<span class="nc" id="L262">        double firstHalfAvg = calculateAverage(sortedReviews.subList(0, midPoint));</span>
-<span class="nc" id="L263">        double secondHalfAvg = calculateAverage(sortedReviews.subList(midPoint, sortedReviews.size()));</span>
+<span class="fc" id="L262">        double firstHalfAvg = calculateAverage(sortedReviews.subList(0, midPoint));</span>
+<span class="fc" id="L263">        double secondHalfAvg = calculateAverage(sortedReviews.subList(midPoint, sortedReviews.size()));</span>
 
-<span class="nc" id="L265">        double difference = secondHalfAvg - firstHalfAvg;</span>
+<span class="fc" id="L265">        double difference = secondHalfAvg - firstHalfAvg;</span>
 
-<span class="nc bnc" id="L267" title="All 2 branches missed.">        if (difference &gt; 0.3) {</span>
-<span class="nc" id="L268">            return &quot;IMPROVING&quot;;</span>
-<span class="nc bnc" id="L269" title="All 2 branches missed.">        } else if (difference &lt; -0.3) {</span>
-<span class="nc" id="L270">            return &quot;DECLINING&quot;;</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">        if (difference &gt; 0.3) {</span>
+<span class="fc" id="L268">            return &quot;IMPROVING&quot;;</span>
+<span class="fc bfc" id="L269" title="All 2 branches covered.">        } else if (difference &lt; -0.3) {</span>
+<span class="fc" id="L270">            return &quot;DECLINING&quot;;</span>
         } else {
-<span class="nc" id="L272">            return &quot;STABLE&quot;;</span>
+<span class="fc" id="L272">            return &quot;STABLE&quot;;</span>
         }
     }
 
     private double calculateAverage(List&lt;Review&gt; reviews) {
-<span class="nc bnc" id="L277" title="All 4 branches missed.">        if (reviews == null || reviews.isEmpty()) {</span>
-<span class="nc" id="L278">            return 0.0;</span>
+<span class="fc bfc" id="L277" title="All 4 branches covered.">        if (reviews == null || reviews.isEmpty()) {</span>
+<span class="fc" id="L278">            return 0.0;</span>
         }
-<span class="nc" id="L280">        double sum = 0;</span>
-<span class="nc" id="L281">        int count = 0;</span>
-<span class="nc bnc" id="L282" title="All 2 branches missed.">        for (Review r : reviews) {</span>
-<span class="nc bnc" id="L283" title="All 6 branches missed.">            if (r != null &amp;&amp; r.getRating() &gt;= 1 &amp;&amp; r.getRating() &lt;= 5) {</span>
-<span class="nc" id="L284">                sum += r.getRating();</span>
-<span class="nc" id="L285">                count++;</span>
+<span class="fc" id="L280">        double sum = 0;</span>
+<span class="fc" id="L281">        int count = 0;</span>
+<span class="fc bfc" id="L282" title="All 2 branches covered.">        for (Review r : reviews) {</span>
+<span class="fc bfc" id="L283" title="All 6 branches covered.">            if (r != null &amp;&amp; r.getRating() &gt;= 1 &amp;&amp; r.getRating() &lt;= 5) {</span>
+<span class="fc" id="L284">                sum += r.getRating();</span>
+<span class="fc" id="L285">                count++;</span>
             }
-<span class="nc" id="L287">        }</span>
-<span class="nc bnc" id="L288" title="All 2 branches missed.">        return count &gt; 0 ? sum / count : 0.0;</span>
+<span class="fc" id="L287">        }</span>
+<span class="pc bpc" id="L288" title="1 of 2 branches missed.">        return count &gt; 0 ? sum / count : 0.0;</span>
     }
 
     /**
@@ -293,8 +293,8 @@ import java.util.stream.Collectors;
      * v(G) = ~4
      */
     public List&lt;Restaurant&gt; sortByRating(List&lt;Restaurant&gt; restaurants, boolean ascending) {
-<span class="pc bpc" id="L296" title="2 of 4 branches missed.">        if (restaurants == null || restaurants.isEmpty()) {</span>
-<span class="nc" id="L297">            return new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L296" title="All 4 branches covered.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc" id="L297">            return new ArrayList&lt;&gt;();</span>
         }
 
 <span class="fc" id="L300">        Comparator&lt;Restaurant&gt; comparator = (r1, r2) -&gt; {</span>
@@ -317,8 +317,8 @@ import java.util.stream.Collectors;
      * v(G) = ~5
      */
     public boolean hasGoodRating(Restaurant restaurant, int minReviewCount) {
-<span class="pc bpc" id="L320" title="1 of 2 branches missed.">        if (restaurant == null) {</span>
-<span class="nc" id="L321">            return false;</span>
+<span class="fc bfc" id="L320" title="All 2 branches covered.">        if (restaurant == null) {</span>
+<span class="fc" id="L321">            return false;</span>
         }
 
 <span class="fc bfc" id="L324" title="All 2 branches covered.">        if (restaurant.getReviewCount() &lt; minReviewCount) {</span>

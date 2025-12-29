@@ -40,7 +40,7 @@ import java.util.List;
         }
 
         // Validate price level
-<span class="pc bpc" id="L43" title="1 of 4 branches missed.">        if (restaurant.getPriceLevel() &lt; 0 || restaurant.getPriceLevel() &gt; 4) {</span>
+<span class="fc bfc" id="L43" title="All 4 branches covered.">        if (restaurant.getPriceLevel() &lt; 0 || restaurant.getPriceLevel() &gt; 4) {</span>
 <span class="fc" id="L44">            throw new ValidationException(&quot;Price level must be between 0 and 4&quot;, &quot;priceLevel&quot;);</span>
         }
 
@@ -50,320 +50,309 @@ import java.util.List;
         }
 
         // Validate capacity
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if (restaurant.getCapacity() &lt; 0) {</span>
-<span class="nc" id="L54">            throw new ValidationException(&quot;Capacity cannot be negative&quot;, &quot;capacity&quot;);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (restaurant.getCapacity() &lt; 0) {</span>
+<span class="fc" id="L54">            throw new ValidationException(&quot;Capacity cannot be negative&quot;, &quot;capacity&quot;);</span>
         }
 
         // Validate phone number format (if present)
-<span class="pc bpc" id="L58" title="1 of 4 branches missed.">        if (restaurant.getPhoneNumber() != null &amp;&amp; !restaurant.getPhoneNumber().isEmpty()) {</span>
-<span class="fc bfc" id="L59" title="All 2 branches covered.">            if (!isValidPhoneNumber(restaurant.getPhoneNumber())) {</span>
-<span class="fc" id="L60">                throw new ValidationException(&quot;Invalid phone number format&quot;, &quot;phoneNumber&quot;);</span>
-            }
+<span class="fc bfc" id="L58" title="All 4 branches covered.">        if (restaurant.getPhoneNumber() != null &amp;&amp; !restaurant.getPhoneNumber().isEmpty()</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">                &amp;&amp; !isValidPhoneNumber(restaurant.getPhoneNumber())) {</span>
+<span class="fc" id="L60">            throw new ValidationException(&quot;Invalid phone number format&quot;, &quot;phoneNumber&quot;);</span>
         }
 
         // Validate website format (if present)
-<span class="pc bpc" id="L65" title="1 of 4 branches missed.">        if (restaurant.getWebsite() != null &amp;&amp; !restaurant.getWebsite().isEmpty()) {</span>
-<span class="fc bfc" id="L66" title="All 2 branches covered.">            if (!isValidUrl(restaurant.getWebsite())) {</span>
-<span class="fc" id="L67">                throw new ValidationException(&quot;Invalid website URL format&quot;, &quot;website&quot;);</span>
-            }
+<span class="pc bpc" id="L64" title="1 of 4 branches missed.">        if (restaurant.getWebsite() != null &amp;&amp; !restaurant.getWebsite().isEmpty()</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">                &amp;&amp; !isValidUrl(restaurant.getWebsite())) {</span>
+<span class="fc" id="L66">            throw new ValidationException(&quot;Invalid website URL format&quot;, &quot;website&quot;);</span>
         }
 
         // Validate location if present
-<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if (restaurant.getLocation() != null) {</span>
-<span class="nc" id="L73">            validateLocation(restaurant.getLocation());</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (restaurant.getLocation() != null) {</span>
+<span class="fc" id="L71">            validateLocation(restaurant.getLocation());</span>
         }
 
         // Validate business hours if present
-<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (restaurant.getBusinessHours() != null) {</span>
-<span class="nc" id="L78">            validateBusinessHours(restaurant.getBusinessHours());</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (restaurant.getBusinessHours() != null) {</span>
+<span class="fc" id="L76">            validateBusinessHours(restaurant.getBusinessHours());</span>
         }
-<span class="fc" id="L80">    }</span>
+<span class="fc" id="L78">    }</span>
 
     /**
      * Validates a location object.
      * v(G) = ~12
      */
     public void validateLocation(Location location) {
-<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (location == null) {</span>
-<span class="fc" id="L88">            throw new ValidationException(&quot;Location cannot be null&quot;, &quot;location&quot;);</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (location == null) {</span>
+<span class="fc" id="L86">            throw new ValidationException(&quot;Location cannot be null&quot;, &quot;location&quot;);</span>
         }
 
         // Validate latitude
-<span class="pc bpc" id="L92" title="1 of 4 branches missed.">        if (location.getLatitude() &lt; -90 || location.getLatitude() &gt; 90) {</span>
-<span class="fc" id="L93">            throw new ValidationException(&quot;Latitude must be between -90 and 90&quot;, &quot;latitude&quot;);</span>
+<span class="fc bfc" id="L90" title="All 4 branches covered.">        if (location.getLatitude() &lt; -90 || location.getLatitude() &gt; 90) {</span>
+<span class="fc" id="L91">            throw new ValidationException(&quot;Latitude must be between -90 and 90&quot;, &quot;latitude&quot;);</span>
         }
 
         // Validate longitude
-<span class="pc bpc" id="L97" title="1 of 4 branches missed.">        if (location.getLongitude() &lt; -180 || location.getLongitude() &gt; 180) {</span>
-<span class="fc" id="L98">            throw new ValidationException(&quot;Longitude must be between -180 and 180&quot;, &quot;longitude&quot;);</span>
+<span class="fc bfc" id="L95" title="All 4 branches covered.">        if (location.getLongitude() &lt; -180 || location.getLongitude() &gt; 180) {</span>
+<span class="fc" id="L96">            throw new ValidationException(&quot;Longitude must be between -180 and 180&quot;, &quot;longitude&quot;);</span>
         }
 
         // Validate city
-<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if (location.getCity() != null) {</span>
-<span class="fc bfc" id="L103" title="All 2 branches covered.">            if (location.getCity().length() &gt; 100) {</span>
-<span class="fc" id="L104">                throw new ValidationException(&quot;City name cannot exceed 100 characters&quot;, &quot;city&quot;);</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        if (location.getCity() != null) {</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">            if (location.getCity().length() &gt; 100) {</span>
+<span class="fc" id="L102">                throw new ValidationException(&quot;City name cannot exceed 100 characters&quot;, &quot;city&quot;);</span>
             }
-<span class="pc bpc" id="L106" title="2 of 4 branches missed.">            if (!location.getCity().isEmpty() &amp;&amp; location.getCity().length() &lt; 2) {</span>
-<span class="nc" id="L107">                throw new ValidationException(&quot;City name must be at least 2 characters&quot;, &quot;city&quot;);</span>
+<span class="pc bpc" id="L104" title="1 of 4 branches missed.">            if (!location.getCity().isEmpty() &amp;&amp; location.getCity().length() &lt; 2) {</span>
+<span class="fc" id="L105">                throw new ValidationException(&quot;City name must be at least 2 characters&quot;, &quot;city&quot;);</span>
             }
         }
 
         // Validate address
-<span class="pc bpc" id="L112" title="2 of 4 branches missed.">        if (location.getAddress() != null &amp;&amp; location.getAddress().length() &gt; 200) {</span>
-<span class="nc" id="L113">            throw new ValidationException(&quot;Address cannot exceed 200 characters&quot;, &quot;address&quot;);</span>
+<span class="fc bfc" id="L110" title="All 4 branches covered.">        if (location.getAddress() != null &amp;&amp; location.getAddress().length() &gt; 200) {</span>
+<span class="fc" id="L111">            throw new ValidationException(&quot;Address cannot exceed 200 characters&quot;, &quot;address&quot;);</span>
         }
 
         // Validate postal code
-<span class="pc bpc" id="L117" title="3 of 4 branches missed.">        if (location.getPostalCode() != null &amp;&amp; !location.getPostalCode().isEmpty()) {</span>
-<span class="nc bnc" id="L118" title="All 2 branches missed.">            if (!isValidPostalCode(location.getPostalCode())) {</span>
-<span class="nc" id="L119">                throw new ValidationException(&quot;Invalid postal code format&quot;, &quot;postalCode&quot;);</span>
-            }
+<span class="pc bpc" id="L115" title="1 of 4 branches missed.">        if (location.getPostalCode() != null &amp;&amp; !location.getPostalCode().isEmpty()</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">                &amp;&amp; !isValidPostalCode(location.getPostalCode())) {</span>
+<span class="fc" id="L117">            throw new ValidationException(&quot;Invalid postal code format&quot;, &quot;postalCode&quot;);</span>
         }
-<span class="fc" id="L122">    }</span>
+<span class="fc" id="L119">    }</span>
 
     /**
      * Validates a review object.
      * v(G) = ~14
      */
     public void validateReview(Review review) {
-<span class="fc bfc" id="L129" title="All 2 branches covered.">        if (review == null) {</span>
-<span class="fc" id="L130">            throw new ValidationException(&quot;Review cannot be null&quot;, &quot;review&quot;);</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">        if (review == null) {</span>
+<span class="fc" id="L127">            throw new ValidationException(&quot;Review cannot be null&quot;, &quot;review&quot;);</span>
         }
 
         // Validate ID
-<span class="pc bpc" id="L134" title="2 of 4 branches missed.">        if (review.getId() == null || review.getId().trim().isEmpty()) {</span>
-<span class="nc" id="L135">            throw new ValidationException(&quot;Review ID is required&quot;, &quot;id&quot;);</span>
+<span class="pc bpc" id="L131" title="1 of 4 branches missed.">        if (review.getId() == null || review.getId().trim().isEmpty()) {</span>
+<span class="fc" id="L132">            throw new ValidationException(&quot;Review ID is required&quot;, &quot;id&quot;);</span>
         }
 
         // Validate restaurant ID
-<span class="pc bpc" id="L139" title="2 of 4 branches missed.">        if (review.getRestaurantId() == null || review.getRestaurantId().trim().isEmpty()) {</span>
-<span class="nc" id="L140">            throw new ValidationException(&quot;Restaurant ID is required for review&quot;, &quot;restaurantId&quot;);</span>
+<span class="pc bpc" id="L136" title="1 of 4 branches missed.">        if (review.getRestaurantId() == null || review.getRestaurantId().trim().isEmpty()) {</span>
+<span class="fc" id="L137">            throw new ValidationException(&quot;Restaurant ID is required for review&quot;, &quot;restaurantId&quot;);</span>
         }
 
         // Validate rating
-<span class="fc bfc" id="L144" title="All 4 branches covered.">        if (review.getRating() &lt; 1 || review.getRating() &gt; 5) {</span>
-<span class="fc" id="L145">            throw new ValidationException(&quot;Rating must be between 1 and 5&quot;, &quot;rating&quot;);</span>
+<span class="fc bfc" id="L141" title="All 4 branches covered.">        if (review.getRating() &lt; 1 || review.getRating() &gt; 5) {</span>
+<span class="fc" id="L142">            throw new ValidationException(&quot;Rating must be between 1 and 5&quot;, &quot;rating&quot;);</span>
         }
 
         // Validate comment
-<span class="pc bpc" id="L149" title="1 of 2 branches missed.">        if (review.getComment() != null) {</span>
-<span class="fc bfc" id="L150" title="All 2 branches covered.">            if (review.getComment().length() &gt; 2000) {</span>
-<span class="fc" id="L151">                throw new ValidationException(&quot;Comment cannot exceed 2000 characters&quot;, &quot;comment&quot;);</span>
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">        if (review.getComment() != null) {</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">            if (review.getComment().length() &gt; 2000) {</span>
+<span class="fc" id="L148">                throw new ValidationException(&quot;Comment cannot exceed 2000 characters&quot;, &quot;comment&quot;);</span>
             }
-<span class="fc bfc" id="L153" title="All 2 branches covered.">            if (containsProfanity(review.getComment())) {</span>
-<span class="fc" id="L154">                throw new ValidationException(&quot;Comment contains inappropriate content&quot;, &quot;comment&quot;);</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">            if (containsProfanity(review.getComment())) {</span>
+<span class="fc" id="L151">                throw new ValidationException(&quot;Comment contains inappropriate content&quot;, &quot;comment&quot;);</span>
             }
         }
 
         // Validate user level
-<span class="pc bpc" id="L159" title="2 of 4 branches missed.">        if (review.getUserLevel() &lt; 1 || review.getUserLevel() &gt; 5) {</span>
-<span class="nc" id="L160">            throw new ValidationException(&quot;User level must be between 1 and 5&quot;, &quot;userLevel&quot;);</span>
+<span class="fc bfc" id="L156" title="All 4 branches covered.">        if (review.getUserLevel() &lt; 1 || review.getUserLevel() &gt; 5) {</span>
+<span class="fc" id="L157">            throw new ValidationException(&quot;User level must be between 1 and 5&quot;, &quot;userLevel&quot;);</span>
         }
 
         // Validate helpful count
-<span class="pc bpc" id="L164" title="1 of 2 branches missed.">        if (review.getHelpfulCount() &lt; 0) {</span>
-<span class="nc" id="L165">            throw new ValidationException(&quot;Helpful count cannot be negative&quot;, &quot;helpfulCount&quot;);</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">        if (review.getHelpfulCount() &lt; 0) {</span>
+<span class="fc" id="L162">            throw new ValidationException(&quot;Helpful count cannot be negative&quot;, &quot;helpfulCount&quot;);</span>
         }
 
         // Validate user name if present
-<span class="pc bpc" id="L169" title="1 of 2 branches missed.">        if (review.getUserName() != null) {</span>
-<span class="nc bnc" id="L170" title="All 2 branches missed.">            if (review.getUserName().length() &lt; 2) {</span>
-<span class="nc" id="L171">                throw new ValidationException(&quot;User name must be at least 2 characters&quot;, &quot;userName&quot;);</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        if (review.getUserName() != null) {</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">            if (review.getUserName().length() &lt; 2) {</span>
+<span class="fc" id="L168">                throw new ValidationException(&quot;User name must be at least 2 characters&quot;, &quot;userName&quot;);</span>
             }
-<span class="nc bnc" id="L173" title="All 2 branches missed.">            if (review.getUserName().length() &gt; 50) {</span>
-<span class="nc" id="L174">                throw new ValidationException(&quot;User name cannot exceed 50 characters&quot;, &quot;userName&quot;);</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">            if (review.getUserName().length() &gt; 50) {</span>
+<span class="fc" id="L171">                throw new ValidationException(&quot;User name cannot exceed 50 characters&quot;, &quot;userName&quot;);</span>
             }
         }
-<span class="fc" id="L177">    }</span>
+<span class="fc" id="L174">    }</span>
 
     /**
      * Validates search criteria.
      * v(G) = ~12
      */
     public void validateSearchCriteria(SearchCriteria criteria) {
-<span class="fc bfc" id="L184" title="All 2 branches covered.">        if (criteria == null) {</span>
-<span class="fc" id="L185">            throw new ValidationException(&quot;Search criteria cannot be null&quot;, &quot;criteria&quot;);</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">        if (criteria == null) {</span>
+<span class="fc" id="L182">            throw new ValidationException(&quot;Search criteria cannot be null&quot;, &quot;criteria&quot;);</span>
         }
 
         // Validate keyword
-<span class="fc bfc" id="L189" title="All 4 branches covered.">        if (criteria.getKeyword() != null &amp;&amp; criteria.getKeyword().length() &gt; 100) {</span>
-<span class="fc" id="L190">            throw new ValidationException(&quot;Search keyword cannot exceed 100 characters&quot;, &quot;keyword&quot;);</span>
+<span class="fc bfc" id="L186" title="All 4 branches covered.">        if (criteria.getKeyword() != null &amp;&amp; criteria.getKeyword().length() &gt; 100) {</span>
+<span class="fc" id="L187">            throw new ValidationException(&quot;Search keyword cannot exceed 100 characters&quot;, &quot;keyword&quot;);</span>
         }
 
         // Validate rating range
-<span class="fc bfc" id="L194" title="All 2 branches covered.">        if (criteria.getMinRating() != null) {</span>
-<span class="pc bpc" id="L195" title="2 of 4 branches missed.">            if (criteria.getMinRating() &lt; 0 || criteria.getMinRating() &gt; 5) {</span>
-<span class="nc" id="L196">                throw new ValidationException(&quot;Minimum rating must be between 0 and 5&quot;, &quot;minRating&quot;);</span>
-            }
+<span class="fc bfc" id="L191" title="All 6 branches covered.">        if (criteria.getMinRating() != null &amp;&amp; (criteria.getMinRating() &lt; 0 || criteria.getMinRating() &gt; 5)) {</span>
+<span class="fc" id="L192">            throw new ValidationException(&quot;Minimum rating must be between 0 and 5&quot;, &quot;minRating&quot;);</span>
         }
-<span class="fc bfc" id="L199" title="All 2 branches covered.">        if (criteria.getMaxRating() != null) {</span>
-<span class="pc bpc" id="L200" title="2 of 4 branches missed.">            if (criteria.getMaxRating() &lt; 0 || criteria.getMaxRating() &gt; 5) {</span>
-<span class="nc" id="L201">                throw new ValidationException(&quot;Maximum rating must be between 0 and 5&quot;, &quot;maxRating&quot;);</span>
-            }
+<span class="fc bfc" id="L194" title="All 6 branches covered.">        if (criteria.getMaxRating() != null &amp;&amp; (criteria.getMaxRating() &lt; 0 || criteria.getMaxRating() &gt; 5)) {</span>
+<span class="fc" id="L195">            throw new ValidationException(&quot;Maximum rating must be between 0 and 5&quot;, &quot;maxRating&quot;);</span>
         }
-<span class="pc bpc" id="L204" title="1 of 4 branches missed.">        if (criteria.getMinRating() != null &amp;&amp; criteria.getMaxRating() != null) {</span>
-<span class="fc bfc" id="L205" title="All 2 branches covered.">            if (criteria.getMinRating() &gt; criteria.getMaxRating()) {</span>
-<span class="fc" id="L206">                throw new ValidationException(&quot;Minimum rating cannot exceed maximum rating&quot;, &quot;minRating&quot;);</span>
-            }
+<span class="pc bpc" id="L197" title="1 of 4 branches missed.">        if (criteria.getMinRating() != null &amp;&amp; criteria.getMaxRating() != null</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">                &amp;&amp; criteria.getMinRating() &gt; criteria.getMaxRating()) {</span>
+<span class="fc" id="L199">            throw new ValidationException(&quot;Minimum rating cannot exceed maximum rating&quot;, &quot;minRating&quot;);</span>
         }
 
         // Validate price range
-<span class="pc bpc" id="L211" title="3 of 4 branches missed.">        if (criteria.getMinPrice() != null &amp;&amp; criteria.getMinPrice() &lt; 0) {</span>
-<span class="nc" id="L212">            throw new ValidationException(&quot;Minimum price cannot be negative&quot;, &quot;minPrice&quot;);</span>
+<span class="fc bfc" id="L203" title="All 4 branches covered.">        if (criteria.getMinPrice() != null &amp;&amp; criteria.getMinPrice() &lt; 0) {</span>
+<span class="fc" id="L204">            throw new ValidationException(&quot;Minimum price cannot be negative&quot;, &quot;minPrice&quot;);</span>
         }
-<span class="pc bpc" id="L214" title="3 of 4 branches missed.">        if (criteria.getMaxPrice() != null &amp;&amp; criteria.getMaxPrice() &lt; 0) {</span>
-<span class="nc" id="L215">            throw new ValidationException(&quot;Maximum price cannot be negative&quot;, &quot;maxPrice&quot;);</span>
+<span class="fc bfc" id="L206" title="All 4 branches covered.">        if (criteria.getMaxPrice() != null &amp;&amp; criteria.getMaxPrice() &lt; 0) {</span>
+<span class="fc" id="L207">            throw new ValidationException(&quot;Maximum price cannot be negative&quot;, &quot;maxPrice&quot;);</span>
         }
-<span class="pc bpc" id="L217" title="3 of 4 branches missed.">        if (criteria.getMinPrice() != null &amp;&amp; criteria.getMaxPrice() != null) {</span>
-<span class="nc bnc" id="L218" title="All 2 branches missed.">            if (criteria.getMinPrice() &gt; criteria.getMaxPrice()) {</span>
-<span class="nc" id="L219">                throw new ValidationException(&quot;Minimum price cannot exceed maximum price&quot;, &quot;minPrice&quot;);</span>
-            }
+<span class="pc bpc" id="L209" title="1 of 4 branches missed.">        if (criteria.getMinPrice() != null &amp;&amp; criteria.getMaxPrice() != null</span>
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">                &amp;&amp; criteria.getMinPrice() &gt; criteria.getMaxPrice()) {</span>
+<span class="fc" id="L211">            throw new ValidationException(&quot;Minimum price cannot exceed maximum price&quot;, &quot;minPrice&quot;);</span>
         }
 
         // Validate price level
-<span class="fc bfc" id="L224" title="All 2 branches covered.">        if (criteria.getPriceLevel() != null) {</span>
-<span class="pc bpc" id="L225" title="2 of 4 branches missed.">            if (criteria.getPriceLevel() &lt; 1 || criteria.getPriceLevel() &gt; 4) {</span>
-<span class="fc" id="L226">                throw new ValidationException(&quot;Price level must be between 1 and 4&quot;, &quot;priceLevel&quot;);</span>
-            }
+<span class="pc bpc" id="L215" title="1 of 6 branches missed.">        if (criteria.getPriceLevel() != null &amp;&amp; (criteria.getPriceLevel() &lt; 1 || criteria.getPriceLevel() &gt; 4)) {</span>
+<span class="fc" id="L216">            throw new ValidationException(&quot;Price level must be between 1 and 4&quot;, &quot;priceLevel&quot;);</span>
         }
 
         // Validate location parameters
-<span class="pc bpc" id="L231" title="1 of 2 branches missed.">        if (criteria.hasLocationFilter()) {</span>
-<span class="nc bnc" id="L232" title="All 4 branches missed.">            if (criteria.getLatitude() &lt; -90 || criteria.getLatitude() &gt; 90) {</span>
-<span class="nc" id="L233">                throw new ValidationException(&quot;Latitude must be between -90 and 90&quot;, &quot;latitude&quot;);</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">        if (criteria.hasLocationFilter()) {</span>
+<span class="pc bpc" id="L221" title="1 of 4 branches missed.">            if (criteria.getLatitude() &lt; -90 || criteria.getLatitude() &gt; 90) {</span>
+<span class="fc" id="L222">                throw new ValidationException(&quot;Latitude must be between -90 and 90&quot;, &quot;latitude&quot;);</span>
             }
-<span class="nc bnc" id="L235" title="All 4 branches missed.">            if (criteria.getLongitude() &lt; -180 || criteria.getLongitude() &gt; 180) {</span>
-<span class="nc" id="L236">                throw new ValidationException(&quot;Longitude must be between -180 and 180&quot;, &quot;longitude&quot;);</span>
+<span class="pc bpc" id="L224" title="1 of 4 branches missed.">            if (criteria.getLongitude() &lt; -180 || criteria.getLongitude() &gt; 180) {</span>
+<span class="fc" id="L225">                throw new ValidationException(&quot;Longitude must be between -180 and 180&quot;, &quot;longitude&quot;);</span>
             }
-<span class="nc bnc" id="L238" title="All 4 branches missed.">            if (criteria.getRadiusKm() &lt;= 0 || criteria.getRadiusKm() &gt; 100) {</span>
-<span class="nc" id="L239">                throw new ValidationException(&quot;Radius must be between 0 and 100 km&quot;, &quot;radiusKm&quot;);</span>
+<span class="pc bpc" id="L227" title="2 of 4 branches missed.">            if (criteria.getRadiusKm() &lt;= 0 || criteria.getRadiusKm() &gt; 100) {</span>
+<span class="fc" id="L228">                throw new ValidationException(&quot;Radius must be between 0 and 100 km&quot;, &quot;radiusKm&quot;);</span>
             }
         }
 
         // Validate pagination
-<span class="pc bpc" id="L244" title="2 of 4 branches missed.">        if (criteria.getLimit() &lt; 1 || criteria.getLimit() &gt; 100) {</span>
-<span class="nc" id="L245">            throw new ValidationException(&quot;Limit must be between 1 and 100&quot;, &quot;limit&quot;);</span>
+<span class="fc bfc" id="L233" title="All 4 branches covered.">        if (criteria.getLimit() &lt; 1 || criteria.getLimit() &gt; 100) {</span>
+<span class="fc" id="L234">            throw new ValidationException(&quot;Limit must be between 1 and 100&quot;, &quot;limit&quot;);</span>
         }
-<span class="pc bpc" id="L247" title="1 of 2 branches missed.">        if (criteria.getOffset() &lt; 0) {</span>
-<span class="nc" id="L248">            throw new ValidationException(&quot;Offset cannot be negative&quot;, &quot;offset&quot;);</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">        if (criteria.getOffset() &lt; 0) {</span>
+<span class="fc" id="L237">            throw new ValidationException(&quot;Offset cannot be negative&quot;, &quot;offset&quot;);</span>
         }
-<span class="fc" id="L250">    }</span>
+<span class="fc" id="L239">    }</span>
 
     /**
      * Validates business hours.
      * v(G) = ~8
      */
     public void validateBusinessHours(BusinessHours hours) {
-<span class="fc bfc" id="L257" title="All 2 branches covered.">        if (hours == null) {</span>
-<span class="fc" id="L258">            throw new ValidationException(&quot;Business hours cannot be null&quot;, &quot;businessHours&quot;);</span>
+<span class="fc bfc" id="L246" title="All 2 branches covered.">        if (hours == null) {</span>
+<span class="fc" id="L247">            throw new ValidationException(&quot;Business hours cannot be null&quot;, &quot;businessHours&quot;);</span>
         }
 
-<span class="pc bpc" id="L261" title="1 of 2 branches missed.">        if (hours.getWeeklyHours() != null) {</span>
-<span class="fc bfc" id="L262" title="All 2 branches covered.">            for (var entry : hours.getWeeklyHours().entrySet()) {</span>
-<span class="fc" id="L263">                BusinessHours.TimeSlot slot = entry.getValue();</span>
-<span class="pc bpc" id="L264" title="1 of 2 branches missed.">                if (slot != null) {</span>
-<span class="pc bpc" id="L265" title="1 of 2 branches missed.">                    if (slot.getOpenTime() == null) {</span>
-<span class="nc" id="L266">                        throw new ValidationException(&quot;Open time is required&quot;, &quot;openTime&quot;);</span>
+<span class="fc bfc" id="L250" title="All 2 branches covered.">        if (hours.getWeeklyHours() != null) {</span>
+<span class="fc bfc" id="L251" title="All 2 branches covered.">            for (var entry : hours.getWeeklyHours().entrySet()) {</span>
+<span class="fc" id="L252">                BusinessHours.TimeSlot slot = entry.getValue();</span>
+<span class="fc bfc" id="L253" title="All 2 branches covered.">                if (slot != null) {</span>
+<span class="fc bfc" id="L254" title="All 2 branches covered.">                    if (slot.getOpenTime() == null) {</span>
+<span class="fc" id="L255">                        throw new ValidationException(&quot;Open time is required&quot;, &quot;openTime&quot;);</span>
                     }
-<span class="pc bpc" id="L268" title="1 of 2 branches missed.">                    if (slot.getCloseTime() == null) {</span>
-<span class="nc" id="L269">                        throw new ValidationException(&quot;Close time is required&quot;, &quot;closeTime&quot;);</span>
+<span class="fc bfc" id="L257" title="All 2 branches covered.">                    if (slot.getCloseTime() == null) {</span>
+<span class="fc" id="L258">                        throw new ValidationException(&quot;Close time is required&quot;, &quot;closeTime&quot;);</span>
                     }
                 }
-<span class="fc" id="L272">            }</span>
+<span class="fc" id="L261">            }</span>
         }
-<span class="fc" id="L274">    }</span>
+<span class="fc" id="L263">    }</span>
 
     /**
      * Validates a menu item.
      * v(G) = ~10
      */
     public void validateMenuItem(MenuItem item) {
-<span class="fc bfc" id="L281" title="All 2 branches covered.">        if (item == null) {</span>
-<span class="fc" id="L282">            throw new ValidationException(&quot;Menu item cannot be null&quot;, &quot;menuItem&quot;);</span>
+<span class="fc bfc" id="L270" title="All 2 branches covered.">        if (item == null) {</span>
+<span class="fc" id="L271">            throw new ValidationException(&quot;Menu item cannot be null&quot;, &quot;menuItem&quot;);</span>
         }
 
         // Validate ID
-<span class="pc bpc" id="L286" title="2 of 4 branches missed.">        if (item.getId() == null || item.getId().trim().isEmpty()) {</span>
-<span class="nc" id="L287">            throw new ValidationException(&quot;Menu item ID is required&quot;, &quot;id&quot;);</span>
+<span class="pc bpc" id="L275" title="1 of 4 branches missed.">        if (item.getId() == null || item.getId().trim().isEmpty()) {</span>
+<span class="fc" id="L276">            throw new ValidationException(&quot;Menu item ID is required&quot;, &quot;id&quot;);</span>
         }
 
         // Validate name
-<span class="pc bpc" id="L291" title="2 of 4 branches missed.">        if (item.getName() == null || item.getName().trim().isEmpty()) {</span>
-<span class="nc" id="L292">            throw new ValidationException(&quot;Menu item name is required&quot;, &quot;name&quot;);</span>
+<span class="pc bpc" id="L280" title="1 of 4 branches missed.">        if (item.getName() == null || item.getName().trim().isEmpty()) {</span>
+<span class="fc" id="L281">            throw new ValidationException(&quot;Menu item name is required&quot;, &quot;name&quot;);</span>
         }
-<span class="pc bpc" id="L294" title="1 of 2 branches missed.">        if (item.getName().length() &gt; 100) {</span>
-<span class="nc" id="L295">            throw new ValidationException(&quot;Menu item name cannot exceed 100 characters&quot;, &quot;name&quot;);</span>
+<span class="fc bfc" id="L283" title="All 2 branches covered.">        if (item.getName().length() &gt; 100) {</span>
+<span class="fc" id="L284">            throw new ValidationException(&quot;Menu item name cannot exceed 100 characters&quot;, &quot;name&quot;);</span>
         }
 
         // Validate price
-<span class="fc bfc" id="L299" title="All 2 branches covered.">        if (item.getPrice() &lt; 0) {</span>
-<span class="fc" id="L300">            throw new ValidationException(&quot;Price cannot be negative&quot;, &quot;price&quot;);</span>
+<span class="fc bfc" id="L288" title="All 2 branches covered.">        if (item.getPrice() &lt; 0) {</span>
+<span class="fc" id="L289">            throw new ValidationException(&quot;Price cannot be negative&quot;, &quot;price&quot;);</span>
         }
-<span class="fc bfc" id="L302" title="All 2 branches covered.">        if (item.getPrice() &gt; 100000) {</span>
-<span class="fc" id="L303">            throw new ValidationException(&quot;Price exceeds maximum allowed value&quot;, &quot;price&quot;);</span>
+<span class="fc bfc" id="L291" title="All 2 branches covered.">        if (item.getPrice() &gt; 100000) {</span>
+<span class="fc" id="L292">            throw new ValidationException(&quot;Price exceeds maximum allowed value&quot;, &quot;price&quot;);</span>
         }
 
         // Validate calories
-<span class="pc bpc" id="L307" title="1 of 2 branches missed.">        if (item.getCalories() &lt; 0) {</span>
-<span class="nc" id="L308">            throw new ValidationException(&quot;Calories cannot be negative&quot;, &quot;calories&quot;);</span>
+<span class="fc bfc" id="L296" title="All 2 branches covered.">        if (item.getCalories() &lt; 0) {</span>
+<span class="fc" id="L297">            throw new ValidationException(&quot;Calories cannot be negative&quot;, &quot;calories&quot;);</span>
         }
 
         // Validate description
-<span class="pc bpc" id="L312" title="3 of 4 branches missed.">        if (item.getDescription() != null &amp;&amp; item.getDescription().length() &gt; 500) {</span>
-<span class="nc" id="L313">            throw new ValidationException(&quot;Description cannot exceed 500 characters&quot;, &quot;description&quot;);</span>
+<span class="pc bpc" id="L301" title="1 of 4 branches missed.">        if (item.getDescription() != null &amp;&amp; item.getDescription().length() &gt; 500) {</span>
+<span class="fc" id="L302">            throw new ValidationException(&quot;Description cannot exceed 500 characters&quot;, &quot;description&quot;);</span>
         }
 
         // Validate category
-<span class="pc bpc" id="L317" title="3 of 4 branches missed.">        if (item.getCategory() != null &amp;&amp; item.getCategory().length() &gt; 50) {</span>
-<span class="nc" id="L318">            throw new ValidationException(&quot;Category cannot exceed 50 characters&quot;, &quot;category&quot;);</span>
+<span class="pc bpc" id="L306" title="1 of 4 branches missed.">        if (item.getCategory() != null &amp;&amp; item.getCategory().length() &gt; 50) {</span>
+<span class="fc" id="L307">            throw new ValidationException(&quot;Category cannot exceed 50 characters&quot;, &quot;category&quot;);</span>
         }
-<span class="fc" id="L320">    }</span>
+<span class="fc" id="L309">    }</span>
 
     // Helper methods
     private boolean isValidPhoneNumber(String phone) {
-<span class="pc bpc" id="L324" title="2 of 4 branches missed.">        if (phone == null || phone.isEmpty()) {</span>
-<span class="nc" id="L325">            return false;</span>
+<span class="fc bfc" id="L313" title="All 4 branches covered.">        if (phone == null || phone.isEmpty()) {</span>
+<span class="fc" id="L314">            return false;</span>
         }
         // Remove common formatting characters
-<span class="fc" id="L328">        String cleaned = phone.replaceAll(&quot;[\\s\\-\\(\\)\\+]&quot;, &quot;&quot;);</span>
+<span class="fc" id="L317">        String cleaned = phone.replaceAll(&quot;[\\s\\-\\(\\)\\+]&quot;, &quot;&quot;);</span>
         // Check if remaining characters are digits
-<span class="fc bfc" id="L330" title="All 2 branches covered.">        if (!cleaned.matches(&quot;\\d+&quot;)) {</span>
-<span class="fc" id="L331">            return false;</span>
+<span class="fc bfc" id="L319" title="All 2 branches covered.">        if (!cleaned.matches(&quot;\\d+&quot;)) {</span>
+<span class="fc" id="L320">            return false;</span>
         }
         // Check length (between 7 and 15 digits)
-<span class="pc bpc" id="L334" title="2 of 4 branches missed.">        return cleaned.length() &gt;= 7 &amp;&amp; cleaned.length() &lt;= 15;</span>
+<span class="fc bfc" id="L323" title="All 4 branches covered.">        return cleaned.length() &gt;= 7 &amp;&amp; cleaned.length() &lt;= 15;</span>
     }
 
     private boolean isValidUrl(String url) {
-<span class="pc bpc" id="L338" title="2 of 4 branches missed.">        if (url == null || url.isEmpty()) {</span>
-<span class="nc" id="L339">            return false;</span>
+<span class="pc bpc" id="L327" title="2 of 4 branches missed.">        if (url == null || url.isEmpty()) {</span>
+<span class="nc" id="L328">            return false;</span>
         }
         // Simple URL validation
-<span class="pc bpc" id="L342" title="1 of 4 branches missed.">        return url.startsWith(&quot;http://&quot;) || url.startsWith(&quot;https://&quot;);</span>
+<span class="fc bfc" id="L331" title="All 4 branches covered.">        return url.startsWith(&quot;http://&quot;) || url.startsWith(&quot;https://&quot;);</span>
     }
 
     private boolean isValidPostalCode(String postalCode) {
-<span class="nc bnc" id="L346" title="All 4 branches missed.">        if (postalCode == null || postalCode.isEmpty()) {</span>
-<span class="nc" id="L347">            return false;</span>
+<span class="pc bpc" id="L335" title="2 of 4 branches missed.">        if (postalCode == null || postalCode.isEmpty()) {</span>
+<span class="nc" id="L336">            return false;</span>
         }
         // Taiwan postal code (3 or 5 digits) or generic alphanumeric
-<span class="nc bnc" id="L350" title="All 2 branches missed.">        return postalCode.matches(&quot;\\d{3,5}&quot;) ||</span>
-<span class="nc bnc" id="L351" title="All 2 branches missed.">                postalCode.matches(&quot;[A-Za-z0-9\\s\\-]{3,10}&quot;);</span>
+<span class="fc bfc" id="L339" title="All 2 branches covered.">        return postalCode.matches(&quot;\\d{3,5}&quot;) ||</span>
+<span class="fc bfc" id="L340" title="All 2 branches covered.">                postalCode.matches(&quot;[A-Za-z0-9\\s\\-]{3,10}&quot;);</span>
     }
 
     private boolean containsProfanity(String text) {
-<span class="pc bpc" id="L355" title="2 of 4 branches missed.">        if (text == null || text.isEmpty()) {</span>
-<span class="nc" id="L356">            return false;</span>
+<span class="pc bpc" id="L344" title="2 of 4 branches missed.">        if (text == null || text.isEmpty()) {</span>
+<span class="nc" id="L345">            return false;</span>
         }
         // Simple profanity check - would be more comprehensive in production
-<span class="fc" id="L359">        String[] badWords = { &quot;spam&quot;, &quot;scam&quot;, &quot;fake&quot; };</span>
-<span class="fc" id="L360">        String lowerText = text.toLowerCase();</span>
-<span class="fc bfc" id="L361" title="All 2 branches covered.">        for (String word : badWords) {</span>
-<span class="fc bfc" id="L362" title="All 2 branches covered.">            if (lowerText.contains(word)) {</span>
-<span class="fc" id="L363">                return true;</span>
+<span class="fc" id="L348">        String[] badWords = { &quot;spam&quot;, &quot;scam&quot;, &quot;fake&quot; };</span>
+<span class="fc" id="L349">        String lowerText = text.toLowerCase();</span>
+<span class="fc bfc" id="L350" title="All 2 branches covered.">        for (String word : badWords) {</span>
+<span class="fc bfc" id="L351" title="All 2 branches covered.">            if (lowerText.contains(word)) {</span>
+<span class="fc" id="L352">                return true;</span>
             }
         }
-<span class="fc" id="L366">        return false;</span>
+<span class="fc" id="L355">        return false;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

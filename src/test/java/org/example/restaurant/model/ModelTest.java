@@ -3,7 +3,6 @@ package org.example.restaurant.model;
 import org.example.restaurant.exception.RestaurantNotFoundException;
 import org.example.restaurant.exception.ValidationException;
 import org.example.restaurant.repository.RestaurantRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -406,6 +405,139 @@ class ModelTest {
             assertTrue(fullAddress.contains("台北市大安區信義路100號"));
             assertEquals("106 台北市大安區信義路100號", fullAddress);
         }
+
+        @Test
+        @DisplayName("getFullAddress 空 postalCode")
+        void location_GetFullAddressEmptyPostalCode() {
+            Location loc = new Location(25.0, 121.0, "信義路100號", "台北市");
+            loc.setPostalCode("");
+            String fullAddress = loc.getFullAddress();
+            assertFalse(fullAddress.contains("  ")); // 不應有多餘空格
+            assertTrue(fullAddress.contains("台北市"));
+        }
+
+        @Test
+        @DisplayName("getFullAddress 空 city")
+        void location_GetFullAddressEmptyCity() {
+            Location loc = new Location(25.0, 121.0, "信義路100號", "");
+            String fullAddress = loc.getFullAddress();
+            assertTrue(fullAddress.contains("信義路100號"));
+        }
+
+        @Test
+        @DisplayName("getFullAddress 空 district")
+        void location_GetFullAddressEmptyDistrict() {
+            Location loc = new Location(25.0, 121.0, "信義路100號", "台北市");
+            loc.setDistrict("");
+            String fullAddress = loc.getFullAddress();
+            assertTrue(fullAddress.contains("台北市信義路100號"));
+        }
+
+        @Test
+        @DisplayName("getFullAddress 空 address")
+        void location_GetFullAddressEmptyAddress() {
+            Location loc = new Location(25.0, 121.0, "", "台北市");
+            String fullAddress = loc.getFullAddress();
+            assertTrue(fullAddress.contains("台北市"));
+        }
+
+        @Test
+        @DisplayName("getFullAddress 全部為空")
+        void location_GetFullAddressAllEmpty() {
+            Location loc = new Location(25.0, 121.0);
+            String fullAddress = loc.getFullAddress();
+            assertEquals("", fullAddress);
+        }
+
+        @Test
+        @DisplayName("equals 自己等於自己")
+        void location_EqualsSelf() {
+            Location loc = new Location(25.0, 121.0);
+            assertEquals(loc, loc);
+        }
+
+        @Test
+        @DisplayName("equals null 返回 false")
+        void location_EqualsNull() {
+            Location loc = new Location(25.0, 121.0);
+            assertNotEquals(loc, null);
+        }
+
+        @Test
+        @DisplayName("equals 不同類別返回 false")
+        void location_EqualsDifferentClass() {
+            Location loc = new Location(25.0, 121.0);
+            assertNotEquals(loc, "not a location");
+        }
+
+        @Test
+        @DisplayName("equals 相同座標返回 true")
+        void location_EqualsSameCoordinates() {
+            Location loc1 = new Location(25.0, 121.0);
+            Location loc2 = new Location(25.0, 121.0);
+            assertEquals(loc1, loc2);
+            assertEquals(loc1.hashCode(), loc2.hashCode());
+        }
+
+        @Test
+        @DisplayName("equals 不同座標返回 false")
+        void location_EqualsDifferentCoordinates() {
+            Location loc1 = new Location(25.0, 121.0);
+            Location loc2 = new Location(25.1, 121.0);
+            Location loc3 = new Location(25.0, 121.1);
+            assertNotEquals(loc1, loc2);
+            assertNotEquals(loc1, loc3);
+        }
+
+        @Test
+        @DisplayName("isValid 邊界值 latitude")
+        void location_IsValidBoundaryLatitude() {
+            assertTrue(new Location(90.0, 0).isValid());
+            assertTrue(new Location(-90.0, 0).isValid());
+        }
+
+        @Test
+        @DisplayName("isValid 邊界值 longitude")
+        void location_IsValidBoundaryLongitude() {
+            assertTrue(new Location(0, 180.0).isValid());
+            assertTrue(new Location(0, -180.0).isValid());
+        }
+
+        @Test
+        @DisplayName("toString 包含資訊")
+        void location_ToString() {
+            Location loc = new Location(25.0, 121.0, "Address", "City");
+            String str = loc.toString();
+            assertTrue(str.contains("Location"));
+            assertTrue(str.contains("latitude=25.0"));
+            assertTrue(str.contains("longitude=121.0"));
+        }
+
+        @Test
+        @DisplayName("預設建構子")
+        void location_DefaultConstructor() {
+            Location loc = new Location();
+            assertEquals(0.0, loc.getLatitude());
+            assertEquals(0.0, loc.getLongitude());
+        }
+
+        @Test
+        @DisplayName("setter 方法")
+        void location_Setters() {
+            Location loc = new Location();
+            loc.setLatitude(25.0);
+            assertEquals(25.0, loc.getLatitude());
+            loc.setLongitude(121.0);
+            assertEquals(121.0, loc.getLongitude());
+            loc.setAddress("Address");
+            assertEquals("Address", loc.getAddress());
+            loc.setCity("City");
+            assertEquals("City", loc.getCity());
+            loc.setDistrict("District");
+            assertEquals("District", loc.getDistrict());
+            loc.setPostalCode("100");
+            assertEquals("100", loc.getPostalCode());
+        }
     }
 
     // MenuItem tests
@@ -491,6 +623,107 @@ class ModelTest {
             assertFalse(item.isInPriceRange(-100, 500));
             assertFalse(item.isInPriceRange(200, -100));
             assertFalse(item.isInPriceRange(-100, -100));
+        }
+
+        @Test
+        @DisplayName("matchesDietaryRestrictions no requirements")
+        void menuItem_MatchesDietaryRestrictionsNoRequirements() {
+            MenuItem item = new MenuItem("1", "Pizza", 150);
+            assertTrue(item.matchesDietaryRestrictions(false, false, false));
+        }
+
+        @Test
+        @DisplayName("equals 自己等於自己")
+        void menuItem_EqualsSelf() {
+            MenuItem item = new MenuItem("1", "Pizza", 350);
+            assertEquals(item, item);
+        }
+
+        @Test
+        @DisplayName("equals null 返回 false")
+        void menuItem_EqualsNull() {
+            MenuItem item = new MenuItem("1", "Pizza", 350);
+            assertNotEquals(item, null);
+        }
+
+        @Test
+        @DisplayName("equals 不同類別返回 false")
+        void menuItem_EqualsDifferentClass() {
+            MenuItem item = new MenuItem("1", "Pizza", 350);
+            assertNotEquals(item, "not a menuItem");
+        }
+
+        @Test
+        @DisplayName("equals 相同 ID 返回 true")
+        void menuItem_EqualsSameId() {
+            MenuItem item1 = new MenuItem("1", "Pizza", 350);
+            MenuItem item2 = new MenuItem("1", "Different", 500);
+            assertEquals(item1, item2);
+            assertEquals(item1.hashCode(), item2.hashCode());
+        }
+
+        @Test
+        @DisplayName("equals 不同 ID 返回 false")
+        void menuItem_EqualsDifferentId() {
+            MenuItem item1 = new MenuItem("1", "Pizza", 350);
+            MenuItem item2 = new MenuItem("2", "Pizza", 350);
+            assertNotEquals(item1, item2);
+        }
+
+        @Test
+        @DisplayName("toString 包含資訊")
+        void menuItem_ToString() {
+            MenuItem item = new MenuItem("1", "Pizza", 350, "Main");
+            String str = item.toString();
+            assertTrue(str.contains("id='1'"));
+            assertTrue(str.contains("name='Pizza'"));
+            assertTrue(str.contains("price=350"));
+            assertTrue(str.contains("category='Main'"));
+        }
+
+        @Test
+        @DisplayName("預設建構子")
+        void menuItem_DefaultConstructor() {
+            MenuItem item = new MenuItem();
+            assertTrue(item.isAvailable()); // 預設可用
+        }
+
+        @Test
+        @DisplayName("四參數建構子")
+        void menuItem_FourArgConstructor() {
+            MenuItem item = new MenuItem("1", "Pizza", 350, "Main");
+            assertEquals("1", item.getId());
+            assertEquals("Pizza", item.getName());
+            assertEquals(350, item.getPrice());
+            assertEquals("Main", item.getCategory());
+        }
+
+        @Test
+        @DisplayName("setter 方法")
+        void menuItem_Setters() {
+            MenuItem item = new MenuItem();
+            item.setId("1");
+            assertEquals("1", item.getId());
+            item.setName("Pizza");
+            assertEquals("Pizza", item.getName());
+            item.setDescription("Delicious");
+            assertEquals("Delicious", item.getDescription());
+            item.setPrice(350);
+            assertEquals(350, item.getPrice());
+            item.setCategory("Main");
+            assertEquals("Main", item.getCategory());
+            item.setVegetarian(true);
+            assertTrue(item.isVegetarian());
+            item.setVegan(true);
+            assertTrue(item.isVegan());
+            item.setGlutenFree(true);
+            assertTrue(item.isGlutenFree());
+            item.setSpicy(true);
+            assertTrue(item.isSpicy());
+            item.setAvailable(false);
+            assertFalse(item.isAvailable());
+            item.setCalories(500);
+            assertEquals(500, item.getCalories());
         }
     }
 
@@ -951,6 +1184,121 @@ class ModelTest {
             String str = slot.toString();
             assertTrue(str.contains("09:00"));
             assertTrue(str.contains("21:00"));
+        }
+
+        @Test
+        @DisplayName("toString 包含所有日期")
+        void businessHours_ToString() {
+            BusinessHours bh = new BusinessHours();
+            bh.setHours(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(21, 0));
+            bh.setClosed(DayOfWeek.SUNDAY);
+            String str = bh.toString();
+            assertTrue(str.contains("MONDAY"));
+            assertTrue(str.contains("SUNDAY"));
+            assertTrue(str.contains("Closed"));
+            assertTrue(str.contains("BusinessHours"));
+        }
+
+        @Test
+        @DisplayName("getNextOpenTime null 使用當前時間")
+        void businessHours_GetNextOpenTimeNull() {
+            BusinessHours bh = new BusinessHours();
+            // 設定每天都營業
+            for (DayOfWeek day : DayOfWeek.values()) {
+                bh.setHours(day, LocalTime.of(0, 0), LocalTime.of(23, 59));
+            }
+            LocalDateTime nextOpen = bh.getNextOpenTime(null);
+            assertNotNull(nextOpen);
+        }
+
+        @Test
+        @DisplayName("getNextOpenTime 從不營業返回 null")
+        void businessHours_GetNextOpenTimeNeverOpens() {
+            BusinessHours bh = new BusinessHours();
+            // 不設定任何營業時間
+            LocalDateTime monday = LocalDateTime.of(2025, 12, 29, 12, 0);
+            LocalDateTime nextOpen = bh.getNextOpenTime(monday);
+            assertNull(nextOpen);
+        }
+
+        @Test
+        @DisplayName("getNextOpenTime 跨天找到下次營業")
+        void businessHours_GetNextOpenTimeNextDay() {
+            BusinessHours bh = new BusinessHours();
+            bh.setHours(DayOfWeek.TUESDAY, LocalTime.of(9, 0), LocalTime.of(21, 0));
+
+            // 週一 22:00 已過營業時間，下次營業是週二 9:00
+            LocalDateTime mondayLate = LocalDateTime.of(2025, 12, 29, 22, 0);
+            LocalDateTime nextOpen = bh.getNextOpenTime(mondayLate);
+            assertNotNull(nextOpen);
+            assertEquals(LocalDateTime.of(2025, 12, 30, 9, 0), nextOpen);
+        }
+
+        @Test
+        @DisplayName("getNextOpenTime 當天已過營業時間")
+        void businessHours_GetNextOpenTimePassedToday() {
+            BusinessHours bh = new BusinessHours();
+            bh.setHours(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(12, 0));
+            bh.setHours(DayOfWeek.TUESDAY, LocalTime.of(9, 0), LocalTime.of(21, 0));
+
+            // 週一 13:00 已過當天營業時間
+            LocalDateTime mondayAfter = LocalDateTime.of(2025, 12, 29, 13, 0);
+            LocalDateTime nextOpen = bh.getNextOpenTime(mondayAfter);
+            assertNotNull(nextOpen);
+            assertEquals(LocalDateTime.of(2025, 12, 30, 9, 0), nextOpen);
+        }
+
+        @Test
+        @DisplayName("TimeSlot 預設建構子")
+        void businessHours_TimeSlotDefaultConstructor() {
+            BusinessHours.TimeSlot slot = new BusinessHours.TimeSlot();
+            assertNull(slot.getOpenTime());
+            assertNull(slot.getCloseTime());
+        }
+
+        @Test
+        @DisplayName("TimeSlot setter 方法")
+        void businessHours_TimeSlotSetters() {
+            BusinessHours.TimeSlot slot = new BusinessHours.TimeSlot();
+            slot.setOpenTime(LocalTime.of(8, 0));
+            assertEquals(LocalTime.of(8, 0), slot.getOpenTime());
+            slot.setCloseTime(LocalTime.of(20, 0));
+            assertEquals(LocalTime.of(20, 0), slot.getCloseTime());
+        }
+
+        @Test
+        @DisplayName("TimeSlot contains null openTime")
+        void businessHours_TimeSlotContainsNullOpenTime() {
+            BusinessHours.TimeSlot slot = new BusinessHours.TimeSlot();
+            slot.setCloseTime(LocalTime.of(21, 0));
+            assertFalse(slot.contains(LocalTime.of(12, 0)));
+        }
+
+        @Test
+        @DisplayName("TimeSlot contains null closeTime")
+        void businessHours_TimeSlotContainsNullCloseTime() {
+            BusinessHours.TimeSlot slot = new BusinessHours.TimeSlot();
+            slot.setOpenTime(LocalTime.of(9, 0));
+            assertFalse(slot.contains(LocalTime.of(12, 0)));
+        }
+
+        @Test
+        @DisplayName("TimeSlot equals 不同類別")
+        void businessHours_TimeSlotEqualsDifferentClass() {
+            BusinessHours.TimeSlot slot = new BusinessHours.TimeSlot(
+                    LocalTime.of(9, 0), LocalTime.of(21, 0));
+            assertNotEquals(slot, "not a TimeSlot");
+        }
+
+        @Test
+        @DisplayName("setWeeklyHours 設定整週")
+        void businessHours_SetWeeklyHours() {
+            BusinessHours bh = new BusinessHours();
+            java.util.Map<DayOfWeek, BusinessHours.TimeSlot> hours = new java.util.EnumMap<>(DayOfWeek.class);
+            hours.put(DayOfWeek.MONDAY, new BusinessHours.TimeSlot(LocalTime.of(9, 0), LocalTime.of(17, 0)));
+            bh.setWeeklyHours(hours);
+            assertNotNull(bh.getWeeklyHours());
+            assertNotNull(bh.getHours(DayOfWeek.MONDAY));
         }
     }
 

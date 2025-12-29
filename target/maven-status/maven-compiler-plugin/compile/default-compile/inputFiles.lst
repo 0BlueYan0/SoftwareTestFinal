@@ -6,6 +6,8 @@
 /Users/0blueyan0/Downloads/SoftwareTestFinal/src/main/java/org/example/restaurant/exception/RestaurantNotFoundException.java
 /Users/0blueyan0/Downloads/SoftwareTestFinal/src/main/java/org/example/restaurant/service/RecommendationService.java
 /Users/0blueyan0/Downloads/SoftwareTestFinal/src/main/java/org/example/restaurant/model/SearchCriteria.java
+/Users/0blueyan0/Downloads/SoftwareTestFinal/src/main/java/org/example/restaurant/data/SampleDataLoader.java
+/Users/0blueyan0/Downloads/SoftwareTestFinal/src/main/java/org/example/restaurant/Main.java
 /Users/0blueyan0/Downloads/SoftwareTestFinal/src/main/java/org/example/restaurant/model/Review.java
 /Users/0blueyan0/Downloads/SoftwareTestFinal/src/main/java/org/example/restaurant/model/Location.java
 /Users/0blueyan0/Downloads/SoftwareTestFinal/src/main/java/org/example/restaurant/service/InputValidator.java

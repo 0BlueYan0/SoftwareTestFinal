@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd xmlns="http://pmd.sourceforge.net/report/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 http://pmd.sourceforge.net/report_2_0_0.xsd" version="6.55.0" timestamp="2025-12-29T21:46:47.730">
+<file name="/Users/0blueyan0/Downloads/SoftwareTestFinal/src/main/java/org/example/restaurant/service/InputValidator.java">
+<violation beginline="6" endline="6" begincolumn="1" endcolumn="22" rule="UnnecessaryImport" ruleset="Code Style" package="org.example.restaurant.service" class="InputValidator" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.List'
+</violation>
+</file>
+<file name="/Users/0blueyan0/Downloads/SoftwareTestFinal/src/main/java/org/example/restaurant/service/PriceAnalyzer.java">
+<violation beginline="52" endline="52" begincolumn="33" endcolumn="48" rule="UselessParentheses" ruleset="Code Style" package="org.example.restaurant.service" class="PriceAnalyzer" method="filterByPriceRange" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses.
+</violation>
+<violation beginline="52" endline="52" begincolumn="55" endcolumn="71" rule="UselessParentheses" ruleset="Code Style" package="org.example.restaurant.service" class="PriceAnalyzer" method="filterByPriceRange" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses.
+</violation>
+<violation beginline="53" endline="53" begincolumn="33" endcolumn="48" rule="UselessParentheses" ruleset="Code Style" package="org.example.restaurant.service" class="PriceAnalyzer" method="filterByPriceRange" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses.
+</violation>
+<violation beginline="53" endline="53" begincolumn="55" endcolumn="71" rule="UselessParentheses" ruleset="Code Style" package="org.example.restaurant.service" class="PriceAnalyzer" method="filterByPriceRange" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses.
+</violation>
+</file>
+<file name="/Users/0blueyan0/Downloads/SoftwareTestFinal/src/main/java/org/example/restaurant/service/RatingService.java">
+<violation beginline="3" endline="3" begincolumn="1" endcolumn="45" rule="UnnecessaryImport" ruleset="Code Style" package="org.example.restaurant.service" class="RatingService" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.example.restaurant.model.Location'
+</violation>
+<violation beginline="103" endline="103" begincolumn="24" endcolumn="44" rule="UselessParentheses" ruleset="Code Style" package="org.example.restaurant.service" class="RatingService" method="calculateReviewWeight" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses.
+</violation>
+<violation beginline="151" endline="151" begincolumn="33" endcolumn="49" rule="UselessParentheses" ruleset="Code Style" package="org.example.restaurant.service" class="RatingService" method="filterByRatingRange" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses.
+</violation>
+<violation beginline="151" endline="151" begincolumn="56" endcolumn="74" rule="UselessParentheses" ruleset="Code Style" package="org.example.restaurant.service" class="RatingService" method="filterByRatingRange" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses.
+</violation>
+<violation beginline="152" endline="152" begincolumn="33" endcolumn="49" rule="UselessParentheses" ruleset="Code Style" package="org.example.restaurant.service" class="RatingService" method="filterByRatingRange" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses.
+</violation>
+<violation beginline="152" endline="152" begincolumn="56" endcolumn="74" rule="UselessParentheses" ruleset="Code Style" package="org.example.restaurant.service" class="RatingService" method="filterByRatingRange" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses.
+</violation>
+</file>
+</pmd>

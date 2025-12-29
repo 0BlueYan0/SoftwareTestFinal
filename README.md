@@ -10,7 +10,7 @@
 | WMC (v(G) 總和) | > 200 | ✅ 預估 210+ |
 | 單元測試數量 | >= 50 | ✅ 84+ 測試案例 |
 | Branch Coverage | >= 90% | ✅ 設計達到高覆蓋 |
-| Bug & Fix | >= 10 | ✅ 12 個已記錄 |
+| Bug & Fix | >= 10 | ✅ 16 個已記錄 |
 
 ## 6 大核心功能模組
 
@@ -83,6 +83,14 @@ mvn jacoco:report
 # 報告位置: target/site/jacoco/index.html
 ```
 
+### 執行程式碼品質檢查 (PMD)
+```bash
+mvn pmd:check
+# 檢查報告位置: target/pmd.xml
+mvn pmd:cpd-check
+# 複製代碼檢查報告位置: target/cpd.xml
+```
+
 ### 檢查 WMC (MetricsReloaded)
 1. 在 IntelliJ IDEA 安裝 MetricsReloaded 插件
 2. 選擇 Analyze > Calculate Metrics
@@ -92,12 +100,19 @@ mvn jacoco:report
 
 詳見 [BUGS_AND_FIXES.md](./BUGS_AND_FIXES.md)
 
-記錄了 12 個在開發過程中發現並修復的 Bug：
-- NullPointerException 處理
-- 邊界值驗證
-- 跨日營業時間邏輯
-- 距離計算精度
-- 等等...
+95: 記錄了 16 個在開發過程中發現並修復的 Bug：
+96: - NullPointerException 處理
+97: - 邊界值驗證
+98: - 跨日營業時間邏輯
+99: - 距離計算精度
+100: - 重複方法定義與 JaCoCo 版本相容性修正
+101: 
+102: ## 程式碼品質與重構
+103: 
+104: 為了提升專案的可維護性與可讀性，我們進行了以下重構：
+105: 
+106: - **測試結構優化**：全面採用 JUnit 5 `@Nested` 內部類別，將測試案例依功能模組（如 Validation, Search, Calculation）進行分組，使測試報告更具階層性且易於閱讀。
+107: - **移除重複代碼**：清理了測試類別中因合併或複製貼上產生的重複測試方法。
 
 ## 技術規格
 

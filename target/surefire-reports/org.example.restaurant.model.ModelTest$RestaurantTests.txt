@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.example.restaurant.model.ModelTest$RestaurantTests
 -------------------------------------------------------------------------------
-Tests run: 32, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in org.example.restaurant.model.ModelTest$RestaurantTests
+Tests run: 32, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in org.example.restaurant.model.ModelTest$RestaurantTests
