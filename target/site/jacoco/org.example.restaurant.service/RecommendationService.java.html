@@ -199,7 +199,7 @@ public class RecommendationService {
 <span class="fc" id="L199">        maxScore += 20;</span>
 <span class="fc" id="L200">        double rating1 = ratingService.calculateAverageRating(r1);</span>
 <span class="fc" id="L201">        double rating2 = ratingService.calculateAverageRating(r2);</span>
-<span class="fc bfc" id="L202" title="All 4 branches covered.">        if (rating1 &gt; 0 &amp;&amp; rating2 &gt; 0) {</span>
+<span class="pc bpc" id="L202" title="1 of 4 branches missed.">        if (rating1 &gt; 0 &amp;&amp; rating2 &gt; 0) {</span>
 <span class="fc" id="L203">            double ratingDiff = Math.abs(rating1 - rating2);</span>
 <span class="fc" id="L204">            score += Math.max(0, 20 - (ratingDiff * 5));</span>
         }

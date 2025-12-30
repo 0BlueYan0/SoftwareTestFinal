@@ -172,7 +172,22 @@ public class SampleDataLoader {
         addReviews(baoChen, new int[] { 5, 5, 4, 5, 4, 5, 5, 4, 5 });
         repository.save(baoChen);
 
-        System.out.println("已載入 10 家台中真實餐廳資料！");
+        // 11. TGI FRIDAYS - 美式餐廳
+        Restaurant tgiFridays = new Restaurant("11", "TGI FRIDAYS", CuisineType.AMERICAN,
+                new Location(24.1627, 120.6401, "台中市西屯區台灣大道四段1086號", "台中市"));
+        tgiFridays.getLocation().setDistrict("西屯區");
+        tgiFridays.setDescription("知名美式連鎖餐廳，提供經典美式炭烤豬肋排、漢堡與各式調酒");
+        tgiFridays.setPriceLevel(3);
+        tgiFridays.setAveragePrice(800);
+        tgiFridays.setHasDelivery(true);
+        tgiFridays.setHasTakeout(true);
+        tgiFridays.setHasParking(true);
+        tgiFridays.setActive(true);
+        setBusinessHours(tgiFridays, LocalTime.of(11, 0), LocalTime.of(22, 0));
+        addReviews(tgiFridays, new int[] { 4, 4, 3, 5, 4, 3, 4 });
+        repository.save(tgiFridays);
+
+        System.out.println("已載入 11 家台中餐廳資料！");
     }
 
     private void setBusinessHours(Restaurant restaurant, LocalTime open, LocalTime close) {

@@ -249,12 +249,23 @@ import java.util.stream.Collectors;
 <span class="fc" id="L249">        LocalTime now = LocalTime.now();</span>
 <span class="fc" id="L250">        LocalTime threshold = now.plusMinutes(withinMinutes);</span>
 
-        // Handle overnight closing
-<span class="pc bpc" id="L253" title="1 of 2 branches missed.">        if (closingTime.isBefore(now)) {</span>
-<span class="nc" id="L254">            return false; // Closes after midnight, not soon</span>
+        // Handle overnight closing (simplified for same-day checks)
+        // If closing time is earlier than now, it means it closes tomorrow morning
+        // (e.g. 02:00 vs 23:00)
+        // For this simple logic, we might skip it or handle it complexly.
+        // Existing logic skipped it.
+<span class="pc bpc" id="L257" title="1 of 2 branches missed.">        if (closingTime.isBefore(now)) {</span>
+<span class="nc" id="L258">            return false;</span>
         }
 
-<span class="pc bpc" id="L257" title="2 of 4 branches missed.">        return closingTime.isBefore(threshold) || closingTime.equals(threshold);</span>
+        // Fix: If threshold wraps around midnight (e.g., now 23:30 + 60m = 00:30)
+        // And closingTime &gt;= now (e.g., 23:45)
+        // Then closingTime is definitely before threshold (conceptually)
+<span class="pc bpc" id="L264" title="1 of 2 branches missed.">        if (threshold.isBefore(now)) {</span>
+<span class="nc" id="L265">            return true;</span>
+        }
+
+<span class="pc bpc" id="L268" title="1 of 4 branches missed.">        return closingTime.isBefore(threshold) || closingTime.equals(threshold);</span>
     }
 
     /**
@@ -262,14 +273,14 @@ import java.util.stream.Collectors;
      * v(G) = ~4
      */
     public List&lt;Restaurant&gt; findClosingSoon(List&lt;Restaurant&gt; restaurants, int withinMinutes) {
-<span class="fc bfc" id="L265" title="All 4 branches covered.">        if (restaurants == null || restaurants.isEmpty()) {</span>
-<span class="fc" id="L266">            return new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L276" title="All 4 branches covered.">        if (restaurants == null || restaurants.isEmpty()) {</span>
+<span class="fc" id="L277">            return new ArrayList&lt;&gt;();</span>
         }
 
-<span class="fc" id="L269">        return restaurants.stream()</span>
-<span class="fc bfc" id="L270" title="All 2 branches covered.">                .filter(r -&gt; r != null)</span>
-<span class="fc" id="L271">                .filter(r -&gt; isClosingSoon(r, withinMinutes))</span>
-<span class="fc" id="L272">                .collect(Collectors.toList());</span>
+<span class="fc" id="L280">        return restaurants.stream()</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">                .filter(r -&gt; r != null)</span>
+<span class="fc" id="L282">                .filter(r -&gt; isClosingSoon(r, withinMinutes))</span>
+<span class="fc" id="L283">                .collect(Collectors.toList());</span>
     }
 
     /**
@@ -277,23 +288,23 @@ import java.util.stream.Collectors;
      * v(G) = ~5
      */
     public int getOperatingDaysCount(Restaurant restaurant) {
-<span class="fc bfc" id="L280" title="All 2 branches covered.">        if (restaurant == null) {</span>
-<span class="fc" id="L281">            return 0;</span>
+<span class="fc bfc" id="L291" title="All 2 branches covered.">        if (restaurant == null) {</span>
+<span class="fc" id="L292">            return 0;</span>
         }
 
-<span class="fc" id="L284">        BusinessHours hours = restaurant.getBusinessHours();</span>
-<span class="fc bfc" id="L285" title="All 2 branches covered.">        if (hours == null) {</span>
-<span class="fc" id="L286">            return 0;</span>
+<span class="fc" id="L295">        BusinessHours hours = restaurant.getBusinessHours();</span>
+<span class="fc bfc" id="L296" title="All 2 branches covered.">        if (hours == null) {</span>
+<span class="fc" id="L297">            return 0;</span>
         }
 
-<span class="fc" id="L289">        int count = 0;</span>
-<span class="fc bfc" id="L290" title="All 2 branches covered.">        for (DayOfWeek day : DayOfWeek.values()) {</span>
-<span class="fc bfc" id="L291" title="All 2 branches covered.">            if (hours.getHours(day) != null) {</span>
-<span class="fc" id="L292">                count++;</span>
+<span class="fc" id="L300">        int count = 0;</span>
+<span class="fc bfc" id="L301" title="All 2 branches covered.">        for (DayOfWeek day : DayOfWeek.values()) {</span>
+<span class="fc bfc" id="L302" title="All 2 branches covered.">            if (hours.getHours(day) != null) {</span>
+<span class="fc" id="L303">                count++;</span>
             }
         }
 
-<span class="fc" id="L296">        return count;</span>
+<span class="fc" id="L307">        return count;</span>
     }
 
     /**
@@ -301,25 +312,25 @@ import java.util.stream.Collectors;
      * v(G) = ~8
      */
     public String getBusinessHoursSummary(Restaurant restaurant) {
-<span class="fc bfc" id="L304" title="All 2 branches covered.">        if (restaurant == null) {</span>
-<span class="fc" id="L305">            return &quot;無資料&quot;;</span>
+<span class="fc bfc" id="L315" title="All 2 branches covered.">        if (restaurant == null) {</span>
+<span class="fc" id="L316">            return &quot;無資料&quot;;</span>
         }
 
-<span class="fc" id="L308">        BusinessHours hours = restaurant.getBusinessHours();</span>
-<span class="fc bfc" id="L309" title="All 2 branches covered.">        if (hours == null) {</span>
-<span class="fc" id="L310">            return &quot;無營業時間資料&quot;;</span>
+<span class="fc" id="L319">        BusinessHours hours = restaurant.getBusinessHours();</span>
+<span class="fc bfc" id="L320" title="All 2 branches covered.">        if (hours == null) {</span>
+<span class="fc" id="L321">            return &quot;無營業時間資料&quot;;</span>
         }
 
-<span class="fc" id="L313">        int operatingDays = getOperatingDaysCount(restaurant);</span>
+<span class="fc" id="L324">        int operatingDays = getOperatingDaysCount(restaurant);</span>
 
-<span class="fc bfc" id="L315" title="All 2 branches covered.">        if (operatingDays == 0) {</span>
-<span class="fc" id="L316">            return &quot;目前休業中&quot;;</span>
-<span class="fc bfc" id="L317" title="All 2 branches covered.">        } else if (operatingDays == 7) {</span>
-<span class="fc" id="L318">            return &quot;每日營業&quot;;</span>
-<span class="fc bfc" id="L319" title="All 2 branches covered.">        } else if (operatingDays &gt;= 5) {</span>
-<span class="fc" id="L320">            return &quot;週一至週五營業&quot;;</span>
+<span class="fc bfc" id="L326" title="All 2 branches covered.">        if (operatingDays == 0) {</span>
+<span class="fc" id="L327">            return &quot;目前休業中&quot;;</span>
+<span class="fc bfc" id="L328" title="All 2 branches covered.">        } else if (operatingDays == 7) {</span>
+<span class="fc" id="L329">            return &quot;每日營業&quot;;</span>
+<span class="fc bfc" id="L330" title="All 2 branches covered.">        } else if (operatingDays &gt;= 5) {</span>
+<span class="fc" id="L331">            return &quot;週一至週五營業&quot;;</span>
         } else {
-<span class="fc" id="L322">            return &quot;部分時段營業&quot;;</span>
+<span class="fc" id="L333">            return &quot;部分時段營業&quot;;</span>
         }
     }
 
@@ -328,22 +339,22 @@ import java.util.stream.Collectors;
      * v(G) = ~5
      */
     public boolean is24Hours(Restaurant restaurant, DayOfWeek day) {
-<span class="fc bfc" id="L331" title="All 4 branches covered.">        if (restaurant == null || day == null) {</span>
-<span class="fc" id="L332">            return false;</span>
+<span class="fc bfc" id="L342" title="All 4 branches covered.">        if (restaurant == null || day == null) {</span>
+<span class="fc" id="L343">            return false;</span>
         }
 
-<span class="fc" id="L335">        BusinessHours hours = restaurant.getBusinessHours();</span>
-<span class="fc bfc" id="L336" title="All 2 branches covered.">        if (hours == null) {</span>
-<span class="fc" id="L337">            return false;</span>
+<span class="fc" id="L346">        BusinessHours hours = restaurant.getBusinessHours();</span>
+<span class="fc bfc" id="L347" title="All 2 branches covered.">        if (hours == null) {</span>
+<span class="fc" id="L348">            return false;</span>
         }
 
-<span class="fc" id="L340">        BusinessHours.TimeSlot slot = hours.getHours(day);</span>
-<span class="fc bfc" id="L341" title="All 2 branches covered.">        if (slot == null) {</span>
-<span class="fc" id="L342">            return false;</span>
+<span class="fc" id="L351">        BusinessHours.TimeSlot slot = hours.getHours(day);</span>
+<span class="fc bfc" id="L352" title="All 2 branches covered.">        if (slot == null) {</span>
+<span class="fc" id="L353">            return false;</span>
         }
 
-<span class="fc bfc" id="L345" title="All 2 branches covered.">        return slot.getOpenTime().equals(LocalTime.MIDNIGHT)</span>
-<span class="pc bpc" id="L346" title="1 of 2 branches missed.">                &amp;&amp; slot.getCloseTime().equals(LocalTime.of(23, 59));</span>
+<span class="fc bfc" id="L356" title="All 2 branches covered.">        return slot.getOpenTime().equals(LocalTime.MIDNIGHT)</span>
+<span class="pc bpc" id="L357" title="1 of 2 branches missed.">                &amp;&amp; slot.getCloseTime().equals(LocalTime.of(23, 59));</span>
     }
 
     /**
@@ -351,38 +362,38 @@ import java.util.stream.Collectors;
      * v(G) = ~8
      */
     public double calculateWeeklyOperatingHours(Restaurant restaurant) {
-<span class="fc bfc" id="L354" title="All 2 branches covered.">        if (restaurant == null) {</span>
-<span class="fc" id="L355">            return 0.0;</span>
+<span class="fc bfc" id="L365" title="All 2 branches covered.">        if (restaurant == null) {</span>
+<span class="fc" id="L366">            return 0.0;</span>
         }
 
-<span class="fc" id="L358">        BusinessHours hours = restaurant.getBusinessHours();</span>
-<span class="fc bfc" id="L359" title="All 2 branches covered.">        if (hours == null) {</span>
-<span class="fc" id="L360">            return 0.0;</span>
+<span class="fc" id="L369">        BusinessHours hours = restaurant.getBusinessHours();</span>
+<span class="fc bfc" id="L370" title="All 2 branches covered.">        if (hours == null) {</span>
+<span class="fc" id="L371">            return 0.0;</span>
         }
 
-<span class="fc" id="L363">        double totalHours = 0.0;</span>
+<span class="fc" id="L374">        double totalHours = 0.0;</span>
 
-<span class="fc bfc" id="L365" title="All 2 branches covered.">        for (DayOfWeek day : DayOfWeek.values()) {</span>
-<span class="fc" id="L366">            BusinessHours.TimeSlot slot = hours.getHours(day);</span>
-<span class="pc bpc" id="L367" title="2 of 6 branches missed.">            if (slot != null &amp;&amp; slot.getOpenTime() != null &amp;&amp; slot.getCloseTime() != null) {</span>
-<span class="fc" id="L368">                LocalTime open = slot.getOpenTime();</span>
-<span class="fc" id="L369">                LocalTime close = slot.getCloseTime();</span>
+<span class="fc bfc" id="L376" title="All 2 branches covered.">        for (DayOfWeek day : DayOfWeek.values()) {</span>
+<span class="fc" id="L377">            BusinessHours.TimeSlot slot = hours.getHours(day);</span>
+<span class="pc bpc" id="L378" title="2 of 6 branches missed.">            if (slot != null &amp;&amp; slot.getOpenTime() != null &amp;&amp; slot.getCloseTime() != null) {</span>
+<span class="fc" id="L379">                LocalTime open = slot.getOpenTime();</span>
+<span class="fc" id="L380">                LocalTime close = slot.getCloseTime();</span>
 
                 // Calculate hours
                 double hoursOpen;
-<span class="fc bfc" id="L373" title="All 2 branches covered.">                if (close.isBefore(open)) {</span>
+<span class="fc bfc" id="L384" title="All 2 branches covered.">                if (close.isBefore(open)) {</span>
                     // Overnight - e.g., 22:00 to 02:00
-<span class="fc" id="L375">                    hoursOpen = (24 - open.getHour()) + close.getHour();</span>
+<span class="fc" id="L386">                    hoursOpen = (24 - open.getHour()) + close.getHour();</span>
                 } else {
-<span class="fc" id="L377">                    hoursOpen = close.getHour() - open.getHour();</span>
-<span class="fc" id="L378">                    hoursOpen += (close.getMinute() - open.getMinute()) / 60.0;</span>
+<span class="fc" id="L388">                    hoursOpen = close.getHour() - open.getHour();</span>
+<span class="fc" id="L389">                    hoursOpen += (close.getMinute() - open.getMinute()) / 60.0;</span>
                 }
 
-<span class="fc" id="L381">                totalHours += hoursOpen;</span>
+<span class="fc" id="L392">                totalHours += hoursOpen;</span>
             }
         }
 
-<span class="fc" id="L385">        return Math.round(totalHours * 10.0) / 10.0;</span>
+<span class="fc" id="L396">        return Math.round(totalHours * 10.0) / 10.0;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

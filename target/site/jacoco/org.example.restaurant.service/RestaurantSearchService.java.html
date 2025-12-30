@@ -124,8 +124,8 @@ public class RestaurantSearchService {
 <span class="fc" id="L124">        return repository.findAll().stream()</span>
 <span class="pc bpc" id="L125" title="1 of 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.isActive())</span>
 <span class="fc" id="L126">                .filter(r -&gt; {</span>
-<span class="pc bpc" id="L127" title="2 of 4 branches missed.">                    if (r.getLocation() == null || r.getLocation().getCity() == null) {</span>
-<span class="nc" id="L128">                        return false;</span>
+<span class="fc bfc" id="L127" title="All 4 branches covered.">                    if (r.getLocation() == null || r.getLocation().getCity() == null) {</span>
+<span class="fc" id="L128">                        return false;</span>
                     }
 <span class="fc" id="L130">                    return r.getLocation().getCity().toLowerCase().contains(lowerCity);</span>
                 })
@@ -146,7 +146,7 @@ public class RestaurantSearchService {
 <span class="fc" id="L146">        return repository.findAll().stream()</span>
 <span class="pc bpc" id="L147" title="1 of 4 branches missed.">                .filter(r -&gt; r != null &amp;&amp; r.isActive())</span>
 <span class="fc" id="L148">                .filter(r -&gt; {</span>
-<span class="pc bpc" id="L149" title="1 of 4 branches missed.">                    if (r.getLocation() == null || r.getLocation().getDistrict() == null) {</span>
+<span class="fc bfc" id="L149" title="All 4 branches covered.">                    if (r.getLocation() == null || r.getLocation().getDistrict() == null) {</span>
 <span class="fc" id="L150">                        return false;</span>
                     }
 <span class="fc" id="L152">                    return r.getLocation().getDistrict().toLowerCase().contains(lowerDistrict);</span>

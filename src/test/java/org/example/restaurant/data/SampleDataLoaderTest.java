@@ -29,12 +29,12 @@ class SampleDataLoaderTest {
     @DisplayName("Data Loading")
     class DataLoading {
         @Test
-        @DisplayName("loadSampleData - 載入 10 家餐廳")
-        void loadSampleData_LoadsTenRestaurants() {
+        @DisplayName("loadSampleData - 載入 11 家餐廳")
+        void loadSampleData_LoadsElevenRestaurants() {
             loader.loadSampleData();
 
             List<Restaurant> all = repository.findAll();
-            assertEquals(10, all.size());
+            assertEquals(11, all.size());
         }
 
         @Test
@@ -45,7 +45,7 @@ class SampleDataLoaderTest {
 
             // 應該不會拋出異常
             List<Restaurant> all = repository.findAll();
-            assertTrue(all.size() >= 10);
+            assertTrue(all.size() >= 11);
         }
     }
 
@@ -161,6 +161,15 @@ class SampleDataLoaderTest {
             assertNotNull(karuizawa);
             assertEquals("輕井澤鍋物公益店", karuizawa.getName());
             assertEquals(CuisineType.HOT_POT, karuizawa.getCuisineType());
+        }
+
+        @Test
+        @DisplayName("loadSampleData - TGI FRIDAYS 正確載入")
+        void loadSampleData_TGIFridaysLoaded() {
+            Restaurant tgi = repository.findById("11").orElse(null);
+            assertNotNull(tgi);
+            assertEquals("TGI FRIDAYS", tgi.getName());
+            assertEquals(CuisineType.AMERICAN, tgi.getCuisineType());
         }
     }
 

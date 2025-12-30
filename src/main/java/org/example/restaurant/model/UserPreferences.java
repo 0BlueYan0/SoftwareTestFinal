@@ -34,6 +34,10 @@ public class UserPreferences {
 
     public void setFavoriteCuisines(Set<CuisineType> favoriteCuisines) {
         this.favoriteCuisines = favoriteCuisines;
+        // Mutual exclusion: Remove these from disliked
+        if (this.dislikedCuisines != null && favoriteCuisines != null) {
+            this.dislikedCuisines.removeAll(favoriteCuisines);
+        }
     }
 
     public void addFavoriteCuisine(CuisineType type) {
@@ -49,6 +53,10 @@ public class UserPreferences {
 
     public void setDislikedCuisines(Set<CuisineType> dislikedCuisines) {
         this.dislikedCuisines = dislikedCuisines;
+        // Mutual exclusion: Remove these from favorites
+        if (this.favoriteCuisines != null && dislikedCuisines != null) {
+            this.favoriteCuisines.removeAll(dislikedCuisines);
+        }
     }
 
     public void addDislikedCuisine(CuisineType type) {

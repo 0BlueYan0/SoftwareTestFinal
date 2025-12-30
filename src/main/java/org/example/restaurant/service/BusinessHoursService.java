@@ -249,9 +249,20 @@ public class BusinessHoursService {
         LocalTime now = LocalTime.now();
         LocalTime threshold = now.plusMinutes(withinMinutes);
 
-        // Handle overnight closing
+        // Handle overnight closing (simplified for same-day checks)
+        // If closing time is earlier than now, it means it closes tomorrow morning
+        // (e.g. 02:00 vs 23:00)
+        // For this simple logic, we might skip it or handle it complexly.
+        // Existing logic skipped it.
         if (closingTime.isBefore(now)) {
-            return false; // Closes after midnight, not soon
+            return false;
+        }
+
+        // Fix: If threshold wraps around midnight (e.g., now 23:30 + 60m = 00:30)
+        // And closingTime >= now (e.g., 23:45)
+        // Then closingTime is definitely before threshold (conceptually)
+        if (threshold.isBefore(now)) {
+            return true;
         }
 
         return closingTime.isBefore(threshold) || closingTime.equals(threshold);

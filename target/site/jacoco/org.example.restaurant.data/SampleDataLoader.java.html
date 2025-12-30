@@ -172,27 +172,42 @@ public class SampleDataLoader {
 <span class="fc" id="L172">        addReviews(baoChen, new int[] { 5, 5, 4, 5, 4, 5, 5, 4, 5 });</span>
 <span class="fc" id="L173">        repository.save(baoChen);</span>
 
-<span class="fc" id="L175">        System.out.println(&quot;已載入 10 家台中真實餐廳資料！&quot;);</span>
-<span class="fc" id="L176">    }</span>
+        // 11. TGI FRIDAYS - 美式餐廳
+<span class="fc" id="L176">        Restaurant tgiFridays = new Restaurant(&quot;11&quot;, &quot;TGI FRIDAYS&quot;, CuisineType.AMERICAN,</span>
+                new Location(24.1627, 120.6401, &quot;台中市西屯區台灣大道四段1086號&quot;, &quot;台中市&quot;));
+<span class="fc" id="L178">        tgiFridays.getLocation().setDistrict(&quot;西屯區&quot;);</span>
+<span class="fc" id="L179">        tgiFridays.setDescription(&quot;知名美式連鎖餐廳，提供經典美式炭烤豬肋排、漢堡與各式調酒&quot;);</span>
+<span class="fc" id="L180">        tgiFridays.setPriceLevel(3);</span>
+<span class="fc" id="L181">        tgiFridays.setAveragePrice(800);</span>
+<span class="fc" id="L182">        tgiFridays.setHasDelivery(true);</span>
+<span class="fc" id="L183">        tgiFridays.setHasTakeout(true);</span>
+<span class="fc" id="L184">        tgiFridays.setHasParking(true);</span>
+<span class="fc" id="L185">        tgiFridays.setActive(true);</span>
+<span class="fc" id="L186">        setBusinessHours(tgiFridays, LocalTime.of(11, 0), LocalTime.of(22, 0));</span>
+<span class="fc" id="L187">        addReviews(tgiFridays, new int[] { 4, 4, 3, 5, 4, 3, 4 });</span>
+<span class="fc" id="L188">        repository.save(tgiFridays);</span>
+
+<span class="fc" id="L190">        System.out.println(&quot;已載入 11 家台中餐廳資料！&quot;);</span>
+<span class="fc" id="L191">    }</span>
 
     private void setBusinessHours(Restaurant restaurant, LocalTime open, LocalTime close) {
-<span class="fc" id="L179">        BusinessHours hours = new BusinessHours();</span>
-<span class="fc bfc" id="L180" title="All 2 branches covered.">        for (DayOfWeek day : DayOfWeek.values()) {</span>
-<span class="fc" id="L181">            hours.setHours(day, open, close);</span>
+<span class="fc" id="L194">        BusinessHours hours = new BusinessHours();</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">        for (DayOfWeek day : DayOfWeek.values()) {</span>
+<span class="fc" id="L196">            hours.setHours(day, open, close);</span>
         }
-<span class="fc" id="L183">        restaurant.setBusinessHours(hours);</span>
-<span class="fc" id="L184">    }</span>
+<span class="fc" id="L198">        restaurant.setBusinessHours(hours);</span>
+<span class="fc" id="L199">    }</span>
 
     private void addReviews(Restaurant restaurant, int[] ratings) {
-<span class="fc bfc" id="L187" title="All 2 branches covered.">        for (int i = 0; i &lt; ratings.length; i++) {</span>
-<span class="fc" id="L188">            Review review = new Review(</span>
-<span class="fc" id="L189">                    &quot;review_&quot; + restaurant.getId() + &quot;_&quot; + i,</span>
-<span class="fc" id="L190">                    restaurant.getId(),</span>
+<span class="fc bfc" id="L202" title="All 2 branches covered.">        for (int i = 0; i &lt; ratings.length; i++) {</span>
+<span class="fc" id="L203">            Review review = new Review(</span>
+<span class="fc" id="L204">                    &quot;review_&quot; + restaurant.getId() + &quot;_&quot; + i,</span>
+<span class="fc" id="L205">                    restaurant.getId(),</span>
                     ratings[i],
                     &quot;很棒的用餐體驗！&quot;);
-<span class="fc" id="L193">            review.setCreatedAt(LocalDateTime.now().minusDays(ratings.length - i));</span>
-<span class="fc" id="L194">            restaurant.addReview(review);</span>
+<span class="fc" id="L208">            review.setCreatedAt(LocalDateTime.now().minusDays(ratings.length - i));</span>
+<span class="fc" id="L209">            restaurant.addReview(review);</span>
         }
-<span class="fc" id="L196">    }</span>
+<span class="fc" id="L211">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

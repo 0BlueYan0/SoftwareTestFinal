@@ -971,4 +971,77 @@ class RestaurantSearchServiceTest {
             assertTrue(searchService.countRestaurants() >= 4);
         }
     }
+
+    @Nested
+    @DisplayName("Additional Branch Coverage")
+    class BranchCoverageTests {
+        @Test
+        @DisplayName("searchByCity - 忽略位置為 null 的餐廳")
+        void searchByCity_IgnoresNullLocation() {
+            Restaurant r = new Restaurant("999", "Null Loc", CuisineType.OTHER, null);
+            r.setActive(true);
+            repository.save(r);
+
+            List<Restaurant> result = searchService.searchByCity("台北");
+            assertFalse(result.stream().anyMatch(res -> res.getId().equals("999")), "應該忽略位置為 null 的餐廳");
+            assertFalse(result.isEmpty(), "應該仍然能找到其他正常的餐廳");
+        }
+
+        @Test
+        @DisplayName("searchByCity - 忽略城市為 null 的餐廳")
+        void searchByCity_IgnoresNullCity() {
+            Restaurant r = new Restaurant("998", "Null City", CuisineType.OTHER, new Location(25.0, 121.0));
+            r.getLocation().setCity(null);
+            r.setActive(true);
+            repository.save(r);
+
+            List<Restaurant> result = searchService.searchByCity("台北");
+            assertFalse(result.stream().anyMatch(res -> res.getId().equals("998")), "應該忽略城市為 null 的餐廳");
+        }
+
+        @Test
+        @DisplayName("searchByDistrict - 忽略位置為 null 的餐廳")
+        void searchByDistrict_IgnoresNullLocation() {
+            // Add a restaurant with NULL location (should be ignored)
+            Restaurant r1 = new Restaurant("997", "Null Loc Dist", CuisineType.OTHER, null);
+            r1.setActive(true);
+            repository.save(r1);
+
+            // Add a restaurant with VALID location and matching district
+            Restaurant r2 = new Restaurant("997_valid", "Valid Dist", CuisineType.TAIWANESE,
+                    new Location(25.0, 121.0, "Any Rd", "Taipei"));
+            r2.getLocation().setDistrict("永康區");
+            r2.setActive(true);
+            repository.save(r2);
+
+            List<Restaurant> result = searchService.searchByDistrict("永康");
+            assertFalse(result.stream().anyMatch(res -> res.getId().equals("997")), "應該忽略位置為 null 的餐廳");
+            assertFalse(result.isEmpty(), "應該能找到區配的餐廳");
+            assertTrue(result.stream().anyMatch(res -> res.getId().equals("997_valid")));
+        }
+
+        @Test
+        @DisplayName("searchByDistrict - 忽略區域為 null 的餐廳")
+        void searchByDistrict_IgnoresNullDistrict() {
+            Restaurant r = new Restaurant("996", "Null District", CuisineType.OTHER, new Location(25.0, 121.0));
+            r.getLocation().setCity("台北市");
+            r.getLocation().setDistrict(null);
+            r.setActive(true);
+            repository.save(r);
+
+            List<Restaurant> result = searchService.searchByDistrict("永康");
+            assertFalse(result.stream().anyMatch(res -> res.getId().equals("996")), "應該忽略區域為 null 的餐廳");
+        }
+
+        @Test
+        @DisplayName("searchByMultipleCriteria - 綜合測試空篩選條件")
+        void searchByMultipleCriteria_EmptyFilters() {
+            // 測試當條件存在但內容為空時的路徑
+            SearchCriteria criteria = new SearchCriteria();
+            criteria.setCuisineTypes(new HashSet<>()); // 空集合
+
+            List<Restaurant> result = searchService.searchByMultipleCriteria(criteria);
+            assertEquals(searchService.getAllRestaurants().size(), result.size());
+        }
+    }
 }
