@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.example.restaurant.service.InputValidatorTest$RestaurantValidation
 -------------------------------------------------------------------------------
-Tests run: 27, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in org.example.restaurant.service.InputValidatorTest$RestaurantValidation
+Tests run: 27, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in org.example.restaurant.service.InputValidatorTest$RestaurantValidation

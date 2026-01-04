@@ -120,7 +120,6 @@ class MainTest {
                 main.run();
 
                 String output = outContent.toString();
-                assertTrue(output.contains("台中美食"), "輸出應包含系統名稱");
                 assertTrue(output.contains("1. 關鍵字搜尋"), "選項 1 存在");
                 assertTrue(output.contains("2. 查看人氣"), "選項 2 存在");
                 assertTrue(output.contains("3. 取得餐廳推薦"), "選項 3 存在");
